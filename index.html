@@ -103,8 +103,8 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .card-word{font-family:var(--serif);font-size:3rem;line-height:1;color:var(--text);text-align:center;margin-bottom:0.4rem;}
 .card-word.small{font-size:1.8rem;}
 .card-trans{font-size:14px;color:var(--text2);font-weight:300;text-align:center;}
-.card-cat{position:absolute;bottom:1.1rem;font-size:10px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;}
-.card-stat{position:absolute;top:1rem;right:1.1rem;font-size:11px;color:var(--text3);}
+.card-cat{display:none;}
+.card-stat{position:absolute;top:3.4rem;right:1.1rem;font-size:11px;color:var(--text3);}
 
 /* QUIZ CHOICE OVERLAY */
 .choice-up{background:var(--c1-bg);color:var(--c1-text);}
@@ -126,21 +126,60 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .hb-das{border-color:var(--das-mid);} .hb-das .h-art{color:var(--das-text);}
 .hb-die{border-color:var(--die-mid);} .hb-die .h-art{color:var(--die-text);}
 
-/* QUIZ 4-CHOICE BUTTONS */
-.quiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0.6rem 1rem 0;}
-.qc-btn{padding:10px 8px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--text);transition:transform 0.1s,background 0.1s;user-select:none;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.3;}
+/* QUIZ 4-CHOICE BUTTONS — cross layout */
+.quiz-choices{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:6px;padding:0.5rem 1rem 0;align-items:center;}
+/* up=col2 row1, left=col1 row2, right=col3 row2, down=col2 row3 */
+.qc-up   {grid-column:2;grid-row:1;}
+.qc-left {grid-column:1;grid-row:2;}
+.qc-right{grid-column:3;grid-row:2;}
+.qc-down {grid-column:2;grid-row:3;}
+.qc-btn{padding:9px 6px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text);transition:transform 0.1s,background 0.1s;user-select:none;text-align:center;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.3;}
 .qc-btn:active{transform:scale(0.94);}
-.qc-btn .qc-dir{font-size:14px;color:var(--text3);}
+.qc-btn .qc-dir{font-size:16px;line-height:1;}
+.qc-btn .qc-txt{font-size:11px;}
 .qc-btn.c1{border-color:var(--c1-mid);} .qc-btn.c1 .qc-dir{color:var(--c1-text);}
 .qc-btn.c2{border-color:var(--c2-mid);} .qc-btn.c2 .qc-dir{color:var(--c2-text);}
 .qc-btn.c3{border-color:var(--c3-mid);} .qc-btn.c3 .qc-dir{color:var(--c3-text);}
 .qc-btn.c4{border-color:var(--c4-mid);} .qc-btn.c4 .qc-dir{color:var(--c4-text);}
+/* toggle row in menu */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1.1rem;background:var(--bg2);border-radius:var(--radius);margin-bottom:7px;}
+.toggle-row-label{font-size:14px;font-weight:500;color:var(--text);}
+.toggle-row-sub{font-size:12px;color:var(--text2);font-weight:300;}
+.toggle{position:relative;width:44px;height:26px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;border-radius:13px;background:var(--bg3);border:1px solid var(--border);transition:background 0.2s;}
+.toggle input:checked+.toggle-track{background:var(--text);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--bg);transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle input:checked~.toggle-thumb{transform:translateX(18px);}
 
-/* RESULT BAR */
-.result-bar{margin:0.5rem 1rem;min-height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;text-align:center;padding:0 1rem;opacity:0;transition:opacity 0.25s;}
-.result-bar.show{opacity:1;}
-.result-bar.ok{background:var(--ok-bg);color:var(--ok);}
-.result-bar.ng{background:var(--ng-bg);color:var(--ng);}
+/* LAST RESULT BANNER — カード上部に常時表示（前回の正誤） */
+.last-result{
+  position:absolute;top:0;left:0;right:0;
+  border-radius:var(--card-radius) var(--card-radius) 0 0;
+  padding:0.6rem 1rem 0.55rem;
+  display:flex;align-items:center;gap:0.5rem;
+  opacity:0;
+  transition:opacity 0.18s;
+  pointer-events:none;
+  z-index:2;
+}
+.last-result.show{opacity:1;}
+.last-result.ok{background:var(--ok-bg);}
+.last-result.ng{background:var(--ng-bg);}
+.lr-icon{font-size:13px;font-weight:700;flex-shrink:0;}
+.last-result.ok .lr-icon{color:var(--ok);}
+.last-result.ng .lr-icon{color:var(--ng);}
+.lr-body{flex:1;min-width:0;}
+.lr-answer{font-family:var(--serif);font-size:1.15rem;line-height:1.1;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.last-result.ng .lr-answer{color:var(--ng);}
+.lr-sub{font-size:11px;color:var(--text2);font-weight:300;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* ボタン操作時のみ使う軽量フラッシュ — カード bg だけ一瞬色づける */
+.card.flash-ok{animation:flashOk 0.55s ease forwards;}
+.card.flash-ng{animation:flashNg 0.55s ease forwards;}
+@keyframes flashOk{0%{background:var(--ok-bg);}100%{background:var(--bg2);}}
+@keyframes flashNg{0%{background:var(--ng-bg);}100%{background:var(--bg2);}}
+.result-overlay{display:none;}
+.result-bar{display:none;}
 .study-footer{padding:0.4rem 1rem calc(env(safe-area-inset-bottom,0) + 1rem);}
 
 /* FINISH */
@@ -221,6 +260,7 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
   <div class="card-area" id="card-area">
     <div class="card-stack" id="card-stack">
       <div class="card is-next" id="next-card">
+        <div class="card-q-label" id="next-label" style="margin-bottom:0.4rem"></div>
         <div class="card-word" id="next-word"></div>
       </div>
       <div class="card is-active" id="active-card">
@@ -234,6 +274,14 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
         <div class="card-trans" id="st-trans"></div>
         <div class="card-cat" id="st-cat"></div>
         <div class="card-stat" id="st-hist"></div>
+        <!-- 前回の正誤バナー（カード上部） -->
+        <div class="last-result" id="last-result">
+          <div class="lr-icon" id="lr-icon"></div>
+          <div class="lr-body">
+            <div class="lr-answer" id="lr-answer"></div>
+            <div class="lr-sub" id="lr-sub"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -346,6 +394,13 @@ const ALL_WORDS_RAW = [
 const seen=new Set();
 const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seen.has(w.word))return false;seen.add(w.word);return true;});
 
+/* ===================== SETTINGS ===================== */
+const SETTINGS_KEY='derdiedas_settings';
+function loadSettings(){try{return JSON.parse(localStorage.getItem(SETTINGS_KEY))||{};}catch(e){return {};}}
+function saveSettings(s){localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));}
+function getShowTrans(){return loadSettings().showTrans!==false;} // default: true
+function setShowTrans(v){const s=loadSettings();s.showTrans=v;saveSettings(s);}
+
 /* ===================== STORAGE ===================== */
 const LS_KEY='derdiedas_v2';
 function loadData(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{};}catch(e){return {};}}
@@ -444,6 +499,20 @@ function renderMenuCards(){
       <div class="menu-arrow">›</div></div>
     </div></div>`;
 
+  // 冠詞モードのみ：日本語訳表示トグル
+  if(tab==='gender'){
+    const showTrans=getShowTrans();
+    html+=`<div class="menu-section"><div class="menu-section-title">設定</div>
+      <div class="toggle-row">
+        <div><div class="toggle-row-label">日本語訳を表示</div><div class="toggle-row-sub">冠詞モード中にカードへ訳を表示する</div></div>
+        <label class="toggle">
+          <input type="checkbox" id="toggle-trans" ${showTrans?'checked':''} onchange="setShowTrans(this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div></div>`;
+  }
+
   document.getElementById('menu-cards').innerHTML=html;
 }
 
@@ -494,6 +563,7 @@ function startMode(mode){
   document.getElementById('st-streak').textContent='0';
   document.getElementById('st-score-lbl').textContent='正解 0';
   showScreen('study');
+  clearLastResult();
   renderCard();
   setupDrag();
 }
@@ -513,7 +583,23 @@ function renderCard(){
   document.getElementById('st-cat').textContent=w.cat;
 
   const next=deck[cur+1];
-  document.getElementById('next-word').textContent=next?next.word:'';
+  // 次のカードをモードに合った形式で表示
+  if(next){
+    if(isGenderMode()){
+      document.getElementById('next-label').textContent='次の単語';
+      document.getElementById('next-word').textContent=next.word;
+    } else if(currentTab==='vocab-jd'){
+      document.getElementById('next-label').textContent='次：日→独';
+      document.getElementById('next-word').textContent=next.trans;
+    } else {
+      document.getElementById('next-label').textContent='次：独→日';
+      document.getElementById('next-word').textContent=next.art+' '+next.word;
+    }
+    document.getElementById('next-word').className='card-word'+(currentTab!=='vocab-jd'&&currentTab!=='gender'?' small':'');
+  } else {
+    document.getElementById('next-label').textContent='';
+    document.getElementById('next-word').textContent='';
+  }
 
   resetCardViz();
   const ac=document.getElementById('active-card');
@@ -531,7 +617,8 @@ function renderGenderCard(w){
   document.getElementById('card-q-label').textContent='冠詞は？';
   const wEl=document.getElementById('st-word');
   wEl.textContent=w.word; wEl.className='card-word';
-  document.getElementById('st-trans').textContent=w.trans;
+  // 日本語訳トグル反映
+  document.getElementById('st-trans').textContent=getShowTrans()?w.trans:'';
 
   // labels
   document.getElementById('lbl-left').textContent='← der';
@@ -582,27 +669,62 @@ function renderQuizCard(w){
     el.style.opacity=0;
   });
 
-  // choice buttons
-  const btnHTML=DIRS.map((dir,i)=>`
-    <button class="qc-btn ${DIR_CLASSES[dir]}" onclick="evaluateQuiz('${dir}')">
-      <span class="qc-dir">${DIR_LABELS[dir]}</span>${allChoices[i]}
+  // choice buttons — 十字配置
+  // dir order: left=c3, up=c1, right=c4, down=c2
+  const dirConfig=[
+    {dir:'left', cls:'c3', pos:'qc-left'},
+    {dir:'up',   cls:'c1', pos:'qc-up'},
+    {dir:'right',cls:'c4', pos:'qc-right'},
+    {dir:'down', cls:'c2', pos:'qc-down'},
+  ];
+  const btnHTML=dirConfig.map(({dir,cls,pos},i)=>`
+    <button class="qc-btn ${cls} ${pos}" onclick="evaluateQuiz('${dir}')">
+      <span class="qc-dir">${DIR_LABELS[dir]}</span>
+      <span class="qc-txt">${allChoices[DIRS.indexOf(dir)]}</span>
     </button>`).join('');
   document.getElementById('choice-area').innerHTML=`<div class="quiz-choices">${btnHTML}</div>`;
 }
 
 /* ===================== EVALUATE ===================== */
-function evaluate(chosen){
+// 前回の正誤をカード上部バナーに常時表示
+function showLastResult(isCorrect, answerLine, subLine){
+  const el=document.getElementById('last-result');
+  document.getElementById('lr-icon').textContent=isCorrect?'✓':'✗';
+  document.getElementById('lr-answer').textContent=answerLine;
+  document.getElementById('lr-sub').textContent=subLine||'';
+  el.className='last-result show '+(isCorrect?'ok':'ng');
+}
+function clearLastResult(){
+  document.getElementById('last-result').className='last-result';
+}
+// ボタン操作時: カード背景を一瞬フラッシュして即次へ
+function flashCard(isCorrect){
+  const card=document.getElementById('active-card');
+  card.classList.remove('flash-ok','flash-ng');
+  void card.offsetWidth; // reflow
+  card.classList.add(isCorrect?'flash-ok':'flash-ng');
+}
+
+function evaluate(chosen, fromSwipe=false){
   if(resultTimer) return;
   const w=deck[cur];
   const isCorrect=chosen===w.art;
   recordResult(w,isCorrect);
-  const bar=document.getElementById('result-bar');
-  bar.className='result-bar show '+(isCorrect?'ok':'ng');
-  bar.textContent=isCorrect?`✓ 正解！  ${w.art} ${w.word}`:`✗ 不正解。正解は「${w.art} ${w.word}」`;
-  resultTimer=setTimeout(()=>{bar.classList.remove('show');cur++;resultTimer=null;renderCard();},1200);
+  const sub=(!getShowTrans()||!isCorrect)?w.trans:'';
+  const answerLine=isCorrect?`${w.art} ${w.word}`:`正解： ${w.art} ${w.word}`;
+  // バナーに記録（次のカード表示後も残る）
+  showLastResult(isCorrect, answerLine, sub);
+  if(fromSwipe){
+    // スワイプ: 遅延なし、カード飛んだ後すぐ次へ
+    cur++; renderCard(); setupDrag();
+  } else {
+    // ボタン: フラッシュ演出してから次へ
+    flashCard(isCorrect);
+    resultTimer=setTimeout(()=>{cur++;resultTimer=null;renderCard();setupDrag();},520);
+  }
 }
 
-function evaluateQuiz(dir){
+function evaluateQuiz(dir, fromSwipe=false){
   if(resultTimer) return;
   const w=deck[cur];
   const chosenIdx=choiceMap[dir];
@@ -610,10 +732,17 @@ function evaluateQuiz(dir){
   const isJD=currentTab==='vocab-jd';
   const correctAnswer=isJD?w.word:w.trans;
   recordResult(w,isCorrect);
-  const bar=document.getElementById('result-bar');
-  bar.className='result-bar show '+(isCorrect?'ok':'ng');
-  bar.textContent=isCorrect?`✓ 正解！  ${correctAnswer}`:`✗ 不正解。正解は「${correctAnswer}」`;
-  resultTimer=setTimeout(()=>{bar.classList.remove('show');cur++;resultTimer=null;renderCard();},1200);
+  const answerLine=isCorrect?correctAnswer:`正解： ${correctAnswer}`;
+  const sub=isJD
+    ? (isCorrect?w.trans:`${w.art} ${w.word} ＝ ${w.trans}`)
+    : (isCorrect?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
+  showLastResult(isCorrect, answerLine, isCorrect?sub:'');
+  if(fromSwipe){
+    cur++; renderCard(); setupDrag();
+  } else {
+    flashCard(isCorrect);
+    resultTimer=setTimeout(()=>{cur++;resultTimer=null;renderCard();setupDrag();},520);
+  }
 }
 
 function recordResult(w,isCorrect){
@@ -688,18 +817,16 @@ function setupDrag(){
     if(activeDir&&dist>58){
       const tx=activeDir==='left'?-440:activeDir==='right'?440:0;
       const ty=activeDir==='up'?-480:activeDir==='down'?480:0;
-      el.style.transition='transform 0.3s ease,opacity 0.3s ease';
+      // スワイプ確定: アニメと同時に即判定
+      if(isGenderMode()){
+        const artMap={left:'der',up:'das',right:'die'};
+        evaluate(artMap[activeDir], true);
+      } else {
+        evaluateQuiz(activeDir, true);
+      }
+      el.style.transition='transform 0.28s ease,opacity 0.28s ease';
       el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;
       el.style.opacity='0';
-      setTimeout(()=>{
-        el.style.transition='';
-        if(isGenderMode()){
-          const artMap={left:'der',up:'das',right:'die'};
-          evaluate(artMap[activeDir]);
-        } else {
-          evaluateQuiz(activeDir);
-        }
-      },280);
     } else {
       el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';
       el.style.transform='';
@@ -801,6 +928,7 @@ function showScreen(id){
     document.getElementById('choice-area').style.display='';
     document.getElementById('result-bar').style.display='';
     document.getElementById('result-bar').className='result-bar';
+    clearLastResult();
     document.getElementById('study-footer').innerHTML='';
   }
 }
