@@ -47,9 +47,8 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .menu-hero{padding:2.2rem 1.5rem 0.8rem;}
 .menu-hero h1{font-family:var(--serif);font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:0.2rem;}
 .menu-hero p{font-size:13px;color:var(--text2);font-weight:300;}
-.mode-tabs{display:flex;gap:5px;padding:0 1.5rem 0.8rem;overflow-x:auto;overflow-y:visible;position:relative;z-index:10;-webkit-overflow-scrolling:touch;}
-.mode-tabs::-webkit-scrollbar{display:none;}
-.mode-tab{flex:0 0 auto;padding:7px 14px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;white-space:nowrap;}
+.mode-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 1.5rem 0.8rem;}
+.mode-tab{padding:11px 4px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;white-space:nowrap;min-height:44px;display:flex;align-items:center;justify-content:center;width:100%;}
 .mode-tab.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500;}
 .menu-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 1.5rem 0.8rem;}
 .stat-pill{background:var(--bg2);border-radius:12px;padding:0.65rem;text-align:center;}
@@ -215,10 +214,9 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .sp-skip-btn{margin-top:0.3rem;padding:8px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;font-family:var(--sans);font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.1s,background 0.1s;display:block;}
 .sp-skip-btn:active{background:var(--bg3);color:var(--text2);}
 .sp-skip-btn.hidden{display:none;}
-#spelling{display:none;flex-direction:column;height:100%;overflow:hidden;}
-#spelling.active{display:flex;}
-.sp-top{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
-.sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.5rem calc(env(safe-area-inset-bottom,0)+0.6rem);display:flex;flex-direction:column;gap:5px;flex-shrink:0;background:var(--bg);border-top:1px solid var(--border);}
+#spelling{overflow-y:auto;}
+.sp-top{display:contents;}
+.sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.5rem calc(env(safe-area-inset-bottom,0)+2rem);display:flex;flex-direction:column;gap:5px;}
 .kb-row{display:flex;gap:4px;justify-content:center;}
 .kb-key{flex:1;max-width:36px;min-width:28px;height:44px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:15px;font-weight:400;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.08s,transform 0.08s;user-select:none;-webkit-tap-highlight-color:transparent;}
 .kb-key:active{background:var(--bg3);transform:scale(0.92);}
@@ -295,29 +293,26 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 </div>
 
 <!-- SPELLING -->
-<div id="spelling">
-  <div class="sp-top">
-    <div class="study-header">
-      <div class="back-btn" onclick="goMenu()">‹</div>
-      <div class="study-title" id="sp-title">スペリング</div>
-      <div class="streak-badge">🔥<span id="sp-streak">0</span></div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
-      <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
-    </div>
-    <div class="sp-question">
-      <div class="sp-q-label">ドイツ語でスペルを入力</div>
-      <div class="sp-prompt" id="sp-prompt"></div>
-      <div class="sp-type" id="sp-type"></div>
-    </div>
-    <div class="sp-input-area">
-      <div class="sp-copy-hint" id="sp-copy-hint">答えを確認 — 正しいスペルを写してください</div>
-      <div class="sp-display" id="sp-display"></div>
-      <div class="sp-feedback" id="sp-feedback"></div>
-      <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
-    </div>
-    <div style="flex:1;min-height:0.5rem"></div>
+<div id="spelling" class="screen">
+  <div class="study-header">
+    <div class="back-btn" onclick="goMenu()">‹</div>
+    <div class="study-title" id="sp-title">スペリング</div>
+    <div class="streak-badge">🔥<span id="sp-streak">0</span></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
+    <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
+  </div>
+  <div class="sp-question">
+    <div class="sp-q-label">ドイツ語でスペルを入力</div>
+    <div class="sp-prompt" id="sp-prompt"></div>
+    <div class="sp-type" id="sp-type"></div>
+  </div>
+  <div class="sp-input-area">
+    <div class="sp-copy-hint" id="sp-copy-hint">答えを確認 — 正しいスペルを写してください</div>
+    <div class="sp-display" id="sp-display"></div>
+    <div class="sp-feedback" id="sp-feedback"></div>
+    <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
   </div>
   <div class="sp-keyboard" id="sp-keyboard"></div>
 </div>
@@ -971,7 +966,6 @@ function renderStats(){
 /* ===== NAV ===== */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('spelling').classList.remove('active');
   document.getElementById(id).classList.add('active');
   if(id==='study'){
     document.querySelector('#study .card-area').style.display='';
