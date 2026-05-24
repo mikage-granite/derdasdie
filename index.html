@@ -215,12 +215,14 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .sp-skip-btn{margin-top:0.3rem;padding:8px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;font-family:var(--sans);font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.1s,background 0.1s;display:block;}
 .sp-skip-btn:active{background:var(--bg3);color:var(--text2);}
 .sp-skip-btn.hidden{display:none;}
-.sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.4rem calc(env(safe-area-inset-bottom,0)+0.5rem);display:flex;flex-direction:column;gap:4px;}
-.kb-row{display:flex;gap:3px;justify-content:center;}
-.kb-key{flex:1;max-width:38px;min-width:26px;height:42px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:14px;font-weight:400;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.08s,transform 0.08s;user-select:none;-webkit-tap-highlight-color:transparent;}
+#spelling{display:none;flex-direction:column;height:100%;overflow:hidden;}
+#spelling.active{display:flex;}
+.sp-top{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+.sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.5rem calc(env(safe-area-inset-bottom,0)+0.6rem);display:flex;flex-direction:column;gap:5px;flex-shrink:0;background:var(--bg);border-top:1px solid var(--border);}
+.kb-row{display:flex;gap:4px;justify-content:center;}
+.kb-key{flex:1;max-width:36px;min-width:28px;height:44px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:15px;font-weight:400;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.08s,transform 0.08s;user-select:none;-webkit-tap-highlight-color:transparent;}
 .kb-key:active{background:var(--bg3);transform:scale(0.92);}
-.kb-key.special{background:var(--bg3);font-size:12px;max-width:52px;flex:1.5;}
-.kb-key.shift-active{background:var(--text);color:var(--bg);}
+.kb-key.special{background:var(--bg3);font-size:13px;max-width:50px;flex:1.4;}
 </style>
 </head>
 <body>
@@ -235,10 +237,17 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
     <button class="mode-tab" id="tab-vocab-dj" onclick="switchTab('vocab-dj')">独→日</button>
     <button class="mode-tab" id="tab-spell" onclick="switchTab('spell')">スペリング</button>
   </div>
-  <div class="menu-stats-row">
-    <div class="stat-pill"><div class="val" id="m-studied">0</div><div class="lbl">学習済み</div></div>
-    <div class="stat-pill"><div class="val" id="m-today-ok">0</div><div class="lbl">今日の正解</div></div>
-    <div class="stat-pill"><div class="val" id="m-acc">—</div><div class="lbl">正答率</div></div>
+  <div id="gender-toggle-area" style="padding:0 1.5rem 0.4rem;display:none;">
+    <div class="toggle-row">
+      <div><div class="toggle-label">日本語訳を表示</div><div class="toggle-sub">冠詞モードのカードに訳を表示</div></div>
+      <label class="toggle"><input type="checkbox" id="tg-trans" onchange="setShowTrans(this.checked)">
+      <div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+    </div>
+  </div>
+  <div class="menu-stats-row" id="menu-stats-row">
+    <div class="stat-pill"><div class="val" id="m-studied">—</div><div class="lbl" id="m-lbl-studied">学習済み</div></div>
+    <div class="stat-pill"><div class="val" id="m-today-ok">—</div><div class="lbl" id="m-lbl-today">正答率</div></div>
+    <div class="stat-pill"><div class="val" id="m-acc">—</div><div class="lbl" id="m-lbl-acc">今日の正解</div></div>
   </div>
   <div id="menu-cards"></div>
   <div style="height:calc(env(safe-area-inset-bottom,0)+1.2rem)"></div>
@@ -286,28 +295,30 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 </div>
 
 <!-- SPELLING -->
-<div id="spelling" class="screen">
-  <div class="study-header">
-    <div class="back-btn" onclick="goMenu()">‹</div>
-    <div class="study-title" id="sp-title">スペリング</div>
-    <div class="streak-badge">🔥<span id="sp-streak">0</span></div>
+<div id="spelling">
+  <div class="sp-top">
+    <div class="study-header">
+      <div class="back-btn" onclick="goMenu()">‹</div>
+      <div class="study-title" id="sp-title">スペリング</div>
+      <div class="streak-badge">🔥<span id="sp-streak">0</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
+      <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
+    </div>
+    <div class="sp-question">
+      <div class="sp-q-label">ドイツ語でスペルを入力</div>
+      <div class="sp-prompt" id="sp-prompt"></div>
+      <div class="sp-type" id="sp-type"></div>
+    </div>
+    <div class="sp-input-area">
+      <div class="sp-copy-hint" id="sp-copy-hint">答えを確認 — 正しいスペルを写してください</div>
+      <div class="sp-display" id="sp-display"></div>
+      <div class="sp-feedback" id="sp-feedback"></div>
+      <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
+    </div>
+    <div style="flex:1;min-height:0.5rem"></div>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
-    <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
-  </div>
-  <div class="sp-question">
-    <div class="sp-q-label">ドイツ語でスペルを入力</div>
-    <div class="sp-prompt" id="sp-prompt"></div>
-    <div class="sp-type" id="sp-type"></div>
-  </div>
-  <div class="sp-input-area">
-    <div class="sp-copy-hint" id="sp-copy-hint">✗ 答えを確認 — 正しいスペルを写してください</div>
-    <div class="sp-display" id="sp-display"></div>
-    <div class="sp-feedback" id="sp-feedback"></div>
-    <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
-  </div>
-  <div style="flex:1"></div>
   <div class="sp-keyboard" id="sp-keyboard"></div>
 </div>
 
@@ -590,14 +601,29 @@ function switchTab(t){
   updateStats();renderMenu();
 }
 function updateStats(){
-  const d=loadD(),td=today();
-  const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
-  const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0);
-  const tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
-  const tok=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
-  document.getElementById('m-studied').textContent=studied.length;
-  document.getElementById('m-today-ok').textContent=tok;
-  document.getElementById('m-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
+  const d=loadD(),sd=loadSP(),td=today();
+  const t=curTab;
+  // トグル表示制御
+  const tog=document.getElementById('gender-toggle-area');
+  if(tog){tog.style.display=t==='gender'?'':'none';const cb=document.getElementById('tg-trans');if(cb)cb.checked=getShowTrans();}
+  let s1,s2,s3,l1='学習済み',l2='正答率',l3='今日の正解';
+  if(t==='spell'){
+    const ss=ALL_SPELL.filter(w=>sd[w.word]&&sd[w.word].total>0).length;
+    let stc=0,stq=0;ALL_SPELL.forEach(w=>{if(sd[w.word]){stc+=sd[w.word].correct;stq+=sd[w.word].total;}});
+    const stok=Object.values(sd).reduce((a,wd)=>a+(wd.lastSeen===td?wd.correct:0),0);
+    s1=ss;s2=stq>0?Math.round(stc/stq*100)+'%':'—';s3=stok;
+  } else {
+    const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
+    const tc=studied.reduce((a,w)=>a+getWD(d,w.word).correct,0);
+    const tq=studied.reduce((a,w)=>a+getWD(d,w.word).total,0);
+    const tok=Object.values(d).reduce((a,wd)=>a+(wd.lastSeen===td?wd.correct:0),0);
+    s1=studied.length;s2=tq>0?Math.round(tc/tq*100)+'%':'—';s3=tok;
+  }
+  document.getElementById('m-studied').textContent=s1;
+  document.getElementById('m-today-ok').textContent=s2;
+  document.getElementById('m-acc').textContent=s3;
+  const l1el=document.getElementById('m-lbl-studied'),l2el=document.getElementById('m-lbl-today'),l3el=document.getElementById('m-lbl-acc');
+  if(l1el)l1el.textContent=l1;if(l2el)l2el.textContent=l2;if(l3el)l3el.textContent=l3;
 }
 function getTodayDeck(){
   const d=loadD(),td=today();
@@ -619,12 +645,7 @@ function renderMenu(){
           mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
           mc('wrong-icon','❌','間違えたもの','スペリングで不正解だった単語',"startSpell('wrong')");
     html=`<div class="menu-section"><div class="menu-section-title">スペリングモード</div>${html}</div>`;
-    html+=`<div class="menu-section"><div class="menu-section-title">スペリング成績</div>
-      <div class="menu-stats-row" style="padding:0 0 0.5rem">
-        <div class="stat-pill"><div class="val">${ss}</div><div class="lbl">学習済み</div></div>
-        <div class="stat-pill"><div class="val">${sacc}</div><div class="lbl">正答率</div></div>
-        <div class="stat-pill"><div class="val">${ALL_SPELL.length}</div><div class="lbl">総単語</div></div>
-      </div></div>`;
+    // スペリング成績はmenu-stats-rowに表示済み
   } else {
     const ml=t==='gender'?'冠詞を当てる':t==='vocab-jd'?'日本語→ドイツ語 4択':'ドイツ語→日本語 4択';
     html+=`<div class="menu-section"><div class="menu-section-title">今日</div>
@@ -640,15 +661,7 @@ function renderMenu(){
       ${mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wk>0?`<span class='badge badge-warn'>${wk} 語</span>`:'')}
     </div>`;
     html+=`<div class="menu-section"><div class="menu-section-title">記録</div>${mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴','showStats()')}</div>`;
-    if(t==='gender'){
-      const st=getShowTrans();
-      html+=`<div class="menu-section"><div class="menu-section-title">設定</div>
-        <div class="toggle-row">
-          <div><div class="toggle-label">日本語訳を表示</div><div class="toggle-sub">冠詞モードのカードに訳を表示</div></div>
-          <label class="toggle"><input type="checkbox" id="tg-trans" ${st?'checked':''} onchange="setShowTrans(this.checked)">
-          <div class="toggle-track"></div><div class="toggle-thumb"></div></label>
-        </div></div>`;
-    }
+    // トグルはgender-toggle-areaに固定配置済み
   }
   document.getElementById('menu-cards').innerHTML=html;
 }
@@ -820,22 +833,20 @@ function showFinish(){
 }
 
 /* ===== SPELLING ===== */
-let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spShift=false,spCopy=false,spTarget='',spMode='all';
+let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spCopy=false,spTarget='',spMode='all';
 const KB=[
   ['q','w','e','r','t','z','u','i','o','p','ü'],
   ['a','s','d','f','g','h','j','k','l','ö','ä'],
-  ['⇧','y','x','c','v','b','n','m','ß','⌫'],
+  ['y','x','c','v','b','n','m','ß','⌫'],
 ];
 function buildKB(){
   document.getElementById('sp-keyboard').innerHTML=KB.map(row=>`<div class="kb-row">${row.map(k=>`
-    <button class="kb-key${k==='⇧'||k==='⌫'?' special':''}" id="kk-${k}"
+    <button class="kb-key${k==='⌫'?' special':''}" id="kk-${k}"
       ontouchstart="kp('${k}');event.preventDefault();" onclick="kp('${k}')">${k}</button>`).join('')}</div>`).join('');
 }
 function kp(k){
-  if(k==='⇧'){spShift=!spShift;const b=document.getElementById('kk-⇧');if(b)b.classList.toggle('shift-active',spShift);return;}
   if(k==='⌫'){spInput=spInput.slice(0,-1);renderDisp();if(!spCopy)checkSp();return;}
-  const ch=spShift?k.toUpperCase():k;spShift=false;const sb=document.getElementById('kk-⇧');if(sb)sb.classList.remove('shift-active');
-  spInput+=ch;renderDisp();
+  spInput+=k;renderDisp();
   if(spCopy){if(spInput===spTarget){document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';document.getElementById('sp-feedback').className='sp-feedback ok';setTimeout(spNext,800);}return;}
   checkSp();
 }
@@ -862,7 +873,7 @@ function checkSp(){
     const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
     spInput='';spCopy=true;
     document.getElementById('sp-copy-hint').style.display='';
-    document.getElementById('sp-feedback').textContent=`正解: ${spTarget}`;document.getElementById('sp-feedback').className='sp-feedback ng';
+    document.getElementById('sp-feedback').textContent=`正解: ${spDeck[spCur].word}`;document.getElementById('sp-feedback').className='sp-feedback ng';
     const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
     renderDisp();
   }
@@ -877,7 +888,7 @@ function spSkip(){
   spInput='';spCopy=true;
   document.getElementById('sp-copy-hint').style.display='';
   document.getElementById('sp-copy-hint').textContent='答えを確認 — 正しいスペルを写してください';
-  document.getElementById('sp-feedback').textContent=`正解: ${spTarget}`;
+  document.getElementById('sp-feedback').textContent=`正解: ${spDeck[spCur].word}`;
   document.getElementById('sp-feedback').className='sp-feedback ng';
   document.getElementById('sp-skip-btn').classList.add('hidden');
   renderDisp();
@@ -889,7 +900,7 @@ function spNext(){
   renderSpCard();
 }
 function renderSpCard(){
-  const w=spDeck[spCur];spTarget=w.word;spInput='';spCopy=false;
+  const w=spDeck[spCur];spTarget=w.word.toLowerCase();spInput='';spCopy=false;
   document.getElementById('sp-progress').style.width=(spCur/spDeck.length*100)+'%';
   document.getElementById('sp-count').textContent=`${spCur}/${spDeck.length}`;
   document.getElementById('sp-prompt').textContent=w.trans;
@@ -960,6 +971,7 @@ function renderStats(){
 /* ===== NAV ===== */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('spelling').classList.remove('active');
   document.getElementById(id).classList.add('active');
   if(id==='study'){
     document.querySelector('#study .card-area').style.display='';
