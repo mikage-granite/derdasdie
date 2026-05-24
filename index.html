@@ -3,80 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>der die das — ドイツ語学習</title>
-<link rel="apple-touch-icon" href="icon.png">
+<title>der die das</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap">
 <style>
-:root {
-  --bg:#faf9f6; --bg2:#f2f0eb; --bg3:#e8e5de;
-  --text:#1a1917; --text2:#6b6860; --text3:#a09d98;
-  --border:rgba(26,25,23,0.12); --border2:rgba(26,25,23,0.22);
-  --der-bg:#deeaf8; --der-text:#1a4a7a; --der-mid:#7aaee0;
-  --die-bg:#f8dde9; --die-text:#7a1a3a; --die-mid:#e07aaa;
-  --das-bg:#d8f0e6; --das-text:#0d5c38; --das-mid:#4dbf8a;
-  --c1-bg:#e8e4f8; --c1-text:#3a2a7a; --c1-mid:#8878d0;
-  --c2-bg:#f8ede4; --c2-text:#7a3a1a; --c2-mid:#d09060;
-  --c3-bg:#e4f0f8; --c3-text:#1a3a5a; --c3-mid:#60a0d0;
-  --c4-bg:#f0f8e4; --c4-text:#2a5a1a; --c4-mid:#80c060;
-  --ok:#2d7a3a; --ok-bg:#e4f5e7; --ng:#9a2020; --ng-bg:#fce8e8;
-  --radius:18px; --card-radius:22px;
-  --serif:'DM Serif Display',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+:root{
+  --bg:#faf9f6;--bg2:#f2f0eb;--bg3:#e8e5de;
+  --text:#1a1917;--text2:#6b6860;--text3:#a09d98;
+  --border:rgba(26,25,23,0.12);--border2:rgba(26,25,23,0.22);
+  --der-bg:#deeaf8;--der-text:#1a4a7a;--der-mid:#7aaee0;
+  --die-bg:#f8dde9;--die-text:#7a1a3a;--die-mid:#e07aaa;
+  --das-bg:#d8f0e6;--das-text:#0d5c38;--das-mid:#4dbf8a;
+  --c1-bg:#e8e4f8;--c1-text:#3a2a7a;--c1-mid:#8878d0;
+  --c2-bg:#f8ede4;--c2-text:#7a3a1a;--c2-mid:#d09060;
+  --c3-bg:#e4f0f8;--c3-text:#1a3a5a;--c3-mid:#60a0d0;
+  --c4-bg:#f0f8e4;--c4-text:#2a5a1a;--c4-mid:#80c060;
+  --ok:#2d7a3a;--ok-bg:#e4f5e7;--ng:#9a2020;--ng-bg:#fce8e8;
+  --imp:#7a4a00;--imp-bg:#fff3d6;--imp-mid:#e0a020;
+  --radius:18px;--card-radius:22px;
+  --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#181714; --bg2:#222018; --bg3:#2c2a24;
-    --text:#f0ede6; --text2:#9a9790; --text3:#5a5852;
-    --border:rgba(240,237,230,0.1); --border2:rgba(240,237,230,0.2);
-    --der-bg:#0d2540; --der-text:#7ab8f5; --der-mid:#2a5a9a;
-    --die-bg:#3a0d20; --die-text:#f07ab0; --die-mid:#8a2a5a;
-    --das-bg:#082a1a; --das-text:#4ddba0; --das-mid:#1a6a44;
-    --c1-bg:#1a1530; --c1-text:#a090f0; --c1-mid:#5040a0;
-    --c2-bg:#2a1a0a; --c2-text:#d0a070; --c2-mid:#804020;
-    --c3-bg:#0a1a2a; --c3-text:#70b0e0; --c3-mid:#205080;
-    --c4-bg:#0a1a05; --c4-text:#80d060; --c4-mid:#306020;
-    --ok:#4dbf6a; --ok-bg:#0d2a15; --ng:#e06060; --ng-bg:#2a0d0d;
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#181714;--bg2:#222018;--bg3:#2c2a24;
+  --text:#f0ede6;--text2:#9a9790;--text3:#5a5852;
+  --border:rgba(240,237,230,0.1);--border2:rgba(240,237,230,0.2);
+  --der-bg:#0d2540;--der-text:#7ab8f5;--der-mid:#2a5a9a;
+  --die-bg:#3a0d20;--die-text:#f07ab0;--die-mid:#8a2a5a;
+  --das-bg:#082a1a;--das-text:#4ddba0;--das-mid:#1a6a44;
+  --c1-bg:#1a1530;--c1-text:#a090f0;--c1-mid:#5040a0;
+  --c2-bg:#2a1a0a;--c2-text:#d0a070;--c2-mid:#804020;
+  --c3-bg:#0a1a2a;--c3-text:#70b0e0;--c3-mid:#205080;
+  --c4-bg:#0a1a05;--c4-text:#80d060;--c4-mid:#306020;
+  --ok:#4dbf6a;--ok-bg:#0d2a15;--ng:#e06060;--ng-bg:#2a0d0d;
+  --imp:#e0a020;--imp-bg:#2a1a00;
+}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--text);overflow:hidden;}
-#root{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;}
+#root{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;}
 .screen{display:none;flex-direction:column;height:100%;overflow-y:auto;}
 .screen.active{display:flex;}
-
 /* MENU */
 #menu{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);}
-.menu-hero{padding:2.5rem 1.5rem 1rem;}
+.menu-hero{padding:2.2rem 1.5rem 0.8rem;}
 .menu-hero h1{font-family:var(--serif);font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:0.2rem;}
 .menu-hero p{font-size:13px;color:var(--text2);font-weight:300;}
-.mode-tabs{display:flex;gap:6px;padding:0 1.5rem 1rem;}
-.mode-tab{flex:1;padding:8px 0;border-radius:12px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:13px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;}
+.mode-tabs{display:flex;gap:5px;padding:0 1.5rem 0.8rem;overflow-x:auto;overflow-y:visible;position:relative;z-index:10;-webkit-overflow-scrolling:touch;}
+.mode-tabs::-webkit-scrollbar{display:none;}
+.mode-tab{flex:0 0 auto;padding:7px 14px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;white-space:nowrap;}
 .mode-tab.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500;}
-.menu-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 1.5rem 1rem;}
-.stat-pill{background:var(--bg2);border-radius:12px;padding:0.7rem;text-align:center;}
-.stat-pill .val{font-size:1.35rem;font-weight:500;color:var(--text);}
-.stat-pill .lbl{font-size:10px;color:var(--text2);margin-top:2px;letter-spacing:0.06em;text-transform:uppercase;}
-.menu-section{padding:0 1.5rem 0.4rem;}
+.menu-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 1.5rem 0.8rem;}
+.stat-pill{background:var(--bg2);border-radius:12px;padding:0.65rem;text-align:center;}
+.stat-pill .val{font-size:1.25rem;font-weight:500;}
+.stat-pill .lbl{font-size:10px;color:var(--text2);margin-top:2px;letter-spacing:0.05em;text-transform:uppercase;}
+.menu-section{padding:0 1.5rem 0.35rem;}
 .menu-section-title{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:0.4rem;padding-left:2px;}
-.menu-card{background:var(--bg2);border-radius:var(--radius);margin-bottom:7px;overflow:hidden;cursor:pointer;border:1px solid transparent;transition:background 0.15s;user-select:none;}
+.menu-card{background:var(--bg2);border-radius:var(--radius);margin-bottom:6px;cursor:pointer;border:1px solid transparent;transition:background 0.15s;user-select:none;}
 .menu-card:active{background:var(--bg3);}
-.menu-card-inner{display:flex;align-items:center;padding:0.9rem 1.1rem;gap:0.9rem;}
-.menu-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.menu-card-inner{display:flex;align-items:center;padding:0.8rem 1rem;gap:0.8rem;}
+.menu-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
 .menu-card-text{flex:1;}
 .menu-card-text h3{font-size:14px;font-weight:500;color:var(--text);}
 .menu-card-text p{font-size:12px;color:var(--text2);margin-top:1px;font-weight:300;}
-.menu-card-text .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-top:3px;font-weight:500;}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:9px;margin-top:3px;font-weight:500;}
 .badge-warn{background:#fff3cd;color:#7a5a00;}
 .badge-new{background:var(--das-bg);color:var(--das-text);}
+.badge-imp{background:var(--imp-bg);color:var(--imp);}
 .menu-arrow{color:var(--text3);font-size:18px;}
 .today-card{border-color:var(--der-mid);}
 .today-icon{background:var(--der-bg);}
 .all-icon{background:var(--bg3);}
 .wrong-icon{background:var(--ng-bg);}
 .weak-icon{background:var(--c2-bg);}
+.imp-icon{background:var(--imp-bg);}
+.spell-icon{background:var(--c1-bg);}
 .stats-icon{background:var(--bg3);}
-
-/* STUDY HEADER */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;background:var(--bg2);border-radius:var(--radius);margin-bottom:6px;}
+.toggle-label{font-size:14px;font-weight:500;}
+.toggle-sub{font-size:11px;color:var(--text2);font-weight:300;}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;border-radius:12px;background:var(--bg3);border:1px solid var(--border);transition:background 0.2s;}
+.toggle input:checked+.toggle-track{background:var(--text);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--bg);transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle input:checked~.toggle-thumb{transform:translateX(18px);}
+/* STUDY COMMON */
 .study-header{display:flex;align-items:center;padding:1rem 1rem 0.4rem;padding-top:calc(env(safe-area-inset-top,0) + 1rem);gap:0.7rem;}
 .back-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;color:var(--text);transition:background 0.1s;}
 .back-btn:active{background:var(--bg3);}
@@ -86,84 +96,9 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .progress-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
 .progress-fill{height:100%;background:var(--text);border-radius:2px;transition:width 0.4s ease;}
 .progress-label{display:flex;justify-content:space-between;margin-top:3px;font-size:11px;color:var(--text3);}
-
-/* CARD AREA — GENDER MODE */
-.card-area{flex:1;display:flex;align-items:center;justify-content:center;padding:0 1rem;touch-action:none;position:relative;overflow:hidden;}
-.card-stack{position:relative;width:100%;max-width:360px;height:360px;}
-.card{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;cursor:grab;will-change:transform;}
-.card:active{cursor:grabbing;}
-.card.is-next{transform:scale(0.94) translateY(16px);opacity:0.45;pointer-events:none;z-index:0;}
-.card.is-active{z-index:1;}
-.card-bg{position:absolute;inset:0;border-radius:var(--card-radius);opacity:0;pointer-events:none;}
-.card-lbl{position:absolute;padding:5px 13px;border-radius:8px;font-size:12px;font-weight:500;opacity:0;pointer-events:none;letter-spacing:0.02em;white-space:nowrap;}
-.lbl-left{left:1rem;top:50%;transform:translateY(-50%);}
-.lbl-up{top:1rem;left:50%;transform:translateX(-50%);}
-.lbl-right{right:1rem;top:50%;transform:translateY(-50%);}
-.lbl-down{bottom:1rem;left:50%;transform:translateX(-50%);}
-.card-q-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:0.6rem;}
-.card-word{font-family:var(--serif);font-size:3rem;line-height:1;color:var(--text);text-align:center;margin-bottom:0.4rem;}
-.card-word.small{font-size:1.8rem;}
-.card-trans{font-size:14px;color:var(--text2);font-weight:300;text-align:center;}
-.card-cat{display:none;}
-.card-stat{position:absolute;top:3.4rem;right:1.1rem;font-size:11px;color:var(--text3);}
-
-/* QUIZ CHOICE OVERLAY */
-.choice-up{background:var(--c1-bg);color:var(--c1-text);}
-.choice-down{background:var(--c2-bg);color:var(--c2-text);}
-.choice-left{background:var(--c3-bg);color:var(--c3-text);}
-.choice-right{background:var(--c4-bg);color:var(--c4-text);}
-.lbl-der{background:var(--der-bg);color:var(--der-text);}
-.lbl-das{background:var(--das-bg);color:var(--das-text);}
-.lbl-die{background:var(--die-bg);color:var(--die-text);}
-
-/* HINT ROW — gender */
-.hint-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:0.6rem 1rem 0;}
-.hint-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);transition:transform 0.1s,background 0.1s;user-select:none;}
-.hint-btn:active{transform:scale(0.94);background:var(--bg3);}
-.hint-btn .h-dir{font-size:15px;line-height:1;color:var(--text2);}
-.hint-btn .h-art{font-size:13px;font-weight:500;}
-.hint-btn .h-lbl{font-size:10px;color:var(--text2);}
-.hb-der{border-color:var(--der-mid);} .hb-der .h-art{color:var(--der-text);}
-.hb-das{border-color:var(--das-mid);} .hb-das .h-art{color:var(--das-text);}
-.hb-die{border-color:var(--die-mid);} .hb-die .h-art{color:var(--die-text);}
-
-/* QUIZ 4-CHOICE BUTTONS — cross layout */
-.quiz-choices{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:6px;padding:0.5rem 1rem 0;align-items:center;}
-/* up=col2 row1, left=col1 row2, right=col3 row2, down=col2 row3 */
-.qc-up   {grid-column:2;grid-row:1;}
-.qc-left {grid-column:1;grid-row:2;}
-.qc-right{grid-column:3;grid-row:2;}
-.qc-down {grid-column:2;grid-row:3;}
-.qc-btn{padding:9px 6px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text);transition:transform 0.1s,background 0.1s;user-select:none;text-align:center;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.3;}
-.qc-btn:active{transform:scale(0.94);}
-.qc-btn .qc-dir{font-size:16px;line-height:1;}
-.qc-btn .qc-txt{font-size:11px;}
-.qc-btn.c1{border-color:var(--c1-mid);} .qc-btn.c1 .qc-dir{color:var(--c1-text);}
-.qc-btn.c2{border-color:var(--c2-mid);} .qc-btn.c2 .qc-dir{color:var(--c2-text);}
-.qc-btn.c3{border-color:var(--c3-mid);} .qc-btn.c3 .qc-dir{color:var(--c3-text);}
-.qc-btn.c4{border-color:var(--c4-mid);} .qc-btn.c4 .qc-dir{color:var(--c4-text);}
-/* toggle row in menu */
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1.1rem;background:var(--bg2);border-radius:var(--radius);margin-bottom:7px;}
-.toggle-row-label{font-size:14px;font-weight:500;color:var(--text);}
-.toggle-row-sub{font-size:12px;color:var(--text2);font-weight:300;}
-.toggle{position:relative;width:44px;height:26px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-track{position:absolute;inset:0;border-radius:13px;background:var(--bg3);border:1px solid var(--border);transition:background 0.2s;}
-.toggle input:checked+.toggle-track{background:var(--text);}
-.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--bg);transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
-.toggle input:checked~.toggle-thumb{transform:translateX(18px);}
-
-/* LAST RESULT BANNER — カード上部に常時表示（前回の正誤） */
-.last-result{
-  position:absolute;top:0;left:0;right:0;
-  border-radius:var(--card-radius) var(--card-radius) 0 0;
-  padding:0.6rem 1rem 0.55rem;
-  display:flex;align-items:center;gap:0.5rem;
-  opacity:0;
-  transition:opacity 0.18s;
-  pointer-events:none;
-  z-index:2;
-}
+/* LAST RESULT — カードスタック上の空きスペース */
+.last-result-area{display:flex;align-items:center;justify-content:center;padding:0.3rem 1rem;min-height:46px;}
+.last-result{width:100%;max-width:360px;border-radius:12px;padding:0.45rem 0.9rem;display:flex;align-items:center;gap:0.5rem;opacity:0;transition:opacity 0.2s;}
 .last-result.show{opacity:1;}
 .last-result.ok{background:var(--ok-bg);}
 .last-result.ng{background:var(--ng-bg);}
@@ -171,97 +106,165 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .last-result.ok .lr-icon{color:var(--ok);}
 .last-result.ng .lr-icon{color:var(--ng);}
 .lr-body{flex:1;min-width:0;}
-.lr-answer{font-family:var(--serif);font-size:1.15rem;line-height:1.1;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lr-answer{font-family:var(--serif);font-size:1.05rem;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .last-result.ng .lr-answer{color:var(--ng);}
-.lr-sub{font-size:11px;color:var(--text2);font-weight:300;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-/* ボタン操作時のみ使う軽量フラッシュ — カード bg だけ一瞬色づける */
+.lr-sub{font-size:11px;color:var(--text2);font-weight:300;margin-top:1px;}
+/* CARD */
+.card-area{display:flex;align-items:center;justify-content:center;padding:0 1rem;touch-action:none;position:relative;overflow:hidden;}
+.card-stack{position:relative;width:100%;max-width:360px;height:300px;}
+.card{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:grab;will-change:transform;}
+.card:active{cursor:grabbing;}
+.card.is-next{transform:scale(0.94) translateY(14px);opacity:0.45;pointer-events:none;z-index:0;}
+.card.is-active{z-index:1;}
+.card-bg{position:absolute;inset:0;border-radius:var(--card-radius);opacity:0;pointer-events:none;}
+.card-lbl{position:absolute;padding:4px 12px;border-radius:7px;font-size:12px;font-weight:500;opacity:0;pointer-events:none;white-space:nowrap;}
+.lbl-left{left:0.9rem;top:50%;transform:translateY(-50%);}
+.lbl-up{top:0.9rem;left:50%;transform:translateX(-50%);}
+.lbl-right{right:0.9rem;top:50%;transform:translateY(-50%);}
+.lbl-down{bottom:0.9rem;left:50%;transform:translateX(-50%);}
+.card-q-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:0.5rem;}
+.card-word{font-family:var(--serif);font-size:2.8rem;line-height:1;color:var(--text);text-align:center;margin-bottom:0.35rem;}
+.card-word.small{font-size:1.7rem;}
+.card-trans{font-size:14px;color:var(--text2);font-weight:300;text-align:center;}
+.card-stat{position:absolute;top:0.9rem;right:1rem;font-size:10px;color:var(--text3);}
+.card-imp{position:absolute;top:0.9rem;left:1rem;font-size:11px;color:var(--imp);}
+.lbl-der{background:var(--der-bg);color:var(--der-text);}
+.lbl-das{background:var(--das-bg);color:var(--das-text);}
+.lbl-die{background:var(--die-bg);color:var(--die-text);}
+.choice-left{background:var(--c3-bg);color:var(--c3-text);}
+.choice-up{background:var(--c1-bg);color:var(--c1-text);}
+.choice-right{background:var(--c4-bg);color:var(--c4-text);}
+.choice-down{background:var(--c2-bg);color:var(--c2-text);}
+/* HINT ROW */
+.hint-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:0.5rem 1rem 0;}
+.hint-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);transition:transform 0.1s,background 0.1s;user-select:none;}
+.hint-btn:active{transform:scale(0.94);background:var(--bg3);}
+.h-dir{font-size:15px;line-height:1;color:var(--text2);}
+.h-art{font-size:13px;font-weight:500;}
+.h-lbl{font-size:10px;color:var(--text2);}
+.hb-der{border-color:var(--der-mid);}.hb-der .h-art{color:var(--der-text);}
+.hb-das{border-color:var(--das-mid);}.hb-das .h-art{color:var(--das-text);}
+.hb-die{border-color:var(--die-mid);}.hb-die .h-art{color:var(--die-text);}
+/* QUIZ cross */
+.quiz-choices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:0.4rem 1rem 0;align-items:center;}
+.qc-up{grid-column:2;grid-row:1;}.qc-left{grid-column:1;grid-row:2;}.qc-right{grid-column:3;grid-row:2;}.qc-down{grid-column:2;grid-row:3;}
+.qc-btn{padding:8px 4px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);font-size:11px;color:var(--text);transition:transform 0.1s,background 0.1s;user-select:none;text-align:center;min-height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.3;}
+.qc-btn:active{transform:scale(0.94);}
+.qc-dir{font-size:15px;line-height:1;}
+.qc-btn.c1{border-color:var(--c1-mid);}.qc-btn.c1 .qc-dir{color:var(--c1-text);}
+.qc-btn.c2{border-color:var(--c2-mid);}.qc-btn.c2 .qc-dir{color:var(--c2-text);}
+.qc-btn.c3{border-color:var(--c3-mid);}.qc-btn.c3 .qc-dir{color:var(--c3-text);}
+.qc-btn.c4{border-color:var(--c4-mid);}.qc-btn.c4 .qc-dir{color:var(--c4-text);}
 .card.flash-ok{animation:flashOk 0.55s ease forwards;}
 .card.flash-ng{animation:flashNg 0.55s ease forwards;}
 @keyframes flashOk{0%{background:var(--ok-bg);}100%{background:var(--bg2);}}
 @keyframes flashNg{0%{background:var(--ng-bg);}100%{background:var(--bg2);}}
-.result-overlay{display:none;}
-.result-bar{display:none;}
-.study-footer{padding:0.4rem 1rem calc(env(safe-area-inset-bottom,0) + 1rem);}
-
+.study-footer{padding:0.3rem 1rem calc(env(safe-area-inset-bottom,0)+0.8rem);}
 /* FINISH */
-.finish-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;gap:0.65rem;}
-.finish-title{font-family:var(--serif);font-size:2.6rem;color:var(--text);}
-.finish-score{font-size:3.8rem;font-weight:300;color:var(--text);}
-.finish-sub{font-size:14px;color:var(--text2);}
+.finish-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;gap:0.6rem;}
+.finish-title{font-family:var(--serif);font-size:2.4rem;}
+.finish-score{font-size:3.5rem;font-weight:300;}
 .finish-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0.4rem;width:100%;max-width:280px;}
-.fb-item{background:var(--bg2);border-radius:12px;padding:0.7rem;}
-.fb-item .fv{font-size:1.4rem;font-weight:500;}
-.fb-item .fl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;}
-.finish-btn{margin-top:0.5rem;padding:13px 28px;border-radius:13px;border:1px solid var(--border2);background:var(--bg2);font-family:var(--sans);font-size:14px;font-weight:500;color:var(--text);cursor:pointer;transition:background 0.1s,transform 0.1s;}
+.fb-item{background:var(--bg2);border-radius:12px;padding:0.65rem;}
+.fb-item .fv{font-size:1.3rem;font-weight:500;}.fb-item .fl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;}
+.finish-btn{margin-top:0.4rem;padding:12px 26px;border-radius:13px;border:1px solid var(--border2);background:var(--bg2);font-family:var(--sans);font-size:14px;font-weight:500;color:var(--text);cursor:pointer;transition:background 0.1s,transform 0.1s;}
 .finish-btn:active{background:var(--bg3);transform:scale(0.97);}
-
 /* STATS */
-#stats{}
-.stats-header{display:flex;align-items:center;padding:1rem;padding-top:calc(env(safe-area-inset-top,0) + 1rem);gap:0.75rem;border-bottom:1px solid var(--border);}
-.stats-header h2{font-family:var(--serif);font-size:1.5rem;color:var(--text);flex:1;}
+.stats-header{display:flex;align-items:center;padding:1rem;padding-top:calc(env(safe-area-inset-top,0)+1rem);gap:0.75rem;border-bottom:1px solid var(--border);}
+.stats-header h2{font-family:var(--serif);font-size:1.5rem;flex:1;}
 .stats-overview{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:1rem;}
-.ov-card{background:var(--bg2);border-radius:14px;padding:0.9rem;text-align:center;}
-.ov-card .ov-val{font-size:1.7rem;font-weight:500;}
-.ov-card .ov-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
+.ov-card{background:var(--bg2);border-radius:14px;padding:0.85rem;text-align:center;}
+.ov-val{font-size:1.6rem;font-weight:500;}.ov-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
 .stats-filter{display:flex;gap:6px;padding:0 1rem 0.75rem;overflow-x:auto;}
 .stats-filter::-webkit-scrollbar{display:none;}
-.sf-btn{padding:6px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;transition:background 0.1s;flex-shrink:0;}
+.sf-btn{padding:6px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .sf-btn.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500;}
-.word-list{flex:1;overflow-y:auto;padding:0 1rem;padding-bottom:calc(env(safe-area-inset-bottom,0) + 1rem);}
-.word-row{display:flex;align-items:center;gap:0.65rem;padding:0.65rem 0;border-bottom:1px solid var(--border);}
+.word-list{flex:1;overflow-y:auto;padding:0 1rem;padding-bottom:calc(env(safe-area-inset-bottom,0)+1rem);}
+.word-row{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0;border-bottom:1px solid var(--border);}
 .word-row:last-child{border-bottom:none;}
 .wr-article{font-size:10px;font-weight:500;padding:2px 7px;border-radius:6px;flex-shrink:0;}
 .art-der{background:var(--der-bg);color:var(--der-text);}
 .art-die{background:var(--die-bg);color:var(--die-text);}
 .art-das{background:var(--das-bg);color:var(--das-text);}
-.wr-word{font-family:var(--serif);font-size:1.05rem;color:var(--text);min-width:0;flex-shrink:0;}
+.art-none{background:var(--bg3);color:var(--text2);}
+.wr-imp{font-size:10px;color:var(--imp);flex-shrink:0;}
+.wr-word{font-family:var(--serif);font-size:1rem;flex-shrink:0;}
 .wr-trans{font-size:11px;color:var(--text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.wr-bar-wrap{width:58px;flex-shrink:0;}
+.wr-bar-wrap{width:55px;flex-shrink:0;}
 .wr-bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
 .wr-bar-fill{height:100%;border-radius:2px;}
 .wr-pct{font-size:10px;color:var(--text2);text-align:right;margin-top:2px;}
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px;}
+/* SPELLING */
+#spelling{background:var(--bg);}
+.sp-question{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.8rem 1.5rem 0.4rem;text-align:center;gap:0.3rem;}
+.sp-q-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);}
+.sp-prompt{font-family:var(--serif);font-size:2.2rem;line-height:1.1;}
+.sp-prompt.small{font-size:1.5rem;}
+.sp-type{font-size:12px;color:var(--text2);font-weight:300;}
+.sp-input-area{padding:0.3rem 1rem;display:flex;flex-direction:column;align-items:center;gap:0.3rem;}
+.sp-copy-hint{width:100%;max-width:360px;background:var(--ng-bg);border-radius:10px;padding:0.4rem 0.9rem;font-size:12px;color:var(--ng);font-weight:500;text-align:center;display:none;}
+.sp-display{width:100%;max-width:360px;min-height:52px;background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:0.6rem 1rem;font-family:var(--serif);font-size:1.9rem;display:flex;align-items:center;flex-wrap:wrap;gap:1px;letter-spacing:0.04em;}
+.sp-char{color:var(--text);}
+.sp-char.wrong{color:var(--ng);}
+.sp-char.cursor{border-right:2px solid var(--text);animation:blink 0.9s step-end infinite;}
+@keyframes blink{50%{border-color:transparent;}}
+.sp-feedback{font-size:13px;font-weight:500;min-height:20px;text-align:center;}
+.sp-feedback.ok{color:var(--ok);}.sp-feedback.ng{color:var(--ng);}
+/* KEYBOARD */
+.sp-skip-btn{margin-top:0.3rem;padding:8px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;font-family:var(--sans);font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.1s,background 0.1s;display:block;}
+.sp-skip-btn:active{background:var(--bg3);color:var(--text2);}
+.sp-skip-btn.hidden{display:none;}
+.sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.4rem calc(env(safe-area-inset-bottom,0)+0.5rem);display:flex;flex-direction:column;gap:4px;}
+.kb-row{display:flex;gap:3px;justify-content:center;}
+.kb-key{flex:1;max-width:38px;min-width:26px;height:42px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:14px;font-weight:400;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.08s,transform 0.08s;user-select:none;-webkit-tap-highlight-color:transparent;}
+.kb-key:active{background:var(--bg3);transform:scale(0.92);}
+.kb-key.special{background:var(--bg3);font-size:12px;max-width:52px;flex:1.5;}
+.kb-key.shift-active{background:var(--text);color:var(--bg);}
 </style>
 </head>
 <body>
 <div id="root">
 
-<!-- ===== MENU ===== -->
+<!-- MENU -->
 <div id="menu" class="screen active">
-  <div class="menu-hero">
-    <h1>der die das</h1>
-    <p>ドイツ語学習アプリ</p>
-  </div>
+  <div class="menu-hero"><h1>der die das</h1><p>ドイツ語学習アプリ</p></div>
   <div class="mode-tabs">
-    <button class="mode-tab active" id="tab-gender" onclick="switchModeTab('gender')">冠詞モード</button>
-    <button class="mode-tab" id="tab-vocab-jd" onclick="switchModeTab('vocab-jd')">日→独</button>
-    <button class="mode-tab" id="tab-vocab-dj" onclick="switchModeTab('vocab-dj')">独→日</button>
+    <button class="mode-tab active" id="tab-gender" onclick="switchTab('gender')">冠詞</button>
+    <button class="mode-tab" id="tab-vocab-jd" onclick="switchTab('vocab-jd')">日→独</button>
+    <button class="mode-tab" id="tab-vocab-dj" onclick="switchTab('vocab-dj')">独→日</button>
+    <button class="mode-tab" id="tab-spell" onclick="switchTab('spell')">スペリング</button>
   </div>
   <div class="menu-stats-row">
     <div class="stat-pill"><div class="val" id="m-studied">0</div><div class="lbl">学習済み</div></div>
     <div class="stat-pill"><div class="val" id="m-today-ok">0</div><div class="lbl">今日の正解</div></div>
     <div class="stat-pill"><div class="val" id="m-acc">—</div><div class="lbl">正答率</div></div>
   </div>
-  <!-- cards injected by JS -->
   <div id="menu-cards"></div>
-  <div style="height:calc(env(safe-area-inset-bottom,0) + 1.5rem)"></div>
+  <div style="height:calc(env(safe-area-inset-bottom,0)+1.2rem)"></div>
 </div>
 
-<!-- ===== STUDY ===== -->
+<!-- STUDY -->
 <div id="study" class="screen">
   <div class="study-header">
     <div class="back-btn" onclick="goMenu()">‹</div>
-    <div class="study-title" id="study-title">全単語</div>
-    <div class="streak-badge">🔥 <span id="st-streak">0</span></div>
+    <div class="study-title" id="study-title"></div>
+    <div class="streak-badge">🔥<span id="st-streak">0</span></div>
   </div>
   <div class="progress-wrap">
     <div class="progress-track"><div class="progress-fill" id="st-progress" style="width:0%"></div></div>
-    <div class="progress-label"><span id="st-count">0 / 0</span><span id="st-score-lbl">正解 0</span></div>
+    <div class="progress-label"><span id="st-count">0/0</span><span id="st-score-lbl">正解 0</span></div>
+  </div>
+  <div class="last-result-area">
+    <div class="last-result" id="last-result">
+      <div class="lr-icon" id="lr-icon"></div>
+      <div class="lr-body"><div class="lr-answer" id="lr-answer"></div><div class="lr-sub" id="lr-sub"></div></div>
+    </div>
   </div>
   <div class="card-area" id="card-area">
-    <div class="card-stack" id="card-stack">
+    <div class="card-stack">
       <div class="card is-next" id="next-card">
-        <div class="card-q-label" id="next-label" style="margin-bottom:0.4rem"></div>
+        <div class="card-q-label" id="next-label"></div>
         <div class="card-word" id="next-word"></div>
       </div>
       <div class="card is-active" id="active-card">
@@ -270,28 +273,45 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
         <div class="card-lbl lbl-up" id="lbl-up"></div>
         <div class="card-lbl lbl-right" id="lbl-right"></div>
         <div class="card-lbl lbl-down" id="lbl-down"></div>
-        <div class="card-q-label" id="card-q-label">冠詞は？</div>
+        <div class="card-imp" id="card-imp"></div>
+        <div class="card-q-label" id="card-q-label"></div>
         <div class="card-word" id="st-word"></div>
         <div class="card-trans" id="st-trans"></div>
-        <div class="card-cat" id="st-cat"></div>
         <div class="card-stat" id="st-hist"></div>
-        <!-- 前回の正誤バナー（カード上部） -->
-        <div class="last-result" id="last-result">
-          <div class="lr-icon" id="lr-icon"></div>
-          <div class="lr-body">
-            <div class="lr-answer" id="lr-answer"></div>
-            <div class="lr-sub" id="lr-sub"></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
   <div id="choice-area"></div>
-  <div class="result-bar" id="result-bar"></div>
   <div class="study-footer" id="study-footer"></div>
 </div>
 
-<!-- ===== STATS ===== -->
+<!-- SPELLING -->
+<div id="spelling" class="screen">
+  <div class="study-header">
+    <div class="back-btn" onclick="goMenu()">‹</div>
+    <div class="study-title" id="sp-title">スペリング</div>
+    <div class="streak-badge">🔥<span id="sp-streak">0</span></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
+    <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
+  </div>
+  <div class="sp-question">
+    <div class="sp-q-label">ドイツ語でスペルを入力</div>
+    <div class="sp-prompt" id="sp-prompt"></div>
+    <div class="sp-type" id="sp-type"></div>
+  </div>
+  <div class="sp-input-area">
+    <div class="sp-copy-hint" id="sp-copy-hint">✗ 答えを確認 — 正しいスペルを写してください</div>
+    <div class="sp-display" id="sp-display"></div>
+    <div class="sp-feedback" id="sp-feedback"></div>
+    <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
+  </div>
+  <div style="flex:1"></div>
+  <div class="sp-keyboard" id="sp-keyboard"></div>
+</div>
+
+<!-- STATS -->
 <div id="stats" class="screen">
   <div class="stats-header">
     <div class="back-btn" onclick="goMenu()">‹</div>
@@ -306,20 +326,20 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
     <button class="sf-btn active" onclick="setFilter('all',this)">すべて</button>
     <button class="sf-btn" onclick="setFilter('studied',this)">学習済み</button>
     <button class="sf-btn" onclick="setFilter('weak',this)">苦手</button>
+    <button class="sf-btn" onclick="setFilter('important',this)">重要語</button>
     <button class="sf-btn" onclick="setFilter('unstudied',this)">未学習</button>
   </div>
   <div class="word-list" id="word-list"></div>
 </div>
 
-</div><!-- #root -->
-
+</div>
 <script>
-/* ===================== DATA ===================== */
-const ALL_WORDS_RAW = [
+/* ===== DATA ===== */
+const ALL_WORDS_RAW=[
   {word:'Haus',trans:'家',art:'das',cat:'建物'},
-  {word:'Mann',trans:'男性・夫',art:'der',cat:'人'},
-  {word:'Frau',trans:'女性・妻',art:'die',cat:'人'},
-  {word:'Kind',trans:'子ども',art:'das',cat:'人'},
+  {word:'Mann',trans:'男性・夫',art:'der',cat:'家族',important:true},
+  {word:'Frau',trans:'女性・妻',art:'die',cat:'家族',important:true},
+  {word:'Kind',trans:'子ども',art:'das',cat:'家族',important:true},
   {word:'Hund',trans:'犬',art:'der',cat:'動物'},
   {word:'Katze',trans:'猫',art:'die',cat:'動物'},
   {word:'Auto',trans:'車',art:'das',cat:'乗り物'},
@@ -331,7 +351,7 @@ const ALL_WORDS_RAW = [
   {word:'Fenster',trans:'窓',art:'das',cat:'建物'},
   {word:'Berg',trans:'山',art:'der',cat:'自然'},
   {word:'Sonne',trans:'太陽',art:'die',cat:'自然'},
-  {word:'Wasser',trans:'水',art:'das',cat:'自然'},
+  {word:'Wasser',trans:'水',art:'das',cat:'飲み物'},
   {word:'Tag',trans:'日・昼',art:'der',cat:'時間'},
   {word:'Nacht',trans:'夜',art:'die',cat:'時間'},
   {word:'Jahr',trans:'年',art:'das',cat:'時間'},
@@ -342,15 +362,12 @@ const ALL_WORDS_RAW = [
   {word:'Brot',trans:'パン',art:'das',cat:'食べ物'},
   {word:'Wein',trans:'ワイン',art:'der',cat:'飲み物'},
   {word:'Milch',trans:'牛乳',art:'die',cat:'飲み物'},
-  {word:'Bier',trans:'ビール',art:'das',cat:'飲み物'},
   {word:'Apfel',trans:'りんご',art:'der',cat:'食べ物'},
   {word:'Tomate',trans:'トマト',art:'die',cat:'食べ物'},
   {word:'Fleisch',trans:'肉',art:'das',cat:'食べ物'},
-  {word:'Stuhl',trans:'椅子',art:'der',cat:'家具'},
   {word:'Tür',trans:'ドア',art:'die',cat:'建物'},
   {word:'Bett',trans:'ベッド',art:'das',cat:'家具'},
   {word:'Brief',trans:'手紙',art:'der',cat:'物'},
-  {word:'Zeitung',trans:'新聞',art:'die',cat:'物'},
   {word:'Geld',trans:'お金',art:'das',cat:'物'},
   {word:'Freund',trans:'友人（男）',art:'der',cat:'人'},
   {word:'Freundin',trans:'友人（女）',art:'die',cat:'人'},
@@ -364,7 +381,6 @@ const ALL_WORDS_RAW = [
   {word:'Arzt',trans:'医師（男）',art:'der',cat:'人'},
   {word:'Ärztin',trans:'医師（女）',art:'die',cat:'人'},
   {word:'Krankenhaus',trans:'病院',art:'das',cat:'建物'},
-  {word:'Computer',trans:'コンピュータ',art:'der',cat:'物'},
   {word:'Sprache',trans:'言語',art:'die',cat:'概念'},
   {word:'Winter',trans:'冬',art:'der',cat:'時間'},
   {word:'Jahreszeit',trans:'季節',art:'die',cat:'時間'},
@@ -377,10 +393,10 @@ const ALL_WORDS_RAW = [
   {word:'Morgen',trans:'朝・明日',art:'der',cat:'時間'},
   {word:'Musik',trans:'音楽',art:'die',cat:'概念'},
   {word:'Konzert',trans:'コンサート',art:'das',cat:'概念'},
-  {word:'Bruder',trans:'兄弟',art:'der',cat:'人'},
-  {word:'Schwester',trans:'姉妹',art:'die',cat:'人'},
-  {word:'Vater',trans:'父',art:'der',cat:'人'},
-  {word:'Mutter',trans:'母',art:'die',cat:'人'},
+  {word:'Bruder',trans:'兄弟',art:'der',cat:'家族',important:true},
+  {word:'Schwester',trans:'姉妹',art:'die',cat:'家族',important:true},
+  {word:'Vater',trans:'父',art:'der',cat:'家族',important:true},
+  {word:'Mutter',trans:'母',art:'die',cat:'家族',important:true},
   {word:'Abend',trans:'夕方・夜',art:'der',cat:'時間'},
   {word:'Küche',trans:'台所',art:'die',cat:'建物'},
   {word:'Zimmer',trans:'部屋',art:'das',cat:'建物'},
@@ -390,560 +406,574 @@ const ALL_WORDS_RAW = [
   {word:'Markt',trans:'市場',art:'der',cat:'場所'},
   {word:'Kirche',trans:'教会',art:'die',cat:'建物'},
   {word:'Schloss',trans:'城',art:'das',cat:'建物'},
+  // CSV追加単語
+  {word:'Kinder',trans:'子どもたち（複数）',art:'die',cat:'家族'},
+  {word:'Mädchen',trans:'女の子',art:'das',cat:'人'},
+  {word:'Stuhl',trans:'椅子',art:'der',cat:'家具'},
+  {word:'Bank',trans:'ベンチ・銀行',art:'die',cat:'場所'},
+  {word:'Sofa',trans:'ソファ',art:'das',cat:'家具'},
+  {word:'Text',trans:'テキスト・文章',art:'der',cat:'概念'},
+  {word:'Zeitung',trans:'新聞',art:'die',cat:'物'},
+  {word:'Kopf',trans:'頭',art:'der',cat:'体'},
+  {word:'Hand',trans:'手',art:'die',cat:'体'},
+  {word:'Bein',trans:'足・脚',art:'das',cat:'体'},
+  {word:'Hunger',trans:'空腹',art:'der',cat:'概念'},
+  {word:'Uhr',trans:'時計・〜時',art:'die',cat:'時間'},
+  {word:'Regenschirm',trans:'傘',art:'der',cat:'物'},
+  {word:'Tasche',trans:'バッグ・ポケット',art:'die',cat:'物'},
+  {word:'Computer',trans:'コンピュータ',art:'der',cat:'物'},
+  {word:'Eltern',trans:'両親',art:'die',cat:'家族',important:true},
+  {word:'Krawatte',trans:'ネクタイ',art:'die',cat:'物'},
+  {word:'Getränk',trans:'飲み物',art:'das',cat:'飲み物'},
+  {word:'Saft',trans:'ジュース',art:'der',cat:'飲み物'},
+  {word:'Kaffee',trans:'コーヒー',art:'der',cat:'飲み物'},
+  {word:'Alkohol',trans:'アルコール',art:'der',cat:'飲み物'},
+  {word:'Sekt',trans:'スパークリングワイン',art:'der',cat:'飲み物'},
+  {word:'Tee',trans:'お茶',art:'der',cat:'飲み物'},
+  {word:'Mineralwasser',trans:'ミネラルウォーター',art:'das',cat:'飲み物'},
+  {word:'Bier',trans:'ビール',art:'das',cat:'飲み物'},
+  {word:'Schnaps',trans:'シュナップス（蒸留酒）',art:'der',cat:'飲み物'},
+  {word:'Essen',trans:'食事',art:'das',cat:'食べ物'},
+  {word:'Ei',trans:'卵',art:'das',cat:'食べ物'},
+  {word:'Salz',trans:'塩',art:'das',cat:'食べ物'},
+  {word:'Wurst',trans:'ソーセージ',art:'die',cat:'食べ物'},
+  {word:'Käse',trans:'チーズ',art:'der',cat:'食べ物'},
+  {word:'Suppe',trans:'スープ',art:'die',cat:'食べ物'},
+  {word:'Nudeln',trans:'麺・パスタ（複数）',art:'die',cat:'食べ物'},
+  {word:'Kuchen',trans:'ケーキ',art:'der',cat:'食べ物'},
+  {word:'Butter',trans:'バター',art:'die',cat:'食べ物'},
+  {word:'Zucker',trans:'砂糖',art:'der',cat:'食べ物'},
+  {word:'Schnitzel',trans:'シュニッツェル',art:'das',cat:'食べ物'},
+  {word:'Salat',trans:'サラダ',art:'der',cat:'食べ物'},
+  {word:'Mittagessen',trans:'昼食',art:'das',cat:'食べ物'},
+  {word:'Frühstück',trans:'朝食',art:'das',cat:'食べ物'},
+  {word:'Abendessen',trans:'夕食',art:'das',cat:'食べ物'},
+  {word:'Reis',trans:'米・ご飯',art:'der',cat:'食べ物'},
+  {word:'Kohl',trans:'キャベツ',art:'der',cat:'食べ物'},
+  {word:'Kartoffel',trans:'じゃがいも',art:'die',cat:'食べ物'},
+  {word:'Erdbeere',trans:'いちご',art:'die',cat:'食べ物'},
+  {word:'Pflaume',trans:'プラム',art:'die',cat:'食べ物'},
+  {word:'Zwiebel',trans:'玉ねぎ',art:'die',cat:'食べ物'},
+  {word:'Banane',trans:'バナナ',art:'die',cat:'食べ物'},
+  {word:'Johannisbeere',trans:'スグリ（カシス等）',art:'die',cat:'食べ物'},
+  {word:'Weintraube',trans:'ぶどう',art:'die',cat:'食べ物'},
+  {word:'Möhre',trans:'にんじん',art:'die',cat:'食べ物'},
+  {word:'Obst',trans:'果物',art:'das',cat:'食べ物'},
+  {word:'Birne',trans:'洋梨',art:'die',cat:'食べ物'},
+  {word:'Orange',trans:'オレンジ',art:'die',cat:'食べ物'},
+  {word:'Zitrone',trans:'レモン',art:'die',cat:'食べ物'},
+  {word:'Gemüse',trans:'野菜',art:'das',cat:'食べ物'},
+  {word:'Familie',trans:'家族',art:'die',cat:'家族',important:true},
+  {word:'Geschwister',trans:'兄弟姉妹',art:'die',cat:'家族',important:true},
+  {word:'Verwandte',trans:'親戚',art:'die',cat:'家族',important:true},
+  {word:'Enkel',trans:'孫',art:'der',cat:'家族',important:true},
+  {word:'Cousin',trans:'いとこ（男）',art:'der',cat:'家族',important:true},
+  {word:'Sohn',trans:'息子',art:'der',cat:'家族',important:true},
+  {word:'Großvater',trans:'祖父',art:'der',cat:'家族',important:true},
+  {word:'Onkel',trans:'おじ',art:'der',cat:'家族',important:true},
+  {word:'Neffe',trans:'甥',art:'der',cat:'家族',important:true},
+  {word:'Tochter',trans:'娘',art:'die',cat:'家族',important:true},
+  {word:'Großmutter',trans:'祖母',art:'die',cat:'家族',important:true},
+  {word:'Tante',trans:'おば',art:'die',cat:'家族',important:true},
+  {word:'Nichte',trans:'姪',art:'die',cat:'家族',important:true},
 ];
-// dedupe by word
-const seen=new Set();
-const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seen.has(w.word))return false;seen.add(w.word);return true;});
+const seenW=new Set();
+const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seenW.has(w.word))return false;seenW.add(w.word);return true;});
 
-/* ===================== SETTINGS ===================== */
-const SETTINGS_KEY='derdiedas_settings';
-function loadSettings(){try{return JSON.parse(localStorage.getItem(SETTINGS_KEY))||{};}catch(e){return {};}}
-function saveSettings(s){localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));}
-function getShowTrans(){return loadSettings().showTrans!==false;} // default: true
-function setShowTrans(v){const s=loadSettings();s.showTrans=v;saveSettings(s);}
+const SPELL_EXTRA=[
+  {word:'sprechen',trans:'話す',type:'動詞'},
+  {word:'lernen',trans:'学ぶ',type:'動詞'},
+  {word:'spielen',trans:'遊ぶ・演奏する',type:'動詞'},
+  {word:'arbeiten',trans:'働く',type:'動詞'},
+  {word:'heißen',trans:'〜という名前だ',type:'動詞'},
+  {word:'wohnen',trans:'住む',type:'動詞'},
+  {word:'studieren',trans:'大学で学ぶ',type:'動詞'},
+  {word:'machen',trans:'する・作る',type:'動詞'},
+  {word:'reichen',trans:'足りる・渡す',type:'動詞'},
+  {word:'kommen',trans:'来る',type:'動詞'},
+  {word:'trinken',trans:'飲む',type:'動詞'},
+  {word:'beginnen',trans:'始まる',type:'動詞'},
+  {word:'enden',trans:'終わる',type:'動詞'},
+  {word:'verheiratet',trans:'既婚の',type:'形容詞'},
+  {word:'preiswert',trans:'お手頃な',type:'形容詞'},
+  {word:'ledig',trans:'未婚の',type:'形容詞'},
+  {word:'billig',trans:'安い',type:'形容詞'},
+  {word:'jetzt',trans:'今',type:'副詞'},
+  {word:'schon',trans:'もう・すでに',type:'副詞'},
+  {word:'auch',trans:'〜も・また',type:'副詞'},
+  {word:'dort',trans:'そこで',type:'副詞'},
+  {word:'nicht',trans:'〜ではない',type:'副詞'},
+  {word:'mein',trans:'私の',type:'代名詞'},
+  {word:'dein',trans:'あなたの',type:'代名詞'},
+  {word:'sein',trans:'彼の',type:'代名詞'},
+  {word:'unser',trans:'私たちの',type:'代名詞'},
+  {word:'euer',trans:'あなた方の',type:'代名詞'},
+  {word:'wer',trans:'誰が',type:'疑問詞'},
+  {word:'was',trans:'何が',type:'疑問詞'},
+  {word:'wo',trans:'どこで',type:'疑問詞'},
+  {word:'wann',trans:'いつ',type:'疑問詞'},
+  {word:'warum',trans:'なぜ',type:'疑問詞'},
+  {word:'wie',trans:'どのように',type:'疑問詞'},
+  {word:'wohin',trans:'どこへ',type:'疑問詞'},
+  {word:'woher',trans:'どこから',type:'疑問詞'},
+  {word:'Nein',trans:'いいえ',type:'応答'},
+  {word:'Ja',trans:'はい',type:'応答'},
+  {word:'Doch',trans:'いや（否定への反論）',type:'応答'},
+  {word:'Deutschland',trans:'ドイツ',type:'国名'},
+  {word:'Deutsch',trans:'ドイツ語',type:'言語'},
+  {word:'Japan',trans:'日本',type:'国名'},
+  {word:'Japanisch',trans:'日本語',type:'言語'},
+  {word:'England',trans:'イギリス',type:'国名'},
+  {word:'Englisch',trans:'英語',type:'言語'},
+  {word:'Amerika',trans:'アメリカ',type:'国名'},
+  {word:'Fischereiwissenschaft',trans:'水産学',type:'学問'},
+  {word:'Chemie',trans:'化学',type:'学問'},
+  {word:'Informatik',trans:'情報科学',type:'学問'},
+  {word:'Mathematik',trans:'数学',type:'学問'},
+  {word:'eins',trans:'1',type:'数詞'},{word:'zwei',trans:'2',type:'数詞'},{word:'drei',trans:'3',type:'数詞'},
+  {word:'vier',trans:'4',type:'数詞'},{word:'fünf',trans:'5',type:'数詞'},{word:'sechs',trans:'6',type:'数詞'},
+  {word:'sieben',trans:'7',type:'数詞'},{word:'acht',trans:'8',type:'数詞'},{word:'neun',trans:'9',type:'数詞'},
+  {word:'zehn',trans:'10',type:'数詞'},{word:'elf',trans:'11',type:'数詞'},{word:'zwölf',trans:'12',type:'数詞'},
+  {word:'dreizehn',trans:'13',type:'数詞'},{word:'vierzehn',trans:'14',type:'数詞'},{word:'fünfzehn',trans:'15',type:'数詞'},
+  {word:'sechzehn',trans:'16',type:'数詞'},{word:'siebzehn',trans:'17',type:'数詞'},{word:'achtzehn',trans:'18',type:'数詞'},
+  {word:'neunzehn',trans:'19',type:'数詞'},{word:'zwanzig',trans:'20',type:'数詞'},
+  {word:'einundzwanzig',trans:'21',type:'数詞'},{word:'zweiundzwanzig',trans:'22',type:'数詞'},
+  {word:'dreiundzwanzig',trans:'23',type:'数詞'},{word:'vierundzwanzig',trans:'24',type:'数詞'},
+  {word:'fünfundzwanzig',trans:'25',type:'数詞'},{word:'dreißig',trans:'30',type:'数詞'},
+  {word:'vierzig',trans:'40',type:'数詞'},{word:'fünfzig',trans:'50',type:'数詞'},
+  {word:'sechzig',trans:'60',type:'数詞'},{word:'siebzig',trans:'70',type:'数詞'},
+  {word:'achtzig',trans:'80',type:'数詞'},{word:'neunzig',trans:'90',type:'数詞'},
+  {word:'hundert',trans:'100',type:'数詞'},
+];
+const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat})),...SPELL_EXTRA];
 
-/* ===================== STORAGE ===================== */
+/* ===== STORAGE ===== */
 const LS_KEY='derdiedas_v2';
-function loadData(){try{return JSON.parse(localStorage.getItem(LS_KEY))||{};}catch(e){return {};}}
-function saveData(d){localStorage.setItem(LS_KEY,JSON.stringify(d));}
-function getWD(d,word){return d[word]||{correct:0,total:0,lastSeen:null,nextReview:null,interval:1,ef:2.5};}
-function todayStr(){return new Date().toISOString().slice(0,10);}
+const SP_KEY='derdiedas_spell_v1';
+const SET_KEY='derdiedas_settings';
+const load=k=>{try{return JSON.parse(localStorage.getItem(k))||{};}catch{return{};}};
+const save=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
+const loadD=()=>load(LS_KEY);const saveD=d=>save(LS_KEY,d);
+const loadSP=()=>load(SP_KEY);const saveSP=d=>save(SP_KEY,d);
+const loadSet=()=>load(SET_KEY);const saveSet=d=>save(SET_KEY,d);
+const getWD=(d,w)=>d[w]||{correct:0,total:0,lastSeen:null,nextReview:null,interval:1,ef:2.5};
+const today=()=>new Date().toISOString().slice(0,10);
+const getShowTrans=()=>loadSet().showTrans!==false;
+const setShowTrans=v=>{const s=loadSet();s.showTrans=v;saveSet(s);};
 
-function updateSR(wd,isCorrect){
-  const today=todayStr();
-  wd.total++; wd.lastSeen=today;
-  if(isCorrect){
-    wd.correct++;
-    wd.ef=Math.max(1.3,wd.ef+0.1-(5-5)*(0.08+(5-5)*0.02));
-    wd.interval=wd.total<=2?(wd.interval===1?3:7):Math.round(wd.interval*wd.ef);
-  } else { wd.interval=1; }
-  const next=new Date(); next.setDate(next.getDate()+wd.interval);
-  wd.nextReview=next.toISOString().slice(0,10);
+function updateSR(wd,ok,imp){
+  wd.total++;wd.lastSeen=today();
+  const efMin=imp?1.1:1.3;
+  if(ok){
+    wd.correct++;wd.ef=Math.max(efMin,wd.ef+0.1);
+    wd.interval=imp
+      ?(wd.total<=1?1:wd.total<=2?2:wd.total<=3?4:Math.round(wd.interval*Math.min(wd.ef,1.8)))
+      :(wd.total<=2?(wd.interval===1?3:7):Math.round(wd.interval*wd.ef));
+  }else{wd.interval=1;wd.ef=Math.max(efMin,wd.ef-0.2);}
+  const n=new Date();n.setDate(n.getDate()+wd.interval);wd.nextReview=n.toISOString().slice(0,10);
   return wd;
 }
 
-/* ===================== STATE ===================== */
-let deck=[],cur=0,sessionScore=0,sessionStreak=0,resultTimer=null;
-let currentMode='all',currentTab='gender';
-// quiz4 state
+/* ===== STATE ===== */
+let deck=[],cur=0,score=0,streak=0,rtimer=null,curTab='gender',curMode='all';
 let choices=[],correctIdx=0,choiceMap={};
-// direction layout for 4 choices
 const DIRS=['left','up','right','down'];
-const DIR_LABELS={left:'←',up:'↑',right:'→',down:'↓'};
-const DIR_CLASSES={left:'c3',up:'c1',right:'c4',down:'c2'};
-const DIR_BG={left:'var(--c3-bg)',up:'var(--c1-bg)',right:'var(--c4-bg)',down:'var(--c2-bg)'};
+const DL={left:'←',up:'↑',right:'→',down:'↓'};
+const DBG={left:'var(--c3-bg)',up:'var(--c1-bg)',right:'var(--c4-bg)',down:'var(--c2-bg)'};
+const shuf=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
+const isG=()=>curTab==='gender';
 
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-
-/* ===================== MENU TAB ===================== */
-function switchModeTab(tab){
-  currentTab=tab;
-  ['gender','vocab-jd','vocab-dj'].forEach(t=>{
-    document.getElementById('tab-'+t).classList.toggle('active',t===tab);
-  });
-  updateMenuStats();
-  renderMenuCards();
+/* ===== MENU ===== */
+function switchTab(t){
+  curTab=t;
+  ['gender','vocab-jd','vocab-dj','spell'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('active',x===t));
+  updateStats();renderMenu();
 }
-
-/* ===================== MENU RENDER ===================== */
-function renderMenuCards(){
-  const tab=currentTab;
-  const d=loadData();
-  const today=todayStr();
-  const todayDue=getTodayDeck();
-
-  let html='';
-
-  // Today
-  html+=`<div class="menu-section"><div class="menu-section-title">今日</div>
-    <div class="menu-card today-card" onclick="startMode('today')">
-      <div class="menu-card-inner">
-        <div class="menu-icon today-icon">📅</div>
-        <div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復で記憶を定着させる</p>
-          <span class="badge badge-new" id="today-badge">${todayDue.length>0?`本日 ${todayDue.length} 問`:'今日は完了！'}</span>
-        </div><div class="menu-arrow">›</div>
-      </div>
-    </div></div>`;
-
-  // Review modes
-  const wrongCount=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}).length;
-  const weakCount=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}).length;
-
-  let modeLabel='';
-  if(tab==='gender') modeLabel='冠詞を当てる';
-  else if(tab==='vocab-jd') modeLabel='日本語→ドイツ語 4択';
-  else modeLabel='ドイツ語→日本語 4択';
-
-  html+=`<div class="menu-section"><div class="menu-section-title">復習モード — ${modeLabel}</div>
-    <div class="menu-card" onclick="startMode('all')">
-      <div class="menu-card-inner"><div class="menu-icon all-icon">📚</div>
-      <div class="menu-card-text"><h3>全単語</h3><p>すべての単語をランダムに出題</p></div>
-      <div class="menu-arrow">›</div></div>
-    </div>
-    <div class="menu-card" onclick="startMode('wrong')">
-      <div class="menu-card-inner"><div class="menu-icon wrong-icon">❌</div>
-      <div class="menu-card-text"><h3>間違えたもの</h3><p>過去に不正解だった単語</p>
-        ${wrongCount>0?`<span class="badge badge-warn">${wrongCount} 語</span>`:''}
-      </div><div class="menu-arrow">›</div></div>
-    </div>
-    <div class="menu-card" onclick="startMode('weak')">
-      <div class="menu-card-inner"><div class="menu-icon weak-icon">📉</div>
-      <div class="menu-card-text"><h3>苦手な単語</h3><p>正答率50%未満を集中特訓</p>
-        ${weakCount>0?`<span class="badge badge-warn">${weakCount} 語</span>`:''}
-      </div><div class="menu-arrow">›</div></div>
-    </div></div>`;
-
-  html+=`<div class="menu-section"><div class="menu-section-title">記録</div>
-    <div class="menu-card" onclick="showStats()">
-      <div class="menu-card-inner"><div class="menu-icon stats-icon">📊</div>
-      <div class="menu-card-text"><h3>成績を見る</h3><p>単語ごとの正答率と履歴</p></div>
-      <div class="menu-arrow">›</div></div>
-    </div></div>`;
-
-  // 冠詞モードのみ：日本語訳表示トグル
-  if(tab==='gender'){
-    const showTrans=getShowTrans();
-    html+=`<div class="menu-section"><div class="menu-section-title">設定</div>
-      <div class="toggle-row">
-        <div><div class="toggle-row-label">日本語訳を表示</div><div class="toggle-row-sub">冠詞モード中にカードへ訳を表示する</div></div>
-        <label class="toggle">
-          <input type="checkbox" id="toggle-trans" ${showTrans?'checked':''} onchange="setShowTrans(this.checked)">
-          <div class="toggle-track"></div>
-          <div class="toggle-thumb"></div>
-        </label>
-      </div></div>`;
-  }
-
-  document.getElementById('menu-cards').innerHTML=html;
-}
-
-function updateMenuStats(){
-  const d=loadData();
-  const today=todayStr();
+function updateStats(){
+  const d=loadD(),td=today();
   const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
   const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0);
   const tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
-  const todayOk=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===today?wd.correct:0),0);
+  const tok=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
   document.getElementById('m-studied').textContent=studied.length;
-  document.getElementById('m-today-ok').textContent=todayOk;
+  document.getElementById('m-today-ok').textContent=tok;
   document.getElementById('m-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
 }
-
-/* ===================== TODAY DECK ===================== */
 function getTodayDeck(){
-  const d=loadData(),today=todayStr();
-  const due=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=today;});
-  const newW=due.filter(w=>!getWD(d,w.word).lastSeen);
-  const rev=due.filter(w=>getWD(d,w.word).lastSeen);
-  return [...shuffle(rev),...shuffle(newW)].slice(0,Math.min(20,Math.max(10,due.length)));
+  const d=loadD(),td=today();
+  const due=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
+  return [...shuf(due.filter(w=>w.important)),...shuf(due.filter(w=>!w.important))].slice(0,Math.min(20,Math.max(10,due.length)));
+}
+function renderMenu(){
+  const t=curTab,d=loadD();
+  const due=getTodayDeck();
+  const wc=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}).length;
+  const wk=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}).length;
+  let html='';
+  if(t==='spell'){
+    const sd=loadSP();
+    const ss=ALL_SPELL.filter(w=>sd[w.word]&&sd[w.word].total>0).length;
+    let stc=0,stq=0;ALL_SPELL.forEach(w=>{if(sd[w.word]){stc+=sd[w.word].correct;stq+=sd[w.word].total;}});
+    const sacc=stq>0?Math.round(stc/stq*100)+'%':'—';
+    html+=mc('spell-icon','✏️','全単語スペリング',`名詞・動詞・数詞など全${ALL_SPELL.length}語`,"startSpell('all')")+
+          mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
+          mc('wrong-icon','❌','間違えたもの','スペリングで不正解だった単語',"startSpell('wrong')");
+    html=`<div class="menu-section"><div class="menu-section-title">スペリングモード</div>${html}</div>`;
+    html+=`<div class="menu-section"><div class="menu-section-title">スペリング成績</div>
+      <div class="menu-stats-row" style="padding:0 0 0.5rem">
+        <div class="stat-pill"><div class="val">${ss}</div><div class="lbl">学習済み</div></div>
+        <div class="stat-pill"><div class="val">${sacc}</div><div class="lbl">正答率</div></div>
+        <div class="stat-pill"><div class="val">${ALL_SPELL.length}</div><div class="lbl">総単語</div></div>
+      </div></div>`;
+  } else {
+    const ml=t==='gender'?'冠詞を当てる':t==='vocab-jd'?'日本語→ドイツ語 4択':'ドイツ語→日本語 4択';
+    html+=`<div class="menu-section"><div class="menu-section-title">今日</div>
+      <div class="menu-card today-card" onclick="startMode('today')">
+        <div class="menu-card-inner"><div class="menu-icon today-icon">📅</div>
+        <div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p>
+          <span class="badge badge-new">${due.length>0?`本日 ${due.length} 問`:'今日は完了！'}</span>
+        </div><div class="menu-arrow">›</div></div></div></div>`;
+    html+=`<div class="menu-section"><div class="menu-section-title">復習モード — ${ml}</div>
+      ${mc('all-icon','📚','全単語',`全${ALL_WORDS.length}語をランダムに出題`,"startMode('all')")}
+      ${mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"startMode('important')","<span class='badge badge-imp'>優先反復</span>")}
+      ${mc('wrong-icon','❌','間違えたもの','過去に不正解だった単語',"startMode('wrong')",wc>0?`<span class='badge badge-warn'>${wc} 語</span>`:'')}
+      ${mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wk>0?`<span class='badge badge-warn'>${wk} 語</span>`:'')}
+    </div>`;
+    html+=`<div class="menu-section"><div class="menu-section-title">記録</div>${mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴','showStats()')}</div>`;
+    if(t==='gender'){
+      const st=getShowTrans();
+      html+=`<div class="menu-section"><div class="menu-section-title">設定</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label">日本語訳を表示</div><div class="toggle-sub">冠詞モードのカードに訳を表示</div></div>
+          <label class="toggle"><input type="checkbox" id="tg-trans" ${st?'checked':''} onchange="setShowTrans(this.checked)">
+          <div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+        </div></div>`;
+    }
+  }
+  document.getElementById('menu-cards').innerHTML=html;
+}
+function mc(icon,em,title,sub,action,badge=''){
+  return `<div class="menu-card" onclick="${action}"><div class="menu-card-inner">
+    <div class="menu-icon ${icon}">${em}</div>
+    <div class="menu-card-text"><h3>${title}</h3><p>${sub}</p>${badge}</div>
+    <div class="menu-arrow">›</div></div></div>`;
 }
 
-/* ===================== START MODE ===================== */
+/* ===== START MODE ===== */
 function startMode(mode){
-  const d=loadData();
-  currentMode=mode;
+  const d=loadD(); curMode=mode;
+  const titles={all:'全単語',today:'今日の単語',wrong:'間違えた単語',weak:'苦手な単語',important:'重要語'};
   let words=[];
-  let title='';
-  if(mode==='all'){words=shuffle(ALL_WORDS);title='全単語';}
-  else if(mode==='today'){
-    words=getTodayDeck();title='今日の単語';
-    if(!words.length){alert('今日の単語はすべて完了！明日また来てください。');return;}
-  }
-  else if(mode==='wrong'){
-    words=shuffle(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));
-    title='間違えた単語';
-    if(!words.length){alert('間違えた単語がありません！');return;}
-  }
-  else if(mode==='weak'){
-    words=shuffle(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));
-    title='苦手な単語';
-    if(!words.length){alert('苦手な単語がありません！正答率50%未満が2回以上出題されると表示されます。');return;}
-  }
-  deck=words; cur=0; sessionScore=0; sessionStreak=0;
-  document.getElementById('study-title').textContent=title;
+  if(mode==='all') words=shuf(ALL_WORDS);
+  else if(mode==='today'){words=getTodayDeck();if(!words.length){alert('今日の単語はすべて完了！');return;}}
+  else if(mode==='wrong'){words=shuf(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
+  else if(mode==='weak'){words=shuf(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
+  else if(mode==='important') words=shuf(ALL_WORDS.filter(w=>w.important));
+  deck=words;cur=0;score=0;streak=0;
+  document.getElementById('study-title').textContent=titles[mode]||mode;
   document.getElementById('st-streak').textContent='0';
   document.getElementById('st-score-lbl').textContent='正解 0';
-  showScreen('study');
-  clearLastResult();
-  renderCard();
-  setupDrag();
+  showScreen('study');clearLR();renderCard();setupDrag();
 }
 
-/* ===================== RENDER CARD ===================== */
-function isGenderMode(){return currentTab==='gender';}
-
+/* ===== RENDER CARD ===== */
 function renderCard(){
   if(cur>=deck.length){showFinish();return;}
-  const w=deck[cur];
-  const d=loadData();
-  const wd=getWD(d,w.word);
-
+  const w=deck[cur],d=loadD(),wd=getWD(d,w.word);
   document.getElementById('st-progress').style.width=(cur/deck.length*100)+'%';
-  document.getElementById('st-count').textContent=`${cur} / ${deck.length}`;
-  document.getElementById('st-hist').textContent=wd.total>0?`${Math.round(wd.correct/wd.total*100)}% (${wd.correct}/${wd.total})`:'初回';
-  document.getElementById('st-cat').textContent=w.cat;
-
-  const next=deck[cur+1];
-  // 次のカードをモードに合った形式で表示
-  if(next){
-    if(isGenderMode()){
-      document.getElementById('next-label').textContent='次の単語';
-      document.getElementById('next-word').textContent=next.word;
-    } else if(currentTab==='vocab-jd'){
-      document.getElementById('next-label').textContent='次：日→独';
-      document.getElementById('next-word').textContent=next.trans;
-    } else {
-      document.getElementById('next-label').textContent='次：独→日';
-      document.getElementById('next-word').textContent=next.art+' '+next.word;
-    }
-    document.getElementById('next-word').className='card-word'+(currentTab!=='vocab-jd'&&currentTab!=='gender'?' small':'');
-  } else {
-    document.getElementById('next-label').textContent='';
-    document.getElementById('next-word').textContent='';
-  }
-
-  resetCardViz();
+  document.getElementById('st-count').textContent=`${cur}/${deck.length}`;
+  document.getElementById('st-hist').textContent=wd.total>0?`${Math.round(wd.correct/wd.total*100)}%(${wd.correct}/${wd.total})`:'初回';
+  document.getElementById('card-imp').textContent=w.important?'⭐':'';
+  const nxt=deck[cur+1];
+  if(nxt){
+    if(isG()){document.getElementById('next-label').textContent='次の単語';document.getElementById('next-word').textContent=nxt.word;document.getElementById('next-word').className='card-word';}
+    else if(curTab==='vocab-jd'){document.getElementById('next-label').textContent='次：日→独';document.getElementById('next-word').textContent=nxt.trans;document.getElementById('next-word').className='card-word';}
+    else{document.getElementById('next-label').textContent='次：独→日';document.getElementById('next-word').textContent=nxt.art+' '+nxt.word;document.getElementById('next-word').className='card-word small';}
+  }else{document.getElementById('next-label').textContent='';document.getElementById('next-word').textContent='';}
+  resetViz();
   const ac=document.getElementById('active-card');
-  ac.style.transform=''; ac.style.opacity=''; ac.style.transition='none';
+  ac.style.cssText='transform:;opacity:;transition:none;';
   setTimeout(()=>{ac.style.transition='';},30);
-
-  if(isGenderMode()){
-    renderGenderCard(w);
-  } else {
-    renderQuizCard(w);
-  }
+  if(isG()) renderGender(w); else renderQuiz(w);
 }
-
-function renderGenderCard(w){
+function renderGender(w){
   document.getElementById('card-q-label').textContent='冠詞は？';
-  const wEl=document.getElementById('st-word');
-  wEl.textContent=w.word; wEl.className='card-word';
-  // 日本語訳トグル反映
+  document.getElementById('st-word').textContent=w.word;document.getElementById('st-word').className='card-word';
   document.getElementById('st-trans').textContent=getShowTrans()?w.trans:'';
-
-  // labels
-  document.getElementById('lbl-left').textContent='← der';
-  document.getElementById('lbl-left').className='card-lbl lbl-left lbl-der';
-  document.getElementById('lbl-up').textContent='↑ das';
-  document.getElementById('lbl-up').className='card-lbl lbl-up lbl-das';
-  document.getElementById('lbl-right').textContent='die →';
-  document.getElementById('lbl-right').className='card-lbl lbl-right lbl-die';
+  document.getElementById('lbl-left').textContent='← der';document.getElementById('lbl-left').className='card-lbl lbl-left lbl-der';
+  document.getElementById('lbl-up').textContent='↑ das';document.getElementById('lbl-up').className='card-lbl lbl-up lbl-das';
+  document.getElementById('lbl-right').textContent='die →';document.getElementById('lbl-right').className='card-lbl lbl-right lbl-die';
   document.getElementById('lbl-down').style.opacity=0;
-  document.getElementById('lbl-down').textContent='';
-
-  // choice buttons
-  document.getElementById('choice-area').innerHTML=`
-    <div class="hint-row">
-      <button class="hint-btn hb-der" onclick="evaluate('der')"><span class="h-dir">←</span><span class="h-art">der</span><span class="h-lbl">男性</span></button>
-      <button class="hint-btn hb-das" onclick="evaluate('das')"><span class="h-dir">↑</span><span class="h-art">das</span><span class="h-lbl">中性</span></button>
-      <button class="hint-btn hb-die" onclick="evaluate('die')"><span class="h-dir">→</span><span class="h-art">die</span><span class="h-lbl">女性</span></button>
-    </div>`;
+  document.getElementById('choice-area').innerHTML=`<div class="hint-row">
+    <button class="hint-btn hb-der" onclick="ev('der')"><span class="h-dir">←</span><span class="h-art">der</span><span class="h-lbl">男性</span></button>
+    <button class="hint-btn hb-das" onclick="ev('das')"><span class="h-dir">↑</span><span class="h-art">das</span><span class="h-lbl">中性</span></button>
+    <button class="hint-btn hb-die" onclick="ev('die')"><span class="h-dir">→</span><span class="h-art">die</span><span class="h-lbl">女性</span></button>
+  </div>`;
+}
+function renderQuiz(w){
+  const jd=curTab==='vocab-jd';
+  document.getElementById('card-q-label').textContent=jd?'ドイツ語は？':'日本語は？';
+  const we=document.getElementById('st-word');
+  if(jd){we.textContent=w.trans;we.className='card-word';}else{we.textContent=w.art+' '+w.word;we.className='card-word small';}
+  document.getElementById('st-trans').textContent='';
+  const ca=jd?w.word:w.trans;
+  const oth=shuf(ALL_WORDS.filter(x=>x.word!==w.word)).slice(0,3).map(x=>jd?x.word:x.trans);
+  const all=shuf([ca,...oth]);
+  choices=all;correctIdx=all.indexOf(ca);choiceMap={left:0,up:1,right:2,down:3};
+  const dc=[{d:'left',c:'c3',p:'qc-left'},{d:'up',c:'c1',p:'qc-up'},{d:'right',c:'c4',p:'qc-right'},{d:'down',c:'c2',p:'qc-down'}];
+  DIRS.forEach((dir,i)=>{const el=document.getElementById('lbl-'+dir);el.textContent=DL[dir]+' '+all[i];el.className=`card-lbl lbl-${dir} choice-${dir}`;el.style.opacity=0;});
+  document.getElementById('choice-area').innerHTML=`<div class="quiz-choices">${dc.map(({d,c,p},i)=>`
+    <button class="qc-btn ${c} ${p}" onclick="evQ('${d}')"><span class="qc-dir">${DL[d]}</span><span>${all[DIRS.indexOf(d)]}</span></button>`).join('')}</div>`;
 }
 
-function renderQuizCard(w){
-  const isJD=currentTab==='vocab-jd';
-  document.getElementById('card-q-label').textContent=isJD?'ドイツ語は？':'日本語は？';
-  const wEl=document.getElementById('st-word');
-  if(isJD){
-    wEl.textContent=w.trans; wEl.className='card-word';
-    document.getElementById('st-trans').textContent='';
-  } else {
-    wEl.textContent=`${w.art} ${w.word}`; wEl.className='card-word small';
-    document.getElementById('st-trans').textContent='';
-  }
-
-  // build 4 choices: 1 correct + 3 random distractors
-  const correctAnswer=isJD?w.word:w.trans;
-  const others=ALL_WORDS.filter(x=>x.word!==w.word);
-  const distractors=shuffle(others).slice(0,3).map(x=>isJD?x.word:x.trans);
-  const allChoices=shuffle([correctAnswer,...distractors]);
-  choices=allChoices;
-  correctIdx=allChoices.indexOf(correctAnswer);
-  // map direction index → choice index
-  choiceMap={left:0,up:1,right:2,down:3};
-
-  // set labels on card
-  DIRS.forEach((dir,i)=>{
-    const el=document.getElementById('lbl-'+dir);
-    el.textContent=DIR_LABELS[dir]+' '+allChoices[i];
-    el.className=`card-lbl lbl-${dir} choice-${dir}`;
-    el.style.opacity=0;
-  });
-
-  // choice buttons — 十字配置
-  // dir order: left=c3, up=c1, right=c4, down=c2
-  const dirConfig=[
-    {dir:'left', cls:'c3', pos:'qc-left'},
-    {dir:'up',   cls:'c1', pos:'qc-up'},
-    {dir:'right',cls:'c4', pos:'qc-right'},
-    {dir:'down', cls:'c2', pos:'qc-down'},
-  ];
-  const btnHTML=dirConfig.map(({dir,cls,pos},i)=>`
-    <button class="qc-btn ${cls} ${pos}" onclick="evaluateQuiz('${dir}')">
-      <span class="qc-dir">${DIR_LABELS[dir]}</span>
-      <span class="qc-txt">${allChoices[DIRS.indexOf(dir)]}</span>
-    </button>`).join('');
-  document.getElementById('choice-area').innerHTML=`<div class="quiz-choices">${btnHTML}</div>`;
-}
-
-/* ===================== EVALUATE ===================== */
-// 前回の正誤をカード上部バナーに常時表示
-function showLastResult(isCorrect, answerLine, subLine){
+/* ===== LAST RESULT ===== */
+function showLR(ok,ans,sub){
   const el=document.getElementById('last-result');
-  document.getElementById('lr-icon').textContent=isCorrect?'✓':'✗';
-  document.getElementById('lr-answer').textContent=answerLine;
-  document.getElementById('lr-sub').textContent=subLine||'';
-  el.className='last-result show '+(isCorrect?'ok':'ng');
+  document.getElementById('lr-icon').textContent=ok?'✓':'✗';
+  document.getElementById('lr-answer').textContent=ans;
+  document.getElementById('lr-sub').textContent=sub||'';
+  el.className='last-result show '+(ok?'ok':'ng');
 }
-function clearLastResult(){
-  document.getElementById('last-result').className='last-result';
+function clearLR(){document.getElementById('last-result').className='last-result';}
+function flash(ok){const c=document.getElementById('active-card');c.classList.remove('flash-ok','flash-ng');void c.offsetWidth;c.classList.add(ok?'flash-ok':'flash-ng');}
+
+/* ===== EVALUATE ===== */
+function ev(chosen,fromSwipe=false){
+  if(rtimer)return;
+  const w=deck[cur],ok=chosen===w.art;
+  rec(w,ok);
+  const sub=(!getShowTrans()||!ok)?w.trans:'';
+  showLR(ok,ok?`${w.art} ${w.word}`:`正解： ${w.art} ${w.word}`,sub);
+  if(fromSwipe){cur++;renderCard();setupDrag();}
+  else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
 }
-// ボタン操作時: カード背景を一瞬フラッシュして即次へ
-function flashCard(isCorrect){
-  const card=document.getElementById('active-card');
-  card.classList.remove('flash-ok','flash-ng');
-  void card.offsetWidth; // reflow
-  card.classList.add(isCorrect?'flash-ok':'flash-ng');
+function evQ(dir,fromSwipe=false){
+  if(rtimer)return;
+  const w=deck[cur],ok=choiceMap[dir]===correctIdx,jd=curTab==='vocab-jd',ca=jd?w.word:w.trans;
+  rec(w,ok);
+  const sub=jd?(ok?w.trans:`${w.art} ${w.word} = ${w.trans}`):(ok?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
+  showLR(ok,ok?ca:`正解： ${ca}`,ok?sub:'');
+  if(fromSwipe){cur++;renderCard();setupDrag();}
+  else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
+}
+function rec(w,ok){
+  if(ok){score++;streak++;}else{streak=0;}
+  document.getElementById('st-streak').textContent=streak;
+  document.getElementById('st-score-lbl').textContent=`正解 ${score}`;
+  const d=loadD();d[w.word]=updateSR(getWD(d,w.word),ok,w.important||false);saveD(d);
 }
 
-function evaluate(chosen, fromSwipe=false){
-  if(resultTimer) return;
-  const w=deck[cur];
-  const isCorrect=chosen===w.art;
-  recordResult(w,isCorrect);
-  const sub=(!getShowTrans()||!isCorrect)?w.trans:'';
-  const answerLine=isCorrect?`${w.art} ${w.word}`:`正解： ${w.art} ${w.word}`;
-  // バナーに記録（次のカード表示後も残る）
-  showLastResult(isCorrect, answerLine, sub);
-  if(fromSwipe){
-    // スワイプ: 遅延なし、カード飛んだ後すぐ次へ
-    cur++; renderCard(); setupDrag();
-  } else {
-    // ボタン: フラッシュ演出してから次へ
-    flashCard(isCorrect);
-    resultTimer=setTimeout(()=>{cur++;resultTimer=null;renderCard();setupDrag();},520);
-  }
-}
-
-function evaluateQuiz(dir, fromSwipe=false){
-  if(resultTimer) return;
-  const w=deck[cur];
-  const chosenIdx=choiceMap[dir];
-  const isCorrect=chosenIdx===correctIdx;
-  const isJD=currentTab==='vocab-jd';
-  const correctAnswer=isJD?w.word:w.trans;
-  recordResult(w,isCorrect);
-  const answerLine=isCorrect?correctAnswer:`正解： ${correctAnswer}`;
-  const sub=isJD
-    ? (isCorrect?w.trans:`${w.art} ${w.word} ＝ ${w.trans}`)
-    : (isCorrect?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
-  showLastResult(isCorrect, answerLine, isCorrect?sub:'');
-  if(fromSwipe){
-    cur++; renderCard(); setupDrag();
-  } else {
-    flashCard(isCorrect);
-    resultTimer=setTimeout(()=>{cur++;resultTimer=null;renderCard();setupDrag();},520);
-  }
-}
-
-function recordResult(w,isCorrect){
-  if(isCorrect){sessionScore++;sessionStreak++;} else {sessionStreak=0;}
-  document.getElementById('st-streak').textContent=sessionStreak;
-  document.getElementById('st-score-lbl').textContent=`正解 ${sessionScore}`;
-  const d=loadData();
-  d[w.word]=updateSR(getWD(d,w.word),isCorrect);
-  saveData(d);
-}
-
-/* ===================== DRAG / SWIPE ===================== */
+/* ===== DRAG ===== */
 function setupDrag(){
   const card=document.getElementById('active-card');
-  const fresh=card.cloneNode(true);
-  card.parentNode.replaceChild(fresh,card);
-  // re-attach label elements refs are via getElementById so fine
+  const fresh=card.cloneNode(true);card.parentNode.replaceChild(fresh,card);
   const el=document.getElementById('active-card');
-
-  let sx=0,sy=0,cx=0,cy=0,dragging=false,cw=0;
-
-  const getDir=(dx,dy)=>{
-    const adx=Math.abs(dx),ady=Math.abs(dy);
-    if(adx<22&&ady<22) return null;
-    if(adx>ady) return dx<0?'left':'right';
-    return dy<0?'up':'down';
+  let sx=0,sy=0,cx=0,cy=0,drag=false,cw=0;
+  const gdir=(dx,dy)=>{const ax=Math.abs(dx),ay=Math.abs(dy);if(ax<22&&ay<22)return null;return ax>ay?(dx<0?'left':'right'):(dy<0?'up':'down');};
+  const gbg=dir=>{if(isG()){return{left:'var(--der-bg)',up:'var(--das-bg)',right:'var(--die-bg)'}[dir]||null;}return DBG[dir]||null;};
+  const onS=(ex,ey)=>{if(cur>=deck.length||rtimer)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
+  const onM=(ex,ey)=>{
+    if(!drag)return;cx=ex-sx;cy=ey-sy;
+    const dy2=(isG()&&cy>0)?cy*0.18:cy;
+    el.style.transform=`translate(${cx}px,${dy2}px) rotate(${cx/cw*15}deg)`;
+    const dir=gdir(cx,cy),adir=(isG()&&dir==='down')?null:dir;
+    const dist=Math.max(Math.abs(cx),Math.abs(cy)),str=Math.min(dist/60,1);
+    DIRS.forEach(d=>{const l=document.getElementById('lbl-'+d);if(l)l.style.opacity=(d===adir?str:0);});
+    const bg=document.getElementById('card-bg'),bgc=adir?gbg(adir):null;
+    if(bgc){bg.style.background=bgc;bg.style.opacity=str*0.4;}else bg.style.opacity=0;
   };
-
-  const getBgForDir=(dir)=>{
-    if(isGenderMode()){
-      if(dir==='left') return 'var(--der-bg)';
-      if(dir==='up') return 'var(--das-bg)';
-      if(dir==='right') return 'var(--die-bg)';
-      return null;
-    }
-    return DIR_BG[dir]||null;
-  };
-
-  const onStart=(ex,ey)=>{
-    if(cur>=deck.length||resultTimer) return;
-    dragging=true; sx=ex; sy=ey; cx=0; cy=0;
-    cw=el.getBoundingClientRect().width;
-    el.style.transition='none';
-  };
-
-  const onMove=(ex,ey)=>{
-    if(!dragging) return;
-    cx=ex-sx; cy=ey-sy;
-    // resist downward in gender mode (no down dir)
-    const displayY=(isGenderMode()&&cy>0)?cy*0.18:cy;
-    el.style.transform=`translate(${cx}px,${displayY}px) rotate(${cx/cw*15}deg)`;
-    const dir=getDir(cx,cy);
-    // skip 'down' in gender mode
-    const activeDir=(isGenderMode()&&dir==='down')?null:dir;
-    const dist=Math.max(Math.abs(cx),Math.abs(cy));
-    const str=Math.min(dist/60,1);
-    DIRS.forEach(d=>{
-      const lbl=document.getElementById('lbl-'+d);
-      if(lbl) lbl.style.opacity=(d===activeDir?str:0);
-    });
-    const bg=document.getElementById('card-bg');
-    const bgColor=activeDir?getBgForDir(activeDir):null;
-    if(bgColor){bg.style.background=bgColor;bg.style.opacity=str*0.4;}
-    else bg.style.opacity=0;
-  };
-
-  const onEnd=()=>{
-    if(!dragging) return; dragging=false;
-    const dir=getDir(cx,cy);
-    const activeDir=(isGenderMode()&&dir==='down')?null:dir;
-    const dist=Math.max(Math.abs(cx),Math.abs(cy));
-    if(activeDir&&dist>58){
-      const tx=activeDir==='left'?-440:activeDir==='right'?440:0;
-      const ty=activeDir==='up'?-480:activeDir==='down'?480:0;
-      // スワイプ確定: アニメと同時に即判定
-      if(isGenderMode()){
-        const artMap={left:'der',up:'das',right:'die'};
-        evaluate(artMap[activeDir], true);
-      } else {
-        evaluateQuiz(activeDir, true);
-      }
+  const onE=()=>{
+    if(!drag)return;drag=false;
+    const dir=gdir(cx,cy),adir=(isG()&&dir==='down')?null:dir,dist=Math.max(Math.abs(cx),Math.abs(cy));
+    if(adir&&dist>58){
+      if(isG())ev({left:'der',up:'das',right:'die'}[adir],true);else evQ(adir,true);
       el.style.transition='transform 0.28s ease,opacity 0.28s ease';
-      el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;
-      el.style.opacity='0';
-    } else {
-      el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';
-      el.style.transform='';
-      setTimeout(()=>{el.style.transition='';},400);
-      resetCardViz();
-    }
+      const tx=adir==='left'?-440:adir==='right'?440:0,ty=adir==='up'?-480:adir==='down'?480:0;
+      el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;el.style.opacity='0';
+    }else{el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';el.style.transform='';setTimeout(()=>{el.style.transition='';},400);resetViz();}
   };
-
-  el.addEventListener('mousedown',e=>onStart(e.clientX,e.clientY));
-  window.addEventListener('mousemove',e=>{if(dragging)onMove(e.clientX,e.clientY);});
-  window.addEventListener('mouseup',onEnd);
-  el.addEventListener('touchstart',e=>{const t=e.touches[0];onStart(t.clientX,t.clientY);},{passive:true});
-  window.addEventListener('touchmove',e=>{if(dragging){const t=e.touches[0];onMove(t.clientX,t.clientY);}},{passive:true});
-  window.addEventListener('touchend',onEnd);
+  el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
+  window.addEventListener('mousemove',e=>{if(drag)onM(e.clientX,e.clientY);});
+  window.addEventListener('mouseup',onE);
+  el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY);},{passive:true});
+  window.addEventListener('touchmove',e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}},{passive:true});
+  window.addEventListener('touchend',onE);
 }
+function resetViz(){DIRS.forEach(d=>{const el=document.getElementById('lbl-'+d);if(el)el.style.opacity=0;});const bg=document.getElementById('card-bg');bg.style.opacity=0;bg.style.background='';}
 
-function resetCardViz(){
-  DIRS.forEach(d=>{const el=document.getElementById('lbl-'+d);if(el)el.style.opacity=0;});
-  const bg=document.getElementById('card-bg');
-  bg.style.opacity=0; bg.style.background='';
-}
-
-/* ===================== FINISH ===================== */
+/* ===== FINISH ===== */
 function showFinish(){
-  const pct=deck.length>0?Math.round(sessionScore/deck.length*100):0;
-  const emoji=pct>=80?'🎉':pct>=50?'👍':'📚';
+  const pct=deck.length>0?Math.round(score/deck.length*100):0,em=pct>=80?'🎉':pct>=50?'👍':'📚';
   document.querySelector('#study .card-area').style.display='none';
   document.getElementById('choice-area').style.display='none';
-  document.getElementById('result-bar').style.display='none';
-  document.getElementById('study-footer').innerHTML=`
-    <div class="finish-wrap">
-      <div class="finish-title">完了！ ${emoji}</div>
-      <div class="finish-score">${sessionScore}<span style="font-size:1.8rem;color:var(--text2)"> / ${deck.length}</span></div>
-      <div class="finish-sub">正解率 ${pct}%</div>
-      <div class="finish-breakdown">
-        <div class="fb-item"><div class="fv">${deck.length-sessionScore}</div><div class="fl">不正解</div></div>
-        <div class="fb-item"><div class="fv">${sessionStreak}</div><div class="fl">最終連続</div></div>
-      </div>
-      <button class="finish-btn" onclick="startMode(currentMode)">もう一度</button>
-      <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>
-    </div>`;
+  document.getElementById('study-footer').innerHTML=`<div class="finish-wrap">
+    <div class="finish-title">完了！ ${em}</div>
+    <div class="finish-score">${score}<span style="font-size:1.8rem;color:var(--text2)"> / ${deck.length}</span></div>
+    <div style="font-size:14px;color:var(--text2)">正解率 ${pct}%</div>
+    <div class="finish-breakdown">
+      <div class="fb-item"><div class="fv">${deck.length-score}</div><div class="fl">不正解</div></div>
+      <div class="fb-item"><div class="fv">${streak}</div><div class="fl">最終連続</div></div>
+    </div>
+    <button class="finish-btn" onclick="startMode(curMode)">もう一度</button>
+    <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>
+  </div>`;
 }
 
-/* ===================== STATS ===================== */
-let currentFilter='all';
-function showStats(){
-  showScreen('stats');
-  renderStats();
+/* ===== SPELLING ===== */
+let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spShift=false,spCopy=false,spTarget='',spMode='all';
+const KB=[
+  ['q','w','e','r','t','z','u','i','o','p','ü'],
+  ['a','s','d','f','g','h','j','k','l','ö','ä'],
+  ['⇧','y','x','c','v','b','n','m','ß','⌫'],
+];
+function buildKB(){
+  document.getElementById('sp-keyboard').innerHTML=KB.map(row=>`<div class="kb-row">${row.map(k=>`
+    <button class="kb-key${k==='⇧'||k==='⌫'?' special':''}" id="kk-${k}"
+      ontouchstart="kp('${k}');event.preventDefault();" onclick="kp('${k}')">${k}</button>`).join('')}</div>`).join('');
 }
-function setFilter(f,btn){
-  currentFilter=f;
-  document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderStats();
+function kp(k){
+  if(k==='⇧'){spShift=!spShift;const b=document.getElementById('kk-⇧');if(b)b.classList.toggle('shift-active',spShift);return;}
+  if(k==='⌫'){spInput=spInput.slice(0,-1);renderDisp();if(!spCopy)checkSp();return;}
+  const ch=spShift?k.toUpperCase():k;spShift=false;const sb=document.getElementById('kk-⇧');if(sb)sb.classList.remove('shift-active');
+  spInput+=ch;renderDisp();
+  if(spCopy){if(spInput===spTarget){document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';document.getElementById('sp-feedback').className='sp-feedback ok';setTimeout(spNext,800);}return;}
+  checkSp();
 }
+function renderDisp(){
+  const el=document.getElementById('sp-display');
+  let html='';
+  for(let i=0;i<spInput.length;i++){
+    const ok2=!spCopy||spInput[i]===spTarget[i];
+    html+=`<span class="sp-char${ok2?'':' wrong'}">${spInput[i]}</span>`;
+  }
+  if(spInput.length===0||spInput.length<spTarget.length)html+='<span class="sp-char cursor"> </span>';
+  el.innerHTML=html||'<span class="sp-char cursor"> </span>';
+}
+function checkSp(){
+  if(spInput.length<spTarget.length)return;
+  if(spInput===spTarget){
+    spScore++;spStreak++;
+    document.getElementById('sp-feedback').textContent='✓ 正解！';document.getElementById('sp-feedback').className='sp-feedback ok';
+    document.getElementById('sp-score-lbl').textContent=`正解 ${spScore}`;document.getElementById('sp-streak').textContent=spStreak;
+    const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].correct++;sd[w.word].total++;saveSP(sd);
+    setTimeout(spNext,700);
+  }else{
+    spStreak=0;document.getElementById('sp-streak').textContent=spStreak;
+    const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
+    spInput='';spCopy=true;
+    document.getElementById('sp-copy-hint').style.display='';
+    document.getElementById('sp-feedback').textContent=`正解: ${spTarget}`;document.getElementById('sp-feedback').className='sp-feedback ng';
+    const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
+    renderDisp();
+  }
+}
+function spSkip(){
+  // わからない: 答えを見せて写経モードへ（不正解扱い）
+  if(spCopy)return;
+  spStreak=0;document.getElementById('sp-streak').textContent=spStreak;
+  const sd=loadSP(),w=spDeck[spCur];
+  if(!sd[w.word])sd[w.word]={correct:0,total:0};
+  sd[w.word].total++;saveSP(sd);
+  spInput='';spCopy=true;
+  document.getElementById('sp-copy-hint').style.display='';
+  document.getElementById('sp-copy-hint').textContent='答えを確認 — 正しいスペルを写してください';
+  document.getElementById('sp-feedback').textContent=`正解: ${spTarget}`;
+  document.getElementById('sp-feedback').className='sp-feedback ng';
+  document.getElementById('sp-skip-btn').classList.add('hidden');
+  renderDisp();
+}
+function spNext(){
+  spCur++;spCopy=false;spInput='';
+  document.getElementById('sp-copy-hint').style.display='none';document.getElementById('sp-feedback').textContent='';
+  if(spCur>=spDeck.length){spFinish();return;}
+  renderSpCard();
+}
+function renderSpCard(){
+  const w=spDeck[spCur];spTarget=w.word;spInput='';spCopy=false;
+  document.getElementById('sp-progress').style.width=(spCur/spDeck.length*100)+'%';
+  document.getElementById('sp-count').textContent=`${spCur}/${spDeck.length}`;
+  document.getElementById('sp-prompt').textContent=w.trans;
+  document.getElementById('sp-prompt').className='sp-prompt'+(w.word.length>12?' small':'');
+  document.getElementById('sp-type').textContent=w.type?`[${w.type}]`:'';
+  document.getElementById('sp-feedback').textContent='';document.getElementById('sp-feedback').className='sp-feedback';
+  document.getElementById('sp-copy-hint').style.display='none';
+  const skipBtn=document.getElementById('sp-skip-btn');if(skipBtn)skipBtn.classList.remove('hidden');
+  renderDisp();
+}
+function spFinish(){
+  const pct=spDeck.length>0?Math.round(spScore/spDeck.length*100):0;
+  document.getElementById('spelling').innerHTML=`<div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0.8rem;">
+    <div style="font-family:var(--serif);font-size:2.4rem">完了！ ${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
+    <div style="font-size:3.5rem;font-weight:300">${spScore}<span style="font-size:1.8rem;color:var(--text2)"> / ${spDeck.length}</span></div>
+    <div style="font-size:14px;color:var(--text2)">正解率 ${pct}%</div>
+    <button class="finish-btn" onclick="startSpell(spMode)">もう一度</button>
+    <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>
+  </div>`;
+}
+function startSpell(mode){
+  spMode=mode;const sd=loadSP();
+  let words=[];
+  if(mode==='all')words=shuf(ALL_SPELL);
+  else if(mode==='numbers')words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
+  else if(mode==='wrong'){words=shuf(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}));if(!words.length){alert('スペリングで間違えた単語がありません！');return;}}
+  spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
+  document.getElementById('sp-title').textContent=mode==='numbers'?'数詞スペリング':mode==='wrong'?'間違えた単語':'スペリング全単語';
+  document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
+  showScreen('spelling');buildKB();renderSpCard();
+}
+
+/* ===== STATS ===== */
+let curFilter='all';
+function showStats(){showScreen('stats');renderStats();}
+function setFilter(f,btn){curFilter=f;document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderStats();}
 function renderStats(){
-  const d=loadData(),today=todayStr();
+  const d=loadD(),td=today();
   const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
-  const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0);
-  const tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
-  const todayOk=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===today?wd.correct:0),0);
+  const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0),tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
+  const tok=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
   document.getElementById('sv-studied').textContent=studied.length;
   document.getElementById('sv-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
-  document.getElementById('sv-today').textContent=todayOk;
-
+  document.getElementById('sv-today').textContent=tok;
   let list=[...ALL_WORDS];
-  if(currentFilter==='studied') list=list.filter(w=>getWD(d,w.word).total>0);
-  else if(currentFilter==='weak') list=list.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct/wd.total<0.5;});
-  else if(currentFilter==='unstudied') list=list.filter(w=>getWD(d,w.word).total===0);
-  list.sort((a,b)=>{
-    const wa=getWD(d,a.word),wb=getWD(d,b.word);
-    const pa=wa.total>0?wa.correct/wa.total:1.1,pb=wb.total>0?wb.correct/wb.total:1.1;
-    return pa-pb;
-  });
+  if(curFilter==='studied')list=list.filter(w=>getWD(d,w.word).total>0);
+  else if(curFilter==='weak')list=list.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct/wd.total<0.5;});
+  else if(curFilter==='important')list=list.filter(w=>w.important);
+  else if(curFilter==='unstudied')list=list.filter(w=>getWD(d,w.word).total===0);
+  list.sort((a,b)=>{const wa=getWD(d,a.word),wb=getWD(d,b.word),pa=wa.total>0?wa.correct/wa.total:1.1,pb=wb.total>0?wb.correct/wb.total:1.1;return pa-pb;});
   const el=document.getElementById('word-list');
   if(!list.length){el.innerHTML='<div class="empty-state">該当する単語がありません</div>';return;}
   el.innerHTML=list.map(w=>{
-    const wd=getWD(d,w.word);
-    const pct=wd.total>0?Math.round(wd.correct/wd.total*100):null;
+    const wd=getWD(d,w.word),pct=wd.total>0?Math.round(wd.correct/wd.total*100):null;
     const col=pct===null?'var(--border)':pct>=70?'var(--ok)':pct>=40?'#e0a020':'var(--ng)';
     return `<div class="word-row">
-      <span class="wr-article art-${w.art}">${w.art}</span>
+      <span class="wr-article art-${w.art||'none'}">${w.art||'—'}</span>
+      ${w.important?'<span class="wr-imp">⭐</span>':''}
       <span class="wr-word">${w.word}</span>
       <span class="wr-trans">${w.trans}</span>
       <div class="wr-bar-wrap">
         <div class="wr-bar-track"><div class="wr-bar-fill" style="width:${pct??0}%;background:${col}"></div></div>
         <div class="wr-pct">${pct!==null?pct+'%':'未学習'}</div>
-      </div>
-    </div>`;
+      </div></div>`;
   }).join('');
 }
 
-/* ===================== NAV ===================== */
+/* ===== NAV ===== */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id==='study'){
     document.querySelector('#study .card-area').style.display='';
     document.getElementById('choice-area').style.display='';
-    document.getElementById('result-bar').style.display='';
-    document.getElementById('result-bar').className='result-bar';
-    clearLastResult();
-    document.getElementById('study-footer').innerHTML='';
+    clearLR();document.getElementById('study-footer').innerHTML='';
   }
 }
 function goMenu(){
-  if(resultTimer){clearTimeout(resultTimer);resultTimer=null;}
-  showScreen('menu');
-  updateMenuStats();
-  renderMenuCards();
-  currentFilter='all';
+  if(rtimer){clearTimeout(rtimer);rtimer=null;}
+  showScreen('menu');updateStats();renderMenu();curFilter='all';
 }
 
-/* ===================== INIT ===================== */
-updateMenuStats();
-renderMenuCards();
+/* INIT */
+updateStats();renderMenu();
 </script>
 </body>
 </html>
