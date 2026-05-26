@@ -413,7 +413,7 @@ const ALL_WORDS_RAW=[
   {word:'Kirche',trans:'教会',art:'die',cat:'建物'},
   {word:'Schloss',trans:'城',art:'das',cat:'建物'},
   // CSV追加単語
-  {word:'Kinder',trans:'子どもたち（複数）',art:'die',cat:'家族'},
+  {word:'Kinder',trans:'子どもたち（複数）',art:'die',cat:'家族',plural:true},
   {word:'Mädchen',trans:'女の子',art:'das',cat:'人'},
   {word:'Stuhl',trans:'椅子',art:'der',cat:'家具'},
   {word:'Bank',trans:'ベンチ・銀行',art:'die',cat:'場所'},
@@ -428,7 +428,7 @@ const ALL_WORDS_RAW=[
   {word:'Regenschirm',trans:'傘',art:'der',cat:'物'},
   {word:'Tasche',trans:'バッグ・ポケット',art:'die',cat:'物'},
   {word:'Computer',trans:'コンピュータ',art:'der',cat:'物'},
-  {word:'Eltern',trans:'両親',art:'die',cat:'家族',important:true},
+  {word:'Eltern',trans:'両親',art:'die',cat:'家族',important:true,plural:true},
   {word:'Krawatte',trans:'ネクタイ',art:'die',cat:'物'},
   {word:'Getränk',trans:'飲み物',art:'das',cat:'飲み物'},
   {word:'Saft',trans:'ジュース',art:'der',cat:'飲み物'},
@@ -445,7 +445,7 @@ const ALL_WORDS_RAW=[
   {word:'Wurst',trans:'ソーセージ',art:'die',cat:'食べ物'},
   {word:'Käse',trans:'チーズ',art:'der',cat:'食べ物'},
   {word:'Suppe',trans:'スープ',art:'die',cat:'食べ物'},
-  {word:'Nudeln',trans:'麺・パスタ（複数）',art:'die',cat:'食べ物'},
+  {word:'Nudeln',trans:'麺・パスタ（複数）',art:'die',cat:'食べ物',plural:true},
   {word:'Kuchen',trans:'ケーキ',art:'der',cat:'食べ物'},
   {word:'Butter',trans:'バター',art:'die',cat:'食べ物'},
   {word:'Zucker',trans:'砂糖',art:'der',cat:'食べ物'},
@@ -470,8 +470,8 @@ const ALL_WORDS_RAW=[
   {word:'Zitrone',trans:'レモン',art:'die',cat:'食べ物'},
   {word:'Gemüse',trans:'野菜',art:'das',cat:'食べ物'},
   {word:'Familie',trans:'家族',art:'die',cat:'家族',important:true},
-  {word:'Geschwister',trans:'兄弟姉妹',art:'die',cat:'家族',important:true},
-  {word:'Verwandte',trans:'親戚',art:'die',cat:'家族',important:true},
+  {word:'Geschwister',trans:'兄弟姉妹',art:'die',cat:'家族',important:true,plural:true},
+  {word:'Verwandte',trans:'親戚',art:'die',cat:'家族',important:true,plural:true},
   {word:'Enkel',trans:'孫',art:'der',cat:'家族',important:true},
   {word:'Cousin',trans:'いとこ（男）',art:'der',cat:'家族',important:true},
   {word:'Sohn',trans:'息子',art:'der',cat:'家族',important:true},
@@ -672,11 +672,13 @@ function startMode(mode){
   const d=loadD(); curMode=mode;
   const titles={all:'全単語',today:'今日の単語',wrong:'間違えた単語',weak:'苦手な単語',important:'重要語'};
   let words=[];
-  if(mode==='all') words=shuf(ALL_WORDS);
+  const gWords=ALL_WORDS.filter(w=>!w.plural);
+  if(mode==='all') words=isG()?shuf(gWords):shuf(ALL_WORDS);
   else if(mode==='today'){words=getTodayDeck();if(!words.length){alert('今日の単語はすべて完了！');return;}}
-  else if(mode==='wrong'){words=shuf(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
-  else if(mode==='weak'){words=shuf(ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
-  else if(mode==='important') words=shuf(ALL_WORDS.filter(w=>w.important));
+  if(isG()) words=words.filter(w=>!w.plural);
+  else if(mode==='wrong'){words=shuf((isG()?gWords:ALL_WORDS).filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
+  else if(mode==='weak'){words=shuf((isG()?gWords:ALL_WORDS).filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
+  else if(mode==='important') words=shuf((isG()?gWords:ALL_WORDS).filter(w=>w.important));
   deck=words;cur=0;score=0;streak=0;
   document.getElementById('study-title').textContent=titles[mode]||mode;
   document.getElementById('st-streak').textContent='0';
