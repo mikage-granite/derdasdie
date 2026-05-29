@@ -195,7 +195,7 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .wr-pct{font-size:10px;color:var(--text2);text-align:right;margin-top:2px;}
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px;}
 /* SPELLING */
-#spelling{background:var(--bg);}
+#spelling{background:var(--bg);overflow-y:auto;}
 .sp-question{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.8rem 1.5rem 0.4rem;text-align:center;gap:0.3rem;}
 .sp-q-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);}
 .sp-prompt{font-family:var(--serif);font-size:2.2rem;line-height:1.1;}
@@ -214,7 +214,6 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .sp-skip-btn{margin-top:0.3rem;padding:8px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;font-family:var(--sans);font-size:12px;color:var(--text3);cursor:pointer;transition:color 0.1s,background 0.1s;display:block;}
 .sp-skip-btn:active{background:var(--bg3);color:var(--text2);}
 .sp-skip-btn.hidden{display:none;}
-#spelling{overflow-y:auto;}
 .sp-top{display:contents;}
 .sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.5rem calc(env(safe-area-inset-bottom,0)+2rem);display:flex;flex-direction:column;gap:5px;}
 .kb-row{display:flex;gap:4px;justify-content:center;}
@@ -510,12 +509,10 @@ const SPELL_EXTRA=[
   {word:'dort',trans:'そこで',type:'副詞'},
   {word:'nicht',trans:'〜ではない',type:'副詞'},
   {word:'mein',trans:'私の',type:'代名詞'},
-  {word:'dein',trans:'君の',type:'代名詞'},
+  {word:'dein',trans:'あなたの',type:'代名詞'},
   {word:'sein',trans:'彼の',type:'代名詞'},
   {word:'unser',trans:'私たちの',type:'代名詞'},
-  {word:'euer',trans:'君たちの',type:'代名詞'},
-  {word:'ihr',trans:'彼女の、彼らの',type:'代名詞'},
-  {word:'Ihr',trans:'あなた方の',type:'代名詞'},
+  {word:'euer',trans:'あなた方の',type:'代名詞'},
   {word:'wer',trans:'誰が',type:'疑問詞'},
   {word:'was',trans:'何が',type:'疑問詞'},
   {word:'wo',trans:'どこで',type:'疑問詞'},
@@ -553,7 +550,7 @@ const SPELL_EXTRA=[
   {word:'achtzig',trans:'80',type:'数詞'},{word:'neunzig',trans:'90',type:'数詞'},
   {word:'hundert',trans:'100',type:'数詞'},
 ];
-const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat})),...SPELL_EXTRA];
+const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...SPELL_EXTRA];
 
 /* ===== STORAGE ===== */
 const LS_KEY='derdiedas_v2';
@@ -638,9 +635,14 @@ function renderMenu(){
     const ss=ALL_SPELL.filter(w=>sd[w.word]&&sd[w.word].total>0).length;
     let stc=0,stq=0;ALL_SPELL.forEach(w=>{if(sd[w.word]){stc+=sd[w.word].correct;stq+=sd[w.word].total;}});
     const sacc=stq>0?Math.round(stc/stq*100)+'%':'—';
-    html+=mc('spell-icon','✏️','全単語スペリング',`名詞・動詞・数詞など全${ALL_SPELL.length}語`,"startSpell('all')")+
+    const impSpCount=ALL_SPELL.filter(w=>w.important).length;
+    const hardSpCount=ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8).length;
+    const wrongSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}).length;
+    html+=mc('spell-icon','✏️','全単語',`名詞・動詞・数詞など全${ALL_SPELL.length}語`,"startSpell('all')")+
+          mc('imp-icon','⭐','重要語（家族）',`家族の単語 ${impSpCount}語を優先練習`,"startSpell('important')","<span class='badge badge-imp'>優先反復</span>")+
+          mc('spell-icon','🔤','間違えやすい単語',`特殊文字・長い単語 ${hardSpCount}語`,"startSpell('hard')")+
           mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
-          mc('wrong-icon','❌','間違えたもの','スペリングで不正解だった単語',"startSpell('wrong')");
+          mc('wrong-icon','❌','間違えたもの',`スペリングで不正解だった単語`,"startSpell('wrong')",wrongSpCount>0?`<span class='badge badge-warn'>${wrongSpCount} 語</span>`:'');
     html=`<div class="menu-section"><div class="menu-section-title">スペリングモード</div>${html}</div>`;
     // スペリング成績はmenu-stats-rowに表示済み
   } else {
@@ -674,13 +676,18 @@ function startMode(mode){
   const d=loadD(); curMode=mode;
   const titles={all:'全単語',today:'今日の単語',wrong:'間違えた単語',weak:'苦手な単語',important:'重要語'};
   let words=[];
-  const gWords=ALL_WORDS.filter(w=>!w.plural);
-  if(mode==='all') words=isG()?shuf(gWords):shuf(ALL_WORDS);
-  else if(mode==='today'){words=getTodayDeck();if(!words.length){alert('今日の単語はすべて完了！');return;}}
-  if(isG()) words=words.filter(w=>!w.plural);
-  else if(mode==='wrong'){words=shuf((isG()?gWords:ALL_WORDS).filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
-  else if(mode==='weak'){words=shuf((isG()?gWords:ALL_WORDS).filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
-  else if(mode==='important') words=shuf((isG()?gWords:ALL_WORDS).filter(w=>w.important));
+  // 冠詞モードでは複数形を除外したプールを使う
+  const pool=isG()?ALL_WORDS.filter(w=>!w.plural):ALL_WORDS;
+  if(mode==='all') words=shuf(pool);
+  else if(mode==='today'){
+    let td=getTodayDeck();
+    if(isG()) td=td.filter(w=>!w.plural);
+    if(!td.length){alert('今日の単語はすべて完了！');return;}
+    words=td;
+  }
+  else if(mode==='wrong'){words=shuf(pool.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
+  else if(mode==='weak'){words=shuf(pool.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
+  else if(mode==='important') words=shuf(pool.filter(w=>w.important));
   deck=words;cur=0;score=0;streak=0;
   document.getElementById('study-title').textContent=titles[mode]||mode;
   document.getElementById('st-streak').textContent='0';
@@ -704,7 +711,7 @@ function renderCard(){
   }else{document.getElementById('next-label').textContent='';document.getElementById('next-word').textContent='';}
   resetViz();
   const ac=document.getElementById('active-card');
-  ac.style.cssText='transform:;opacity:;transition:none;';
+  ac.style.transform='';ac.style.opacity='';ac.style.transition='none';
   setTimeout(()=>{ac.style.transition='';},30);
   if(isG()) renderGender(w); else renderQuiz(w);
 }
@@ -764,7 +771,7 @@ function evQ(dir,fromSwipe=false){
   const w=deck[cur],ok=choiceMap[dir]===correctIdx,jd=curTab==='vocab-jd',ca=jd?w.word:w.trans;
   rec(w,ok);
   const sub=jd?(ok?w.trans:`${w.art} ${w.word} = ${w.trans}`):(ok?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
-  showLR(ok,ok?ca:`正解： ${ca}`,ok?sub:'');
+  showLR(ok,ok?ca:`正解： ${ca}`,sub);
   if(fromSwipe){cur++;renderCard();setupDrag();}
   else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
 }
@@ -776,7 +783,10 @@ function rec(w,ok){
 }
 
 /* ===== DRAG ===== */
+let _dragCleanup=null;
 function setupDrag(){
+  // 前回のwindowリスナーを削除してリークを防ぐ
+  if(_dragCleanup)_dragCleanup();
   const card=document.getElementById('active-card');
   const fresh=card.cloneNode(true);card.parentNode.replaceChild(fresh,card);
   const el=document.getElementById('active-card');
@@ -804,12 +814,16 @@ function setupDrag(){
       el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;el.style.opacity='0';
     }else{el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';el.style.transform='';setTimeout(()=>{el.style.transition='';},400);resetViz();}
   };
+  const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
+  const wTM=e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}};
   el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
-  window.addEventListener('mousemove',e=>{if(drag)onM(e.clientX,e.clientY);});
+  window.addEventListener('mousemove',wMM);
   window.addEventListener('mouseup',onE);
   el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY);},{passive:true});
-  window.addEventListener('touchmove',e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}},{passive:true});
+  window.addEventListener('touchmove',wTM,{passive:true});
   window.addEventListener('touchend',onE);
+  // クリーンアップ関数を保存
+  _dragCleanup=()=>{window.removeEventListener('mousemove',wMM);window.removeEventListener('mouseup',onE);window.removeEventListener('touchmove',wTM);window.removeEventListener('touchend',onE);};
 }
 function resetViz(){DIRS.forEach(d=>{const el=document.getElementById('lbl-'+d);if(el)el.style.opacity=0;});const bg=document.getElementById('card-bg');bg.style.opacity=0;bg.style.background='';}
 
@@ -832,7 +846,7 @@ function showFinish(){
 }
 
 /* ===== SPELLING ===== */
-let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spCopy=false,spTarget='',spMode='all';
+let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spCopy=false,spTarget='',spMode='all',spWaiting=false;
 const KB=[
   ['q','w','e','r','t','z','u','i','o','p','ü'],
   ['a','s','d','f','g','h','j','k','l','ö','ä'],
@@ -844,9 +858,10 @@ function buildKB(){
       ontouchstart="kp('${k}');event.preventDefault();" onclick="kp('${k}')">${k}</button>`).join('')}</div>`).join('');
 }
 function kp(k){
+  if(spWaiting)return;
   if(k==='⌫'){spInput=spInput.slice(0,-1);renderDisp();if(!spCopy)checkSp();return;}
   spInput+=k;renderDisp();
-  if(spCopy){if(spInput===spTarget){document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';document.getElementById('sp-feedback').className='sp-feedback ok';setTimeout(spNext,800);}return;}
+  if(spCopy){if(spInput===spTarget){document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';document.getElementById('sp-feedback').className='sp-feedback ok';spWaiting=true;setTimeout(spNext,800);}return;}
   checkSp();
 }
 function renderDisp(){
@@ -866,7 +881,7 @@ function checkSp(){
     document.getElementById('sp-feedback').textContent='✓ 正解！';document.getElementById('sp-feedback').className='sp-feedback ok';
     document.getElementById('sp-score-lbl').textContent=`正解 ${spScore}`;document.getElementById('sp-streak').textContent=spStreak;
     const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].correct++;sd[w.word].total++;saveSP(sd);
-    setTimeout(spNext,700);
+    spWaiting=true;setTimeout(spNext,700);
   }else{
     spStreak=0;document.getElementById('sp-streak').textContent=spStreak;
     const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
@@ -893,7 +908,7 @@ function spSkip(){
   renderDisp();
 }
 function spNext(){
-  spCur++;spCopy=false;spInput='';
+  spWaiting=false;spCur++;spCopy=false;spInput='';
   document.getElementById('sp-copy-hint').style.display='none';document.getElementById('sp-feedback').textContent='';
   if(spCur>=spDeck.length){spFinish();return;}
   renderSpCard();
@@ -912,22 +927,45 @@ function renderSpCard(){
 }
 function spFinish(){
   const pct=spDeck.length>0?Math.round(spScore/spDeck.length*100):0;
-  document.getElementById('spelling').innerHTML=`<div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0.8rem;">
-    <div style="font-family:var(--serif);font-size:2.4rem">完了！ ${pct>=80?'🎉':pct>=50?'👍':'📚'}</div>
+  const em=pct>=80?'🎉':pct>=50?'👍':'📚';
+  // innerHTML上書きをやめてfinish overlayを挿入する（再利用可能なHTMLを保持するため）
+  let fin=document.getElementById('sp-finish-overlay');
+  if(!fin){fin=document.createElement('div');fin.id='sp-finish-overlay';
+    fin.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0.8rem;background:var(--bg);z-index:100;';
+    document.getElementById('spelling').style.position='relative';
+    document.getElementById('spelling').appendChild(fin);}
+  fin.innerHTML=`
+    <div style="font-family:var(--serif);font-size:2.4rem">完了！ ${em}</div>
     <div style="font-size:3.5rem;font-weight:300">${spScore}<span style="font-size:1.8rem;color:var(--text2)"> / ${spDeck.length}</span></div>
     <div style="font-size:14px;color:var(--text2)">正解率 ${pct}%</div>
-    <button class="finish-btn" onclick="startSpell(spMode)">もう一度</button>
-    <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>
-  </div>`;
+    <button class="finish-btn" onclick="startSpell(spMode)" style="margin-top:0.5rem">もう一度</button>
+    <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>`;
+  fin.style.display='flex';
 }
 function startSpell(mode){
   spMode=mode;const sd=loadSP();
   let words=[];
-  if(mode==='all')words=shuf(ALL_SPELL);
-  else if(mode==='numbers')words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
-  else if(mode==='wrong'){words=shuf(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}));if(!words.length){alert('スペリングで間違えた単語がありません！');return;}}
+  if(mode==='all') words=shuf(ALL_SPELL);
+  else if(mode==='important'){
+    // 重要語（家族）: ALL_SPELL中でimportant=trueのもの（名詞由来）を優先、足りなければ全体から補充
+    const imp=ALL_SPELL.filter(w=>w.important);
+    words=shuf(imp);
+    if(!words.length){alert('重要語が見つかりません');return;}
+  }
+  else if(mode==='hard'){
+    // 間違えやすい：特殊文字含む or 8文字以上
+    words=shuf(ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8));
+    if(!words.length){alert('該当する単語がありません');return;}
+  }
+  else if(mode==='numbers') words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
+  else if(mode==='wrong'){
+    words=shuf(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}));
+    if(!words.length){alert('スペリングで間違えた単語がありません！');return;}
+  }
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
-  document.getElementById('sp-title').textContent=mode==='numbers'?'数詞スペリング':mode==='wrong'?'間違えた単語':'スペリング全単語';
+  const finOv=document.getElementById('sp-finish-overlay');if(finOv)finOv.style.display='none';
+  const titleMap={all:'スペリング全単語',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',wrong:'間違えた単語'};
+  document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
 }
@@ -979,6 +1017,7 @@ function showScreen(id){
 }
 function goMenu(){
   if(rtimer){clearTimeout(rtimer);rtimer=null;}
+  if(_dragCleanup){_dragCleanup();_dragCleanup=null;}
   showScreen('menu');updateStats();renderMenu();curFilter='all';
 }
 
