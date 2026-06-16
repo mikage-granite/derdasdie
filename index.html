@@ -47,8 +47,8 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .menu-hero{padding:2.2rem 1.5rem 0.8rem;}
 .menu-hero h1{font-family:var(--serif);font-size:2.8rem;line-height:1;color:var(--text);margin-bottom:0.2rem;}
 .menu-hero p{font-size:13px;color:var(--text2);font-weight:300;}
-.mode-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 1.5rem 0.8rem;}
-.mode-tab{padding:11px 4px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:12px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;white-space:nowrap;min-height:44px;display:flex;align-items:center;justify-content:center;width:100%;}
+.mode-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:0 1.5rem 0.8rem;}
+.mode-tab{padding:11px 4px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:11px;font-weight:400;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;white-space:nowrap;min-height:44px;display:flex;align-items:center;justify-content:center;width:100%;}
 .mode-tab.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500;}
 .menu-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 1.5rem 0.8rem;}
 .stat-pill{background:var(--bg2);border-radius:12px;padding:0.65rem;text-align:center;}
@@ -159,6 +159,21 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 @keyframes flashOk{0%{background:var(--ok-bg);}100%{background:var(--bg2);}}
 @keyframes flashNg{0%{background:var(--ng-bg);}100%{background:var(--bg2);}}
 .study-footer{padding:0.3rem 1rem calc(env(safe-area-inset-bottom,0)+0.8rem);}
+/* PREP CHOICES */
+.prep-btn{padding:12px 8px;border-radius:13px;border:1px solid var(--border);background:var(--bg2);cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);transition:transform 0.1s,background 0.1s;user-select:none;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center;}
+.prep-btn:active{transform:scale(0.95);}
+.prep-btn.p2,.p2lbl{border-color:#b09060;color:#7a5000;background:#fff8ee;}
+.prep-btn.p3,.p3lbl{border-color:var(--der-mid);color:var(--der-text);background:var(--der-bg);}
+.prep-btn.p4,.p4lbl{border-color:var(--das-mid);color:var(--das-text);background:var(--das-bg);}
+.prep-btn.p34,.p34lbl{border-color:var(--die-mid);color:var(--die-text);background:var(--die-bg);}
+.prep-btn.correct{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);}
+.prep-btn.wrong{background:var(--ng-bg);border-color:var(--ng);color:var(--ng);}
+@media(prefers-color-scheme:dark){
+  .prep-btn.p2,.p2lbl{background:#2a1a00;}
+  .prep-btn.p3,.p3lbl{background:var(--der-bg);}
+  .prep-btn.p4,.p4lbl{background:var(--das-bg);}
+  .prep-btn.p34,.p34lbl{background:var(--die-bg);}
+}
 /* FINISH */
 .finish-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;gap:0.6rem;}
 .finish-title{font-family:var(--serif);font-size:2.4rem;}
@@ -215,6 +230,11 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 .sp-skip-btn:active{background:var(--bg3);color:var(--text2);}
 .sp-skip-btn.hidden{display:none;}
 .sp-top{display:contents;}
+.sp-two-box{display:flex;align-items:center;gap:0.6rem;width:100%;max-width:360px;}
+.sp-part-box{flex:1;min-height:52px;background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:0.6rem 0.75rem;font-family:var(--serif);font-size:1.6rem;display:flex;align-items:center;flex-wrap:wrap;gap:1px;letter-spacing:0.04em;}
+.sp-part-box.active{border-color:var(--text);}
+.sp-part-box.done{opacity:0.55;}
+.sp-part-sep{font-size:1.2rem;color:var(--text3);flex-shrink:0;}
 .sp-keyboard{width:100%;max-width:400px;margin:0 auto;padding:0.3rem 0.5rem calc(env(safe-area-inset-bottom,0)+2rem);display:flex;flex-direction:column;gap:5px;}
 .kb-row{display:flex;gap:4px;justify-content:center;}
 .kb-key{flex:1;max-width:36px;min-width:28px;height:44px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);font-family:var(--sans);font-size:15px;font-weight:400;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.08s,transform 0.08s;user-select:none;-webkit-tap-highlight-color:transparent;}
@@ -233,6 +253,7 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
     <button class="mode-tab" id="tab-vocab-jd" onclick="switchTab('vocab-jd')">日→独</button>
     <button class="mode-tab" id="tab-vocab-dj" onclick="switchTab('vocab-dj')">独→日</button>
     <button class="mode-tab" id="tab-spell" onclick="switchTab('spell')">スペリング</button>
+    <button class="mode-tab" id="tab-prep" onclick="switchTab('prep')">前置詞</button>
   </div>
   <div id="gender-toggle-area" style="padding:0 1.5rem 0.4rem;display:none;">
     <div class="toggle-row">
@@ -316,6 +337,51 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
   <div class="sp-keyboard" id="sp-keyboard"></div>
 </div>
 
+<!-- PREPOSITIONS -->
+<div id="prep-screen" class="screen">
+  <div class="study-header">
+    <div class="back-btn" onclick="goMenu()">‹</div>
+    <div class="study-title" id="prep-title">前置詞</div>
+    <div class="streak-badge">🔥<span id="prep-streak">0</span></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prep-progress" style="width:0%"></div></div>
+    <div class="progress-label"><span id="prep-count">0/0</span><span id="prep-score-lbl">正解 0</span></div>
+  </div>
+  <!-- 前回の結果バナー -->
+  <div class="last-result-area">
+    <div class="last-result" id="prep-last-result">
+      <div class="lr-icon" id="prep-lr-icon"></div>
+      <div class="lr-body"><div class="lr-answer" id="prep-lr-answer"></div><div class="lr-sub" id="prep-lr-sub"></div></div>
+    </div>
+  </div>
+  <!-- 問題カード（スタック構造） -->
+  <div class="card-area" id="prep-card-area">
+    <div class="card-stack">
+      <div class="card is-next" id="prep-next-card">
+        <div class="card-q-label" id="prep-next-label"></div>
+        <div class="card-word" id="prep-next-word"></div>
+      </div>
+      <div class="card is-active" id="prep-card" style="touch-action:none;cursor:grab;will-change:transform;">
+        <div class="card-bg" id="prep-card-bg"></div>
+        <div class="card-lbl lbl-left" id="prep-lbl-left"></div>
+        <div class="card-lbl lbl-up" id="prep-lbl-up"></div>
+        <div class="card-lbl lbl-right" id="prep-lbl-right"></div>
+        <div class="card-lbl lbl-down" id="prep-lbl-down"></div>
+        <div class="card-q-label">格支配は？</div>
+        <div class="card-word" id="prep-word"></div>
+        <div class="card-trans" id="prep-trans"></div>
+        <div class="card-stat" id="prep-hist"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 4択ボタン（十字レイアウト） -->
+  <div class="quiz-choices" id="prep-choices"></div>
+  <!-- 例文表示エリア -->
+  <div style="min-height:44px;margin:0 1rem 0.3rem;border-radius:12px;padding:0.5rem 0.9rem;font-size:12px;font-weight:400;text-align:center;opacity:0;transition:opacity 0.2s;" id="prep-example"></div>
+  <div class="study-footer" id="prep-footer"></div>
+</div>
+
 <!-- STATS -->
 <div id="stats" class="screen">
   <div class="stats-header">
@@ -327,12 +393,12 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
     <div class="ov-card"><div class="ov-val" id="sv-acc">—</div><div class="ov-lbl">正答率</div></div>
     <div class="ov-card"><div class="ov-val" id="sv-today">0</div><div class="ov-lbl">今日の正解</div></div>
   </div>
-  <div class="stats-filter">
+  <div class="stats-filter" id="stats-filter-row">
     <button class="sf-btn active" onclick="setFilter('all',this)">すべて</button>
-    <button class="sf-btn" onclick="setFilter('studied',this)">学習済み</button>
-    <button class="sf-btn" onclick="setFilter('weak',this)">苦手</button>
-    <button class="sf-btn" onclick="setFilter('important',this)">重要語</button>
-    <button class="sf-btn" onclick="setFilter('unstudied',this)">未学習</button>
+    <button class="sf-btn sf-studied" onclick="setFilter('studied',this)">学習済み</button>
+    <button class="sf-btn sf-weak" onclick="setFilter('weak',this)">苦手</button>
+    <button class="sf-btn sf-important" onclick="setFilter('important',this)">重要語</button>
+    <button class="sf-btn sf-unstudied" onclick="setFilter('unstudied',this)">未学習</button>
   </div>
   <div class="word-list" id="word-list"></div>
 </div>
@@ -481,9 +547,88 @@ const ALL_WORDS_RAW=[
   {word:'Großmutter',trans:'祖母',art:'die',cat:'家族',important:true},
   {word:'Tante',trans:'おば',art:'die',cat:'家族',important:true},
   {word:'Nichte',trans:'姪',art:'die',cat:'家族',important:true},
+  {word:'Krankheit',trans:'病気',art:'die',cat:'概念'},
+  {word:'Bus',trans:'バス',art:'der',cat:'乗り物'},
+  {word:'U-Bahn',trans:'地下鉄',art:'die',cat:'乗り物'},
+  {word:'Fuß',trans:'足',art:'der',cat:'体'},
+  // 曜日
+  {word:'Montag',trans:'月曜日',art:'der',cat:'時間'},
+  {word:'Dienstag',trans:'火曜日',art:'der',cat:'時間'},
+  {word:'Mittwoch',trans:'水曜日',art:'der',cat:'時間'},
+  {word:'Donnerstag',trans:'木曜日',art:'der',cat:'時間'},
+  {word:'Freitag',trans:'金曜日',art:'der',cat:'時間'},
+  {word:'Samstag',trans:'土曜日',art:'der',cat:'時間'},
+  {word:'Sonntag',trans:'日曜日',art:'der',cat:'時間'},
+  // 月
+  {word:'Januar',trans:'1月',art:'der',cat:'時間'},
+  {word:'Februar',trans:'2月',art:'der',cat:'時間'},
+  {word:'März',trans:'3月',art:'der',cat:'時間'},
+  {word:'April',trans:'4月',art:'der',cat:'時間'},
+  {word:'Mai',trans:'5月',art:'der',cat:'時間'},
+  {word:'Juni',trans:'6月',art:'der',cat:'時間'},
+  {word:'Juli',trans:'7月',art:'der',cat:'時間'},
+  {word:'August',trans:'8月',art:'der',cat:'時間'},
+  {word:'September',trans:'9月',art:'der',cat:'時間'},
+  {word:'Oktober',trans:'10月',art:'der',cat:'時間'},
+  {word:'November',trans:'11月',art:'der',cat:'時間'},
+  {word:'Dezember',trans:'12月',art:'der',cat:'時間'},
+  // 場所・施設
+  {word:'Bibliothek',trans:'図書館',art:'die',cat:'場所'},
+  {word:'Mensa',trans:'学食',art:'die',cat:'場所'},
+  {word:'Oper',trans:'オペラ座',art:'die',cat:'場所'},
+  {word:'Kneipe',trans:'居酒屋・パブ',art:'die',cat:'場所'},
+  {word:'Kino',trans:'映画館',art:'das',cat:'場所'},
+  {word:'Theater',trans:'劇場',art:'das',cat:'場所'},
+  {word:'Hotel',trans:'ホテル',art:'das',cat:'場所'},
+  {word:'Museum',trans:'博物館',art:'das',cat:'場所'},
+  {word:'Restaurant',trans:'レストラン',art:'das',cat:'場所'},
+  {word:'Café',trans:'カフェ',art:'das',cat:'場所'},
+  {word:'Uni',trans:'大学',art:'die',cat:'場所'},
+  {word:'Post',trans:'郵便局',art:'die',cat:'場所'},
+  {word:'Bahnhof',trans:'駅',art:'der',cat:'場所'},
+  {word:'Park',trans:'公園',art:'der',cat:'場所'},
+  {word:'Supermarkt',trans:'スーパーマーケット',art:'der',cat:'場所'},
 ];
 const seenW=new Set();
 const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seenW.has(w.word))return false;seenW.add(w.word);return true;});
+
+// 前置詞モード用データ
+const PREPOSITIONS=[
+  // 2格支配
+  {word:'während',trans:'〜の間',case:'2格',ex:'während des Sommers（夏の間）'},
+  {word:'wegen',trans:'〜のせいで',case:'2格',ex:'wegen der Krankheit（病気のせいで）'},
+  {word:'trotz',trans:'〜にもかかわらず',case:'2格',ex:'trotz des Regens（雨にもかかわらず）'},
+  {word:'statt',trans:'〜の代わりに',case:'2格',ex:'statt des Busses（バスの代わりに）'},
+  // 3格支配
+  {word:'aus',trans:'〜から・〜製',case:'3格',ex:'aus der Stadt（町から）'},
+  {word:'bei',trans:'〜のそばで・〜の家で',case:'3格',ex:'bei dem Arzt（医者のところで）'},
+  {word:'mit',trans:'〜と一緒に・〜で',case:'3格',ex:'mit dem Bus（バスで）'},
+  {word:'nach',trans:'〜の後・〜へ（地名）',case:'3格',ex:'nach Japan（日本へ）'},
+  {word:'seit',trans:'〜以来・〜前から',case:'3格',ex:'seit einem Jahr（1年前から）'},
+  {word:'von',trans:'〜から・〜の',case:'3格',ex:'von der Schule（学校から）'},
+  {word:'zu',trans:'〜へ・〜に',case:'3格',ex:'zu Fuß（徒歩で）'},
+  {word:'gegenüber',trans:'〜の向かいに',case:'3格',ex:'gegenüber dem Bahnhof（駅の向かいに）'},
+  {word:'außer',trans:'〜を除いて',case:'3格',ex:'außer mir（私以外）'},
+  // 4格支配
+  {word:'durch',trans:'〜を通って・〜によって',case:'4格',ex:'durch den Park（公園を通って）'},
+  {word:'für',trans:'〜のために・〜に対して',case:'4格',ex:'für mich（私のために）'},
+  {word:'gegen',trans:'〜に対して・〜頃',case:'4格',ex:'gegen den Wind（風に向かって）'},
+  {word:'ohne',trans:'〜なしで',case:'4格',ex:'ohne Geld（お金なしで）'},
+  {word:'um',trans:'〜の周りに・〜時に',case:'4格',ex:'um den See（湖の周りに）'},
+  {word:'bis',trans:'〜まで',case:'4格',ex:'bis nächste Woche（来週まで）'},
+  // 3・4格支配（Wechselpräpositionen）
+  {word:'an',trans:'〜に接して・〜際に',case:'3・4格',ex:'an der Wand（壁に）/ an die Wand（壁に向けて）'},
+  {word:'auf',trans:'〜の上に',case:'3・4格',ex:'auf dem Tisch（テーブルの上に）/ auf den Tisch（テーブルの上へ）'},
+  {word:'hinter',trans:'〜の後ろに',case:'3・4格',ex:'hinter dem Haus（家の後ろに）'},
+  {word:'in',trans:'〜の中に・〜に',case:'3・4格',ex:'in der Stadt（町の中に）/ in die Stadt（町へ）'},
+  {word:'neben',trans:'〜の隣に',case:'3・4格',ex:'neben dem Stuhl（椅子の隣に）'},
+  {word:'über',trans:'〜の上方に・〜について',case:'3・4格',ex:'über dem Tisch（テーブルの上方に）'},
+  {word:'unter',trans:'〜の下に',case:'3・4格',ex:'unter dem Bett（ベッドの下に）'},
+  {word:'vor',trans:'〜の前に・〜前に（時間）',case:'3・4格',ex:'vor dem Haus（家の前に）'},
+  {word:'zwischen',trans:'〜の間に',case:'3・4格',ex:'zwischen den Stühlen（椅子の間に）'},
+];
+const PREP_KEY='derdiedas_prep_v1';
+const loadPR=()=>load(PREP_KEY);const savePR=d=>save(PREP_KEY,d);
 
 const SPELL_EXTRA=[
   {word:'sprechen',trans:'話す',type:'動詞'},
@@ -512,7 +657,7 @@ const SPELL_EXTRA=[
   {word:'dein',trans:'君の',type:'代名詞'},
   {word:'sein',trans:'彼の',type:'代名詞'},
   {word:'unser',trans:'私たちの',type:'代名詞'},
-  {word:'euer',trans:'君たちの',type:'代名詞'},
+  {word:'euer',trans:'あなた方の',type:'代名詞'},
   {word:'wer',trans:'誰が',type:'疑問詞'},
   {word:'was',trans:'何が',type:'疑問詞'},
   {word:'wo',trans:'どこで',type:'疑問詞'},
@@ -549,6 +694,36 @@ const SPELL_EXTRA=[
   {word:'sechzig',trans:'60',type:'数詞'},{word:'siebzig',trans:'70',type:'数詞'},
   {word:'achtzig',trans:'80',type:'数詞'},{word:'neunzig',trans:'90',type:'数詞'},
   {word:'hundert',trans:'100',type:'数詞'},
+  // 前置詞
+  {word:'während',trans:'〜の間（2格支配）',type:'前置詞'},
+  {word:'wegen',trans:'〜のせいで（2格支配）',type:'前置詞'},
+  {word:'aus',trans:'〜から・〜製（3格支配）',type:'前置詞'},
+  {word:'bei',trans:'〜のそばで（3格支配）',type:'前置詞'},
+  {word:'mit',trans:'〜と一緒に（3格支配）',type:'前置詞'},
+  {word:'nach',trans:'〜の後・〜へ（3格支配）',type:'前置詞'},
+  {word:'seit',trans:'〜以来（3格支配）',type:'前置詞'},
+  {word:'von',trans:'〜から・〜の（3格支配）',type:'前置詞'},
+  {word:'zu',trans:'〜へ・〜に（3格支配）',type:'前置詞'},
+  {word:'gegenüber',trans:'〜の向かいに（3格支配）',type:'前置詞'},
+  {word:'durch',trans:'〜を通って（4格支配）',type:'前置詞'},
+  {word:'für',trans:'〜のために（4格支配）',type:'前置詞'},
+  {word:'ohne',trans:'〜なしで（4格支配）',type:'前置詞'},
+  {word:'um',trans:'〜の周りに（4格支配）',type:'前置詞'},
+  {word:'an',trans:'〜に接して（3・4格支配）',type:'前置詞'},
+  {word:'auf',trans:'〜の上に（3・4格支配）',type:'前置詞'},
+  {word:'hinter',trans:'〜の後ろに（3・4格支配）',type:'前置詞'},
+  {word:'in',trans:'〜の中に（3・4格支配）',type:'前置詞'},
+  {word:'neben',trans:'〜の隣に（3・4格支配）',type:'前置詞'},
+  {word:'über',trans:'〜の上方に（3・4格支配）',type:'前置詞'},
+  {word:'unter',trans:'〜の下に（3・4格支配）',type:'前置詞'},
+  {word:'vor',trans:'〜の前に（3・4格支配）',type:'前置詞'},
+  {word:'zwischen',trans:'〜の間に（3・4格支配）',type:'前置詞'},
+  {word:'zu Fuß',trans:'徒歩で',type:'表現'},
+  // 動詞+前置詞（2マス入力）
+  {word:'antworten auf',parts:['antworten','auf'],trans:'〜に答える',type:'動詞+前置詞'},
+  {word:'denken an',parts:['denken','an'],trans:'〜について考える',type:'動詞+前置詞'},
+  {word:'warten auf',parts:['warten','auf'],trans:'〜を待つ',type:'動詞+前置詞'},
+  {word:'fragen nach',parts:['fragen','nach'],trans:'〜について尋ねる',type:'動詞+前置詞'},
 ];
 const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...SPELL_EXTRA];
 
@@ -591,7 +766,7 @@ const isG=()=>curTab==='gender';
 /* ===== MENU ===== */
 function switchTab(t){
   curTab=t;
-  ['gender','vocab-jd','vocab-dj','spell'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('active',x===t));
+  ['gender','vocab-jd','vocab-dj','spell','prep'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('active',x===t));
   updateStats();renderMenu();
 }
 function updateStats(){
@@ -600,6 +775,16 @@ function updateStats(){
   // トグル表示制御
   const tog=document.getElementById('gender-toggle-area');
   if(tog){tog.style.display=t==='gender'?'':'none';const cb=document.getElementById('tg-trans');if(cb)cb.checked=getShowTrans();}
+  if(t==='prep'){
+    const pd=loadPR();
+    const ps=PREPOSITIONS.filter(w=>pd[w.word]&&pd[w.word].total>0).length;
+    let ptc=0,ptq=0;PREPOSITIONS.forEach(w=>{if(pd[w.word]){ptc+=pd[w.word].correct;ptq+=pd[w.word].total;}});
+    const ptok=Object.values(pd).reduce((a,wd)=>a+(wd.lastSeen===today()?wd.correct:0),0);
+    document.getElementById('m-studied').textContent=ps;
+    document.getElementById('m-today-ok').textContent=ptq>0?Math.round(ptc/ptq*100)+'%':'—';
+    document.getElementById('m-acc').textContent=ptok;
+    return;
+  }
   let s1,s2,s3,l1='学習済み',l2='正答率',l3='今日の正解';
   if(t==='spell'){
     const ss=ALL_SPELL.filter(w=>sd[w.word]&&sd[w.word].total>0).length;
@@ -638,37 +823,50 @@ function renderMenu(){
     const impSpCount=ALL_SPELL.filter(w=>w.important).length;
     const hardSpCount=ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8).length;
     const wrongSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}).length;
-    html+=mc('spell-icon','✏️','全単語',`名詞・動詞・数詞など全${ALL_SPELL.length}語`,"startSpell('all')")+
-          mc('imp-icon','⭐','重要語（家族）',`家族の単語 ${impSpCount}語を優先練習`,"startSpell('important')","<span class='badge badge-imp'>優先反復</span>")+
-          mc('spell-icon','🔤','間違えやすい単語',`特殊文字・長い単語 ${hardSpCount}語`,"startSpell('hard')")+
+    const wrongSpBadge=wrongSpCount>0?"<span class='badge badge-warn'>"+wrongSpCount+" 語</span>":'';
+    html+=mc('spell-icon','✏️','全単語','名詞・動詞・数詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
+          mc('imp-icon','⭐','重要語（家族）','家族の単語 '+impSpCount+'語を優先練習',"startSpell('important')",'<span class="badge badge-imp">優先反復</span>')+
+          mc('spell-icon','🔤','間違えやすい単語','特殊文字・長い単語 '+hardSpCount+'語',"startSpell('hard')")+
           mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
-          mc('wrong-icon','❌','間違えたもの',`スペリングで不正解だった単語`,"startSpell('wrong')",wrongSpCount>0?`<span class='badge badge-warn'>${wrongSpCount} 語</span>`:'');
-    html=`<div class="menu-section"><div class="menu-section-title">スペリングモード</div>${html}</div>`;
+          mc('wrong-icon','❌','間違えたもの','スペリングで不正解だった単語',"startSpell('wrong')",wrongSpBadge);
+    html='<div class="menu-section"><div class="menu-section-title">スペリングモード</div>'+html+'</div>';
     // スペリング成績はmenu-stats-rowに表示済み
+  } else if(t==='prep'){
+    const pd=loadPR();
+    const wrongPrCount=PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>0&&wd.correct<wd.total;}).length;
+    const wrongBadge=wrongPrCount>0?"<span class='badge badge-warn'>"+wrongPrCount+" 語</span>":'';
+    html+='<div class="menu-section"><div class="menu-section-title">前置詞モード</div>'
+      +mc('all-icon','📋','全前置詞','2格・3格・4格・3/4格支配 全'+PREPOSITIONS.length+'語',"startPrep('all')")
+      +mc('wrong-icon','❌','間違えたもの','過去に不正解だった前置詞',"startPrep('wrong')",wrongBadge)
+      +mc('stats-icon','📊','成績を見る','前置詞ごとの正答率','showStats()')
+      +'</div>';
   } else {
     const ml=t==='gender'?'冠詞を当てる':t==='vocab-jd'?'日本語→ドイツ語 4択':'ドイツ語→日本語 4択';
-    html+=`<div class="menu-section"><div class="menu-section-title">今日</div>
-      <div class="menu-card today-card" onclick="startMode('today')">
-        <div class="menu-card-inner"><div class="menu-icon today-icon">📅</div>
-        <div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p>
-          <span class="badge badge-new">${due.length>0?`本日 ${due.length} 問`:'今日は完了！'}</span>
-        </div><div class="menu-arrow">›</div></div></div></div>`;
-    html+=`<div class="menu-section"><div class="menu-section-title">復習モード — ${ml}</div>
-      ${mc('all-icon','📚','全単語',`全${ALL_WORDS.length}語をランダムに出題`,"startMode('all')")}
-      ${mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"startMode('important')","<span class='badge badge-imp'>優先反復</span>")}
-      ${mc('wrong-icon','❌','間違えたもの','過去に不正解だった単語',"startMode('wrong')",wc>0?`<span class='badge badge-warn'>${wc} 語</span>`:'')}
-      ${mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wk>0?`<span class='badge badge-warn'>${wk} 語</span>`:'')}
-    </div>`;
-    html+=`<div class="menu-section"><div class="menu-section-title">記録</div>${mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴','showStats()')}</div>`;
+    const todayBadge=due.length>0?'本日 '+due.length+' 問':'今日は完了！';
+    html+='<div class="menu-section"><div class="menu-section-title">今日</div>'
+      +'<div class="menu-card today-card" onclick="startMode(\x27today\x27)">'
+      +'<div class="menu-card-inner"><div class="menu-icon today-icon">📅</div>'
+      +'<div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p>'
+      +'<span class="badge badge-new">'+todayBadge+'</span>'
+      +'</div><div class="menu-arrow">›</div></div></div></div>';
+    const wcBadge=wc>0?"<span class='badge badge-warn'>"+wc+" 語</span>":'';
+    const wkBadge=wk>0?"<span class='badge badge-warn'>"+wk+" 語</span>":'';
+    html+='<div class="menu-section"><div class="menu-section-title">復習モード — '+ml+'</div>'
+      +mc('all-icon','📚','全単語','全'+ALL_WORDS.length+'語をランダムに出題',"startMode('all')")
+      +mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"startMode('important')",'<span class="badge badge-imp">優先反復</span>')
+      +mc('wrong-icon','❌','間違えたもの','過去に不正解だった単語',"startMode('wrong')",wcBadge)
+      +mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wkBadge)
+      +'</div>';
+    html+='<div class="menu-section"><div class="menu-section-title">記録</div>'+mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴','showStats()')+'</div>';
     // トグルはgender-toggle-areaに固定配置済み
   }
   document.getElementById('menu-cards').innerHTML=html;
 }
 function mc(icon,em,title,sub,action,badge=''){
-  return `<div class="menu-card" onclick="${action}"><div class="menu-card-inner">
-    <div class="menu-icon ${icon}">${em}</div>
-    <div class="menu-card-text"><h3>${title}</h3><p>${sub}</p>${badge}</div>
-    <div class="menu-arrow">›</div></div></div>`;
+  return '<div class="menu-card" onclick="'+action+'"><div class="menu-card-inner">'
+    +'<div class="menu-icon '+icon+'">'+em+'</div>'
+    +'<div class="menu-card-text"><h3>'+title+'</h3><p>'+sub+'</p>'+badge+'</div>'
+    +'<div class="menu-arrow">›</div></div></div>';
 }
 
 /* ===== START MODE ===== */
@@ -846,7 +1044,7 @@ function showFinish(){
 }
 
 /* ===== SPELLING ===== */
-let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spCopy=false,spTarget='',spMode='all',spWaiting=false;
+let spDeck=[],spCur=0,spScore=0,spStreak=0,spInput='',spCopy=false,spTarget='',spMode='all',spWaiting=false,spParts=null,spPhase=0,spAllCorrect=true;
 const KB=[
   ['q','w','e','r','t','z','u','i','o','p','ü'],
   ['a','s','d','f','g','h','j','k','l','ö','ä'],
@@ -861,40 +1059,114 @@ function kp(k){
   if(spWaiting)return;
   if(k==='⌫'){spInput=spInput.slice(0,-1);renderDisp();if(!spCopy)checkSp();return;}
   spInput+=k;renderDisp();
-  if(spCopy){if(spInput===spTarget){document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';document.getElementById('sp-feedback').className='sp-feedback ok';spWaiting=true;setTimeout(spNext,800);}return;}
+  if(spCopy){
+    if(spInput===spTarget){
+      if(spParts&&spPhase===0){
+        // フェーズ0写経完了 → フェーズ1へ
+        spPhase=1;spTarget=spParts[1];spInput='';spCopy=false;
+        document.getElementById('sp-copy-hint').style.display='none';
+        document.getElementById('sp-feedback').textContent='次は前置詞を入力してください';
+        document.getElementById('sp-feedback').className='sp-feedback ng';
+        const skipBtn=document.getElementById('sp-skip-btn');if(skipBtn)skipBtn.classList.remove('hidden');
+        renderDisp();
+      } else {
+        document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…';
+        document.getElementById('sp-feedback').className='sp-feedback ok';
+        spWaiting=true;setTimeout(spNext,800);
+      }
+    }
+    return;
+  }
   checkSp();
 }
 function renderDisp(){
   const el=document.getElementById('sp-display');
-  let html='';
-  for(let i=0;i<spInput.length;i++){
-    const ok2=!spCopy||spInput[i]===spTarget[i];
-    html+=`<span class="sp-char${ok2?'':' wrong'}">${spInput[i]}</span>`;
+  if(spParts){
+    // 2マス表示
+    const buildBox=(target,input,isActive,isCopy)=>{
+      let h='';
+      for(let i=0;i<input.length;i++){
+        const ok=!isCopy||input[i]===target[i];
+        h+='<span class="sp-char'+(ok?'':' wrong')+'">'+input[i]+'</span>';
+      }
+      if(isActive&&(input.length===0||input.length<target.length))h+='<span class="sp-char cursor"> </span>';
+      return h;
+    };
+    let h='<div class="sp-two-box">';
+    if(spPhase===0){
+      h+='<div class="sp-part-box active">'+buildBox(spParts[0],spInput,true,spCopy)+'</div>';
+      h+='<span class="sp-part-sep">+</span>';
+      h+='<div class="sp-part-box" style="opacity:0.3"><span class="sp-char" style="color:var(--text3)">'+spParts[1]+'</span></div>';
+    } else {
+      h+='<div class="sp-part-box done">'+spParts[0].split('').map(c=>'<span class="sp-char">'+c+'</span>').join('')+'</div>';
+      h+='<span class="sp-part-sep">+</span>';
+      h+='<div class="sp-part-box active">'+buildBox(spParts[1],spInput,true,spCopy)+'</div>';
+    }
+    h+='</div>';
+    el.innerHTML=h;
+  } else {
+    let html='';
+    for(let i=0;i<spInput.length;i++){
+      const ok2=!spCopy||spInput[i]===spTarget[i];
+      html+='<span class="sp-char'+(ok2?'':' wrong')+'">'+spInput[i]+'</span>';
+    }
+    if(spInput.length===0||spInput.length<spTarget.length)html+='<span class="sp-char cursor"> </span>';
+    el.innerHTML=html||'<span class="sp-char cursor"> </span>';
   }
-  if(spInput.length===0||spInput.length<spTarget.length)html+='<span class="sp-char cursor"> </span>';
-  el.innerHTML=html||'<span class="sp-char cursor"> </span>';
 }
 function checkSp(){
   if(spInput.length<spTarget.length)return;
   if(spInput===spTarget){
-    spScore++;spStreak++;
-    document.getElementById('sp-feedback').textContent='✓ 正解！';document.getElementById('sp-feedback').className='sp-feedback ok';
-    document.getElementById('sp-score-lbl').textContent=`正解 ${spScore}`;document.getElementById('sp-streak').textContent=spStreak;
-    const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].correct++;sd[w.word].total++;saveSP(sd);
-    spWaiting=true;setTimeout(spNext,700);
-  }else{
+    if(spParts&&spPhase===0){
+      // フェーズ1完了 → フェーズ2へ
+      spPhase=1;spTarget=spParts[1];spInput='';spCopy=false;
+      document.getElementById('sp-feedback').textContent='✓ '+spParts[0]+'！次は前置詞';
+      document.getElementById('sp-feedback').className='sp-feedback ok';
+      const skipBtn=document.getElementById('sp-skip-btn');if(skipBtn)skipBtn.classList.remove('hidden');
+      renderDisp();
+    } else {
+      // 全フェーズ完了
+      if(spAllCorrect){
+        spScore++;spStreak++;
+        document.getElementById('sp-score-lbl').textContent='正解 '+spScore;
+        document.getElementById('sp-streak').textContent=spStreak;
+        document.getElementById('sp-feedback').textContent='✓ 正解！';document.getElementById('sp-feedback').className='sp-feedback ok';
+        const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].correct++;sd[w.word].total++;saveSP(sd);
+      } else {
+        document.getElementById('sp-feedback').textContent='✓ 写せました！';document.getElementById('sp-feedback').className='sp-feedback ok';
+      }
+      spWaiting=true;setTimeout(spNext,700);
+    }
+  } else {
+    spAllCorrect=false;
     spStreak=0;document.getElementById('sp-streak').textContent=spStreak;
-    const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
-    spInput='';spCopy=true;
-    document.getElementById('sp-copy-hint').style.display='';
-    document.getElementById('sp-feedback').textContent=`正解: ${spDeck[spCur].word}`;document.getElementById('sp-feedback').className='sp-feedback ng';
-    const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
+    if(spParts&&spPhase===0){
+      // フェーズ0不正解 → フェーズ0のみ写経
+      const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
+      spInput='';spCopy=true;
+      document.getElementById('sp-copy-hint').style.display='';
+      document.getElementById('sp-feedback').textContent='正解: '+spParts[0]+' … 写して次へ';document.getElementById('sp-feedback').className='sp-feedback ng';
+      const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
+    } else if(spParts&&spPhase===1){
+      // フェーズ1不正解 → フェーズ1のみ写経
+      const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
+      spInput='';spCopy=true;
+      document.getElementById('sp-copy-hint').style.display='';
+      document.getElementById('sp-feedback').textContent='正解: '+spParts[1]+' … 写して次へ';document.getElementById('sp-feedback').className='sp-feedback ng';
+      const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
+    } else {
+      const sd=loadSP(),w=spDeck[spCur];if(!sd[w.word])sd[w.word]={correct:0,total:0};sd[w.word].total++;saveSP(sd);
+      spInput='';spCopy=true;
+      document.getElementById('sp-copy-hint').style.display='';
+      document.getElementById('sp-feedback').textContent='正解: '+spDeck[spCur].word;document.getElementById('sp-feedback').className='sp-feedback ng';
+      const skipBtnNg=document.getElementById('sp-skip-btn');if(skipBtnNg)skipBtnNg.classList.add('hidden');
+    }
     renderDisp();
   }
 }
 function spSkip(){
-  // わからない: 答えを見せて写経モードへ（不正解扱い）
   if(spCopy)return;
+  spAllCorrect=false;
   spStreak=0;document.getElementById('sp-streak').textContent=spStreak;
   const sd=loadSP(),w=spDeck[spCur];
   if(!sd[w.word])sd[w.word]={correct:0,total:0};
@@ -902,19 +1174,23 @@ function spSkip(){
   spInput='';spCopy=true;
   document.getElementById('sp-copy-hint').style.display='';
   document.getElementById('sp-copy-hint').textContent='答えを確認 — 正しいスペルを写してください';
-  document.getElementById('sp-feedback').textContent=`正解: ${spDeck[spCur].word}`;
+  const hint=spParts?spParts[spPhase]:spDeck[spCur].word;
+  document.getElementById('sp-feedback').textContent='正解: '+hint;
   document.getElementById('sp-feedback').className='sp-feedback ng';
   document.getElementById('sp-skip-btn').classList.add('hidden');
   renderDisp();
 }
 function spNext(){
-  spWaiting=false;spCur++;spCopy=false;spInput='';
+  spWaiting=false;spCur++;spCopy=false;spInput='';spParts=null;spPhase=0;spAllCorrect=true;
   document.getElementById('sp-copy-hint').style.display='none';document.getElementById('sp-feedback').textContent='';
   if(spCur>=spDeck.length){spFinish();return;}
   renderSpCard();
 }
 function renderSpCard(){
-  const w=spDeck[spCur];spTarget=w.word.toLowerCase();spInput='';spCopy=false;
+  const w=spDeck[spCur];
+  spInput='';spCopy=false;spPhase=0;spAllCorrect=true;
+  if(w.parts){spParts=w.parts.map(p=>p.toLowerCase());spTarget=spParts[0];}
+  else{spParts=null;spTarget=w.word.toLowerCase();}
   document.getElementById('sp-progress').style.width=(spCur/spDeck.length*100)+'%';
   document.getElementById('sp-count').textContent=`${spCur}/${spDeck.length}`;
   document.getElementById('sp-prompt').textContent=w.trans;
@@ -970,11 +1246,237 @@ function startSpell(mode){
   showScreen('spelling');buildKB();renderSpCard();
 }
 
+/* ===== PREPOSITIONS MODE ===== */
+let prepDeck=[],prepCur=0,prepScore=0,prepStreak=0,prepRtimer=null,prepMode='all';
+
+const CASE_LABELS={'2格':'2格支配','3格':'3格支配','4格':'4格支配','3・4格':'3・4格支配'};
+const CASE_KEYS=['2格','3格','4格','3・4格'];
+const CASE_CLS={'2格':'p2','3格':'p3','4格':'p4','3・4格':'p34'};
+
+function startPrep(mode){
+  prepMode=mode;
+  const pd=loadPR();
+  let words=[];
+  if(mode==='all') words=shuf(PREPOSITIONS);
+  else if(mode==='wrong'){
+    words=shuf(PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>0&&wd.correct<wd.total;}));
+    if(!words.length){alert('間違えた前置詞がありません！');return;}
+  }
+  prepDeck=words;prepCur=0;prepScore=0;prepStreak=0;
+  document.getElementById('prep-title').textContent=mode==='wrong'?'間違えた前置詞':'前置詞 全問';
+  document.getElementById('prep-streak').textContent='0';
+  document.getElementById('prep-score-lbl').textContent='正解 0';
+  clearPrepLR();
+  showScreen('prep-screen');
+  renderPrepCard();
+}
+
+function renderPrepCard(){
+  if(prepCur>=prepDeck.length){showPrepFinish();return;}
+  // カードをリセット
+  const prepCardEl=document.getElementById('prep-card');
+  if(prepCardEl){prepCardEl.style.transition='none';prepCardEl.style.transform='';prepCardEl.style.opacity='1';}
+  const w=prepDeck[prepCur];
+  const pd=loadPR();
+  const wd=pd[w.word]||{correct:0,total:0};
+  document.getElementById('prep-progress').style.width=(prepCur/prepDeck.length*100)+'%';
+  document.getElementById('prep-count').textContent=`${prepCur}/${prepDeck.length}`;
+  document.getElementById('prep-word').textContent=w.word;
+  document.getElementById('prep-trans').textContent=w.trans;
+  document.getElementById('prep-hist').textContent=wd.total>0?`${Math.round(wd.correct/wd.total*100)}%(${wd.correct}/${wd.total})`:'初回';
+  document.getElementById('prep-example').style.opacity='0';
+  document.getElementById('prep-example').textContent='';
+  // 4択ボタン生成（正解を含む4つの格をシャッフル）
+  const correct=w.case;
+  const others=CASE_KEYS.filter(k=>k!==correct);
+  const opts=shuf([correct,...shuf(others).slice(0,3)]);
+  // 4択をDIRS順（left/up/right/down）に割り当て
+  const prepDirs=['left','up','right','down'];
+  const prepDirLabels={left:'←',up:'↑',right:'→',down:'↓'};
+  // opts は4つ（CASE_KEYSから生成）、各dirに割り当て
+  prepDirs.forEach((dir,i)=>{
+    const c=opts[i]||'';
+    const lbl=document.getElementById('prep-lbl-'+dir);
+    if(lbl){lbl.textContent=prepDirLabels[dir]+' '+CASE_LABELS[c];lbl.className='card-lbl lbl-'+dir+' '+(c?CASE_CLS[c]+'lbl':'');lbl.style.opacity='0';}
+  });
+  // prepDirMap: dir → case
+  window._prepDirMap={};
+  prepDirs.forEach((dir,i)=>{window._prepDirMap[dir]=opts[i]||'';});
+  document.getElementById('prep-card-bg').style.opacity='0';
+
+  // 次のカードを表示
+  const nxt=prepDeck[prepCur+1];
+  if(nxt){
+    document.getElementById('prep-next-label').textContent='次の前置詞';
+    document.getElementById('prep-next-word').textContent=nxt.word;
+  } else {
+    document.getElementById('prep-next-label').textContent='';
+    document.getElementById('prep-next-word').textContent='';
+  }
+
+  // 十字レイアウト（quiz-choicesと同じ）
+  const dirCls={left:'c3 qc-left',up:'c1 qc-up',right:'c4 qc-right',down:'c2 qc-down'};
+  document.getElementById('prep-choices').innerHTML=prepDirs.map((dir,i)=>{
+    const c=opts[i];
+    return '<button class="qc-btn '+dirCls[dir]+'" data-case="'+c+'" onclick="evalPrepBtn(this)">'
+      +'<span class="qc-dir">'+prepDirLabels[dir]+'</span>'
+      +'<span class="qc-txt">'+CASE_LABELS[c]+'</span>'
+      +'</button>';
+  }).join('');
+  setupPrepDrag();
+}
+
+function evalPrepBtn(el){evalPrep(el.dataset.case,false);}
+function evalPrep(chosen,fromSwipe=false){
+  if(prepRtimer)return;
+  const w=prepDeck[prepCur];
+  const isCorrect=chosen===w.case;
+  if(isCorrect){prepScore++;prepStreak++;}else{prepStreak=0;}
+  document.getElementById('prep-streak').textContent=prepStreak;
+  document.getElementById('prep-score-lbl').textContent=`正解 ${prepScore}`;
+  // 成績記録
+  const pd=loadPR();
+  if(!pd[w.word])pd[w.word]={correct:0,total:0,lastSeen:null};
+  pd[w.word].total++;if(isCorrect)pd[w.word].correct++;
+  pd[w.word].lastSeen=today();savePR(pd);
+  // 前回結果バナー
+  showPrepLR(isCorrect,
+    isCorrect?`✓ ${CASE_LABELS[w.case]}`:`正解： ${CASE_LABELS[w.case]}`,
+    w.ex);
+  // ボタンに正誤色付け
+  const btns=document.querySelectorAll('#prep-choices .qc-btn');
+  btns.forEach(btn=>{
+    const bc=btn.dataset.case;
+    if(bc===w.case) btn.style.cssText='background:var(--ok-bg);border-color:var(--ok);color:var(--ok);';
+    else if(bc===chosen&&!isCorrect) btn.style.cssText='background:var(--ng-bg);border-color:var(--ng);color:var(--ng);';
+    btn.disabled=true;
+  });
+  // 例文表示
+  const exEl=document.getElementById('prep-example');
+  exEl.textContent=w.ex;
+  exEl.style.background=isCorrect?'var(--ok-bg)':'var(--ng-bg)';
+  exEl.style.color=isCorrect?'var(--ok)':'var(--ng)';
+  exEl.style.opacity='1';
+  if(!fromSwipe){prepRtimer=setTimeout(()=>{prepRtimer=null;prepCur++;renderPrepCard();},520);}// fromSwipe時はonEで280ms後にrenderPrepCard
+}
+
+function showPrepLR(ok,ans,sub){
+  const el=document.getElementById('prep-last-result');
+  document.getElementById('prep-lr-icon').textContent=ok?'✓':'✗';
+  document.getElementById('prep-lr-answer').textContent=ans;
+  document.getElementById('prep-lr-sub').textContent=sub||'';
+  el.className='last-result show '+(ok?'ok':'ng');
+}
+function clearPrepLR(){document.getElementById('prep-last-result').className='last-result';}
+
+function showPrepFinish(){
+  const pct=prepDeck.length>0?Math.round(prepScore/prepDeck.length*100):0;
+  const em=pct>=80?'🎉':pct>=50?'👍':'📚';
+  document.getElementById('prep-choices').innerHTML='';
+  document.getElementById('prep-card-area').style.display='none';
+  const exEl=document.getElementById('prep-example');if(exEl)exEl.style.opacity='0';
+  document.getElementById('prep-footer').innerHTML=
+    '<div class="finish-wrap">'
+    +'<div class="finish-title">完了！ '+em+'</div>'
+    +'<div class="finish-score">'+prepScore+'<span style="font-size:1.8rem;color:var(--text2)"> / '+prepDeck.length+'</span></div>'
+    +'<div style="font-size:14px;color:var(--text2)">正解率 '+pct+'%</div>'
+    +'<div class="finish-breakdown">'
+    +'<div class="fb-item"><div class="fv">'+(prepDeck.length-prepScore)+'</div><div class="fl">不正解</div></div>'
+    +'<div class="fb-item"><div class="fv">'+prepStreak+'</div><div class="fl">最終連続</div></div>'
+    +'</div>'
+    +'<button class="finish-btn" onclick="startPrep(prepMode)">もう一度</button>'
+    +'<button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>'
+    +'</div>';
+}
+
+/* ===== PREP DRAG ===== */
+let _prepDragCleanup=null;
+function setupPrepDrag(){
+  if(_prepDragCleanup){_prepDragCleanup();_prepDragCleanup=null;}
+  const el=document.getElementById('prep-card');
+  if(!el)return;
+  let sx=0,sy=0,cx=0,cy=0,drag=false,cw=0;
+  const gdir=(dx,dy)=>{const ax=Math.abs(dx),ay=Math.abs(dy);if(ax<22&&ay<22)return null;return ax>ay?(dx<0?'left':'right'):(dy<0?'up':'down');};
+  const PREP_BG={p2:'#fff8ee',p3:'var(--der-bg)',p4:'var(--das-bg)',p34:'var(--die-bg)'};
+  const getCase=dir=>window._prepDirMap&&window._prepDirMap[dir]||null;
+  const onS=(ex,ey)=>{if(prepRtimer)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
+  const onM=(ex,ey)=>{
+    if(!drag)return;cx=ex-sx;cy=ey-sy;
+    el.style.transform='translate('+cx+'px,'+cy+'px) rotate('+(cx/cw*15)+'deg)';
+    const dir=gdir(cx,cy);
+    const dist=Math.max(Math.abs(cx),Math.abs(cy));
+    const str=Math.min(dist/60,1);
+    ['left','up','right','down'].forEach(d=>{
+      const lbl=document.getElementById('prep-lbl-'+d);
+      if(lbl)lbl.style.opacity=(d===dir?str:0);
+    });
+    const bg=document.getElementById('prep-card-bg');
+    const c=dir?getCase(dir):null;
+    if(c){bg.style.background=PREP_BG[CASE_CLS[c]]||'var(--bg3)';bg.style.opacity=str*0.4;}
+    else bg.style.opacity=0;
+  };
+  const onE=()=>{
+    if(!drag)return;drag=false;
+    const dir=gdir(cx,cy);
+    const dist=Math.max(Math.abs(cx),Math.abs(cy));
+    if(dir&&dist>58){
+      const chosen=getCase(dir);
+      if(chosen){
+        evalPrep(chosen,true);
+        const tx=dir==='left'?-440:dir==='right'?440:0;
+        const ty=dir==='up'?-480:dir==='down'?480:0;
+        el.style.transition='transform 0.28s ease,opacity 0.28s ease';
+        el.style.transform='translate('+tx+'px,'+ty+'px) rotate('+(tx/5)+'deg)';
+        el.style.opacity='0';
+        // アニメ完了後に次のカードを描画
+        setTimeout(()=>{prepCur++;renderPrepCard();},280);
+      }
+    } else {
+      el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';
+      el.style.transform='';
+      setTimeout(()=>{el.style.transition='';},400);
+      ['left','up','right','down'].forEach(d=>{
+        const lbl=document.getElementById('prep-lbl-'+d);
+        if(lbl)lbl.style.opacity=0;
+      });
+      document.getElementById('prep-card-bg').style.opacity=0;
+    }
+  };
+  const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
+  const wTM=e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}};
+  el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
+  window.addEventListener('mousemove',wMM);
+  window.addEventListener('mouseup',onE);
+  el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY);},{passive:true});
+  window.addEventListener('touchmove',wTM,{passive:true});
+  window.addEventListener('touchend',onE);
+  _prepDragCleanup=()=>{
+    window.removeEventListener('mousemove',wMM);
+    window.removeEventListener('mouseup',onE);
+    window.removeEventListener('touchmove',wTM);
+    window.removeEventListener('touchend',onE);
+  };
+}
+
 /* ===== STATS ===== */
 let curFilter='all';
 function showStats(){showScreen('stats');renderStats();}
 function setFilter(f,btn){curFilter=f;document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderStats();}
 function renderStats(){
+  const isPrepMode = curTab==='prep';
+
+  // フィルタボタンの表示切替（前置詞モードでは重要語・未学習フィルタ不要）
+  document.querySelector('.sf-important').style.display = isPrepMode?'none':'';
+  document.querySelector('.sf-unstudied').style.display = isPrepMode?'none':'';
+
+  if(isPrepMode){
+    renderPrepStats();
+  } else {
+    renderWordStats();
+  }
+}
+
+function renderWordStats(){
   const d=loadD(),td=today();
   const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
   const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0),tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
@@ -993,15 +1495,60 @@ function renderStats(){
   el.innerHTML=list.map(w=>{
     const wd=getWD(d,w.word),pct=wd.total>0?Math.round(wd.correct/wd.total*100):null;
     const col=pct===null?'var(--border)':pct>=70?'var(--ok)':pct>=40?'#e0a020':'var(--ng)';
-    return `<div class="word-row">
-      <span class="wr-article art-${w.art||'none'}">${w.art||'—'}</span>
-      ${w.important?'<span class="wr-imp">⭐</span>':''}
-      <span class="wr-word">${w.word}</span>
-      <span class="wr-trans">${w.trans}</span>
-      <div class="wr-bar-wrap">
-        <div class="wr-bar-track"><div class="wr-bar-fill" style="width:${pct??0}%;background:${col}"></div></div>
-        <div class="wr-pct">${pct!==null?pct+'%':'未学習'}</div>
-      </div></div>`;
+    return '<div class="word-row">'
+      +'<span class="wr-article art-'+(w.art||'none')+'">'+(w.art||'—')+'</span>'
+      +(w.important?'<span class="wr-imp">⭐</span>':'')
+      +'<span class="wr-word">'+w.word+'</span>'
+      +'<span class="wr-trans">'+w.trans+'</span>'
+      +'<div class="wr-bar-wrap"><div class="wr-bar-track"><div class="wr-bar-fill" style="width:'+(pct??0)+'%;background:'+col+'"></div></div>'
+      +'<div class="wr-pct">'+(pct!==null?pct+'%':'未学習')+'</div></div></div>';
+  }).join('');
+}
+
+function renderPrepStats(){
+  const pd=loadPR(),td=today();
+  const studied=PREPOSITIONS.filter(w=>pd[w.word]&&pd[w.word].total>0);
+  const tc=studied.reduce((s,w)=>s+pd[w.word].correct,0),tq=studied.reduce((s,w)=>s+pd[w.word].total,0);
+  const tok=Object.values(pd).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
+  document.getElementById('sv-studied').textContent=studied.length+'/'+PREPOSITIONS.length;
+  document.getElementById('sv-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
+  document.getElementById('sv-today').textContent=tok;
+  // 前置詞モードのフィルタ
+  const CASE_FILTER={'all':null,'studied':'studied','weak':'weak'};
+  let list=[...PREPOSITIONS];
+  if(curFilter==='studied')list=list.filter(w=>pd[w.word]&&pd[w.word].total>0);
+  else if(curFilter==='weak')list=list.filter(w=>pd[w.word]&&pd[w.word].total>0&&pd[w.word].correct/pd[w.word].total<0.5);
+  // 格ごとにグループ化してソート
+  list.sort((a,b)=>{
+    // まず格の順（2格→3格→4格→3・4格）、次に正答率昇順
+    const caseOrder={'2格':0,'3格':1,'4格':2,'3・4格':3};
+    const co=(caseOrder[a.case]??9)-(caseOrder[b.case]??9);
+    if(co!==0)return co;
+    const wa=pd[a.word]||{correct:0,total:0},wb=pd[b.word]||{correct:0,total:0};
+    const pa=wa.total>0?wa.correct/wa.total:1.1,pb=wb.total>0?wb.correct/wb.total:1.1;
+    return pa-pb;
+  });
+  const el=document.getElementById('word-list');
+  if(!list.length){el.innerHTML='<div class="empty-state">該当する前置詞がありません</div>';return;}
+  // 格ラベルのCSSクラス
+  const caseCls={'2格':'p2','3格':'p3','4格':'p4','3・4格':'p34'};
+  let lastCase='';
+  el.innerHTML=list.map(w=>{
+    const wd=pd[w.word]||{correct:0,total:0};
+    const pct=wd.total>0?Math.round(wd.correct/wd.total*100):null;
+    const col=pct===null?'var(--border)':pct>=70?'var(--ok)':pct>=40?'#e0a020':'var(--ng)';
+    let header='';
+    if(w.case!==lastCase){
+      lastCase=w.case;
+      header='<div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);padding:0.6rem 0 0.2rem;border-top:1px solid var(--border);margin-top:0.3rem">'
+        +(w.case==='3・4格'?'3格・4格支配（場所 / 方向）':w.case+'支配')+'</div>';
+    }
+    return header+'<div class="word-row">'
+      +'<span class="wr-article prep-btn '+caseCls[w.case]+'" style="font-size:10px;padding:2px 6px;border-radius:6px;">'+w.case+'</span>'
+      +'<span class="wr-word">'+w.word+'</span>'
+      +'<span class="wr-trans">'+w.trans+'</span>'
+      +'<div class="wr-bar-wrap"><div class="wr-bar-track"><div class="wr-bar-fill" style="width:'+(pct??0)+'%;background:'+col+'"></div></div>'
+      +'<div class="wr-pct">'+(pct!==null?pct+'%':'未学習')+'</div></div></div>';
   }).join('');
 }
 
@@ -1014,10 +1561,17 @@ function showScreen(id){
     document.getElementById('choice-area').style.display='';
     clearLR();document.getElementById('study-footer').innerHTML='';
   }
+  if(id==='prep-screen'){
+    document.getElementById('prep-footer').innerHTML='';
+    document.getElementById('prep-card-area').style.display='';
+    clearPrepLR();
+  }
 }
 function goMenu(){
   if(rtimer){clearTimeout(rtimer);rtimer=null;}
+  if(prepRtimer){clearTimeout(prepRtimer);prepRtimer=null;}
   if(_dragCleanup){_dragCleanup();_dragCleanup=null;}
+  if(_prepDragCleanup){_prepDragCleanup();_prepDragCleanup=null;}
   showScreen('menu');updateStats();renderMenu();curFilter='all';
 }
 
