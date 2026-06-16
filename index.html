@@ -1286,22 +1286,19 @@ function renderPrepCard(){
   document.getElementById('prep-hist').textContent=wd.total>0?`${Math.round(wd.correct/wd.total*100)}%(${wd.correct}/${wd.total})`:'初回';
   document.getElementById('prep-example').style.opacity='0';
   document.getElementById('prep-example').textContent='';
-  // 4択ボタン生成（正解を含む4つの格をシャッフル）
-  const correct=w.case;
-  const others=CASE_KEYS.filter(k=>k!==correct);
-  const opts=shuf([correct,...shuf(others).slice(0,3)]);
-  // 4択をDIRS順（left/up/right/down）に割り当て
-  const prepDirs=['left','up','right','down'];
+  // 固定マッピング: ↑=2格 ←=3格 →=4格 ↓=3・4格
+  const PREP_DIR_MAP={up:'2格',left:'3格',right:'4格',down:'3・4格'};
   const prepDirLabels={left:'←',up:'↑',right:'→',down:'↓'};
-  // opts は4つ（CASE_KEYSから生成）、各dirに割り当て
-  prepDirs.forEach((dir,i)=>{
-    const c=opts[i]||'';
+  const dirCls={left:'c3 qc-left',up:'c1 qc-up',right:'c4 qc-right',down:'c2 qc-down'};
+
+  // スワイプラベルをカードに設定
+  ['left','up','right','down'].forEach(dir=>{
+    const c=PREP_DIR_MAP[dir];
     const lbl=document.getElementById('prep-lbl-'+dir);
-    if(lbl){lbl.textContent=prepDirLabels[dir]+' '+CASE_LABELS[c];lbl.className='card-lbl lbl-'+dir+' '+(c?CASE_CLS[c]+'lbl':'');lbl.style.opacity='0';}
+    if(lbl){lbl.textContent=prepDirLabels[dir]+' '+CASE_LABELS[c];lbl.className='card-lbl lbl-'+dir+' '+CASE_CLS[c]+'lbl';lbl.style.opacity='0';}
   });
-  // prepDirMap: dir → case
-  window._prepDirMap={};
-  prepDirs.forEach((dir,i)=>{window._prepDirMap[dir]=opts[i]||'';});
+  // dirMap をグローバルに保存（drag用）
+  window._prepDirMap=Object.assign({},PREP_DIR_MAP);
   document.getElementById('prep-card-bg').style.opacity='0';
 
   // 次のカードを表示
@@ -1314,10 +1311,9 @@ function renderPrepCard(){
     document.getElementById('prep-next-word').textContent='';
   }
 
-  // 十字レイアウト（quiz-choicesと同じ）
-  const dirCls={left:'c3 qc-left',up:'c1 qc-up',right:'c4 qc-right',down:'c2 qc-down'};
-  document.getElementById('prep-choices').innerHTML=prepDirs.map((dir,i)=>{
-    const c=opts[i];
+  // 十字ボタン（固定位置）
+  document.getElementById('prep-choices').innerHTML=['left','up','right','down'].map(dir=>{
+    const c=PREP_DIR_MAP[dir];
     return '<button class="qc-btn '+dirCls[dir]+'" data-case="'+c+'" onclick="evalPrepBtn(this)">'
       +'<span class="qc-dir">'+prepDirLabels[dir]+'</span>'
       +'<span class="qc-txt">'+CASE_LABELS[c]+'</span>'
