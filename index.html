@@ -588,6 +588,18 @@ const ALL_WORDS_RAW=[
   {word:'Bahnhof',trans:'駅',art:'der',cat:'場所'},
   {word:'Park',trans:'公園',art:'der',cat:'場所'},
   {word:'Supermarkt',trans:'スーパーマーケット',art:'der',cat:'場所'},
+  // 部屋・物
+  {word:'Ausnahme',trans:'例外',art:'die',cat:'概念'},
+  {word:'Turnhalle',trans:'体育館',art:'die',cat:'場所'},
+  {word:'Gesundheit',trans:'健康',art:'die',cat:'概念'},
+  {word:'Fernseher',trans:'テレビ',art:'der',cat:'物'},
+  {word:'Bewegung',trans:'運動・動き',art:'die',cat:'概念'},
+  {word:'Boden',trans:'床・地面',art:'der',cat:'建物'},
+  {word:'Garten',trans:'庭',art:'der',cat:'場所'},
+  {word:'Toilette',trans:'トイレ',art:'die',cat:'建物'},
+  {word:'Wand',trans:'壁',art:'die',cat:'建物'},
+  {word:'Handy',trans:'携帯電話',art:'das',cat:'物'},
+  {word:'Vase',trans:'花瓶',art:'die',cat:'物'},
 ];
 const seenW=new Set();
 const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seenW.has(w.word))return false;seenW.add(w.word);return true;});
@@ -724,6 +736,26 @@ const SPELL_EXTRA=[
   {word:'denken an',parts:['denken','an'],trans:'〜について考える',type:'動詞+前置詞'},
   {word:'warten auf',parts:['warten','auf'],trans:'〜を待つ',type:'動詞+前置詞'},
   {word:'fragen nach',parts:['fragen','nach'],trans:'〜について尋ねる',type:'動詞+前置詞'},
+  // 話法の助動詞
+  {word:'dürfen',trans:'〜してもよい',type:'話法の助動詞'},
+  {word:'können',trans:'〜できる',type:'話法の助動詞'},
+  {word:'mögen',trans:'〜が好きだ',type:'話法の助動詞'},
+  {word:'müssen',trans:'〜しなければならない',type:'話法の助動詞'},
+  {word:'sollen',trans:'〜すべきだ',type:'話法の助動詞'},
+  {word:'wollen',trans:'〜するつもりだ',type:'話法の助動詞'},
+  {word:'möchte',trans:'〜したい',type:'話法の助動詞'},
+  {word:'werden',trans:'〜になる・〜だろう',type:'動詞'},
+  // 動詞（自動詞・他動詞ペア）
+  {word:'stehen',trans:'立っている（自動詞）',type:'動詞'},
+  {word:'stellen',trans:'立てて置く（他動詞）',type:'動詞'},
+  {word:'liegen',trans:'横たわっている（自動詞）',type:'動詞'},
+  {word:'legen',trans:'横にして置く（他動詞）',type:'動詞'},
+  // 副詞・形容詞
+  {word:'manchmal',trans:'時々',type:'副詞'},
+  {word:'leider',trans:'残念ながら',type:'副詞'},
+  {word:'einzige',trans:'唯一の',type:'形容詞'},
+  {word:'eigentlich',trans:'実は・そもそも',type:'副詞'},
+  {word:'ungesund',trans:'不健康な',type:'形容詞'},
 ];
 const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...SPELL_EXTRA];
 
@@ -822,22 +854,26 @@ function renderMenu(){
     const sacc=stq>0?Math.round(stc/stq*100)+'%':'—';
     const impSpCount=ALL_SPELL.filter(w=>w.important).length;
     const hardSpCount=ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8).length;
-    const wrongSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}).length;
-    const wrongSpBadge=wrongSpCount>0?"<span class='badge badge-warn'>"+wrongSpCount+" 語</span>":'';
+    const weakSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;}).length;
+    const weakSpBadge=weakSpCount>0?"<span class='badge badge-warn'>"+weakSpCount+" 語</span>":'';
+    const modalCount=ALL_SPELL.filter(w=>w.type==='話法の助動詞').length;
     html+=mc('spell-icon','✏️','全単語','名詞・動詞・数詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
+          mc('spell-icon','🔠','20語ランダム','ランダムに選んだ20語で短時間練習',"startSpell('random20')")+
+          mc('spell-icon','💯','100語ランダム','ランダムに選んだ100語でじっくり練習',"startSpell('random100')")+
+          mc('spell-icon','🗣️','話法の助動詞','dürfen・können・müssen など '+modalCount+'語',"startSpell('modal')")+
           mc('imp-icon','⭐','重要語（家族）','家族の単語 '+impSpCount+'語を優先練習',"startSpell('important')",'<span class="badge badge-imp">優先反復</span>')+
           mc('spell-icon','🔤','間違えやすい単語','特殊文字・長い単語 '+hardSpCount+'語',"startSpell('hard')")+
           mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
-          mc('wrong-icon','❌','間違えたもの','スペリングで不正解だった単語',"startSpell('wrong')",wrongSpBadge);
+          mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startSpell('weak')",weakSpBadge);
     html='<div class="menu-section"><div class="menu-section-title">スペリングモード</div>'+html+'</div>';
     // スペリング成績はmenu-stats-rowに表示済み
   } else if(t==='prep'){
     const pd=loadPR();
-    const wrongPrCount=PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>0&&wd.correct<wd.total;}).length;
-    const wrongBadge=wrongPrCount>0?"<span class='badge badge-warn'>"+wrongPrCount+" 語</span>":'';
+    const weakPrCount=PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>=2&&wd.correct/wd.total<0.5;}).length;
+    const weakPrBadge=weakPrCount>0?"<span class='badge badge-warn'>"+weakPrCount+" 語</span>":'';
     html+='<div class="menu-section"><div class="menu-section-title">前置詞モード</div>'
       +mc('all-icon','📋','全前置詞','2格・3格・4格・3/4格支配 全'+PREPOSITIONS.length+'語',"startPrep('all')")
-      +mc('wrong-icon','❌','間違えたもの','過去に不正解だった前置詞',"startPrep('wrong')",wrongBadge)
+      +mc('weak-icon','📉','苦手な前置詞','正答率50%未満を集中特訓',"startPrep('weak')",weakPrBadge)
       +mc('stats-icon','📊','成績を見る','前置詞ごとの正答率','showStats()')
       +'</div>';
   } else {
@@ -849,12 +885,10 @@ function renderMenu(){
       +'<div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p>'
       +'<span class="badge badge-new">'+todayBadge+'</span>'
       +'</div><div class="menu-arrow">›</div></div></div></div>';
-    const wcBadge=wc>0?"<span class='badge badge-warn'>"+wc+" 語</span>":'';
     const wkBadge=wk>0?"<span class='badge badge-warn'>"+wk+" 語</span>":'';
     html+='<div class="menu-section"><div class="menu-section-title">復習モード — '+ml+'</div>'
-      +mc('all-icon','📚','全単語','全'+ALL_WORDS.length+'語をランダムに出題',"startMode('all')")
+      +mc('all-icon','📚','全単語','全'+(t==='gender'?ALL_WORDS.filter(w=>!w.plural).length:ALL_WORDS.length)+'語をランダムに出題',"startMode('all')")
       +mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"startMode('important')",'<span class="badge badge-imp">優先反復</span>')
-      +mc('wrong-icon','❌','間違えたもの','過去に不正解だった単語',"startMode('wrong')",wcBadge)
       +mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wkBadge)
       +'</div>';
     html+='<div class="menu-section"><div class="menu-section-title">記録</div>'+mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴','showStats()')+'</div>';
@@ -872,7 +906,7 @@ function mc(icon,em,title,sub,action,badge=''){
 /* ===== START MODE ===== */
 function startMode(mode){
   const d=loadD(); curMode=mode;
-  const titles={all:'全単語',today:'今日の単語',wrong:'間違えた単語',weak:'苦手な単語',important:'重要語'};
+  const titles={all:'全単語',today:'今日の単語',weak:'苦手な単語',important:'重要語'};
   let words=[];
   // 冠詞モードでは複数形を除外したプールを使う
   const pool=isG()?ALL_WORDS.filter(w=>!w.plural):ALL_WORDS;
@@ -883,7 +917,6 @@ function startMode(mode){
     if(!td.length){alert('今日の単語はすべて完了！');return;}
     words=td;
   }
-  else if(mode==='wrong'){words=shuf(pool.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}));if(!words.length){alert('間違えた単語がありません！');return;}}
   else if(mode==='weak'){words=shuf(pool.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}));if(!words.length){alert('苦手な単語がありません！');return;}}
   else if(mode==='important') words=shuf(pool.filter(w=>w.important));
   deck=words;cur=0;score=0;streak=0;
@@ -1222,6 +1255,12 @@ function startSpell(mode){
   spMode=mode;const sd=loadSP();
   let words=[];
   if(mode==='all') words=shuf(ALL_SPELL);
+  else if(mode==='random20') words=shuf(ALL_SPELL).slice(0,20);
+  else if(mode==='random100') words=shuf(ALL_SPELL).slice(0,100);
+  else if(mode==='modal'){
+    words=shuf(ALL_SPELL.filter(w=>w.type==='話法の助動詞'));
+    if(!words.length){alert('話法の助動詞が見つかりません');return;}
+  }
   else if(mode==='important'){
     // 重要語（家族）: ALL_SPELL中でimportant=trueのもの（名詞由来）を優先、足りなければ全体から補充
     const imp=ALL_SPELL.filter(w=>w.important);
@@ -1234,13 +1273,13 @@ function startSpell(mode){
     if(!words.length){alert('該当する単語がありません');return;}
   }
   else if(mode==='numbers') words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
-  else if(mode==='wrong'){
-    words=shuf(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>0&&s.correct<s.total;}));
-    if(!words.length){alert('スペリングで間違えた単語がありません！');return;}
+  else if(mode==='weak'){
+    words=shuf(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;}));
+    if(!words.length){alert('苦手な単語がありません！正答率50%未満が2回以上出題されると表示されます。');return;}
   }
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
   const finOv=document.getElementById('sp-finish-overlay');if(finOv)finOv.style.display='none';
-  const titleMap={all:'スペリング全単語',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',wrong:'間違えた単語'};
+  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
@@ -1258,12 +1297,12 @@ function startPrep(mode){
   const pd=loadPR();
   let words=[];
   if(mode==='all') words=shuf(PREPOSITIONS);
-  else if(mode==='wrong'){
-    words=shuf(PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>0&&wd.correct<wd.total;}));
-    if(!words.length){alert('間違えた前置詞がありません！');return;}
+  else if(mode==='weak'){
+    words=shuf(PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>=2&&wd.correct/wd.total<0.5;}));
+    if(!words.length){alert('苦手な前置詞がありません！正答率50%未満が2回以上出題されると表示されます。');return;}
   }
   prepDeck=words;prepCur=0;prepScore=0;prepStreak=0;
-  document.getElementById('prep-title').textContent=mode==='wrong'?'間違えた前置詞':'前置詞 全問';
+  document.getElementById('prep-title').textContent=mode==='weak'?'苦手な前置詞':'前置詞 全問';
   document.getElementById('prep-streak').textContent='0';
   document.getElementById('prep-score-lbl').textContent='正解 0';
   clearPrepLR();
