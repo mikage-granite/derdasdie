@@ -788,7 +788,7 @@ function updateSR(wd,ok,imp){
 
 /* ===== STATE ===== */
 let deck=[],cur=0,score=0,streak=0,rtimer=null,curTab='gender',curMode='all';
-let choices=[],correctIdx=0,choiceMap={};
+let choices=[],correctIdx=0,choiceMap={},quizCorrectDir=null;
 const DIRS=['left','up','right','down'];
 const DL={left:'←',up:'↑',right:'→',down:'↓'};
 const DBG={left:'var(--c3-bg)',up:'var(--c1-bg)',right:'var(--c4-bg)',down:'var(--c2-bg)'};
@@ -969,11 +969,16 @@ function renderQuiz(w){
   const ca=jd?w.word:w.trans;
   const oth=shuf(ALL_WORDS.filter(x=>x.word!==w.word)).slice(0,3).map(x=>jd?x.word:x.trans);
   const all=shuf([ca,...oth]);
-  choices=all;correctIdx=all.indexOf(ca);choiceMap={left:0,up:1,right:2,down:3};
+  // 各方向(left/up/right/down)に表示テキストを1対1で割り当てる。
+  // 「正解の方向」はここで一度だけ確定し、以後はその方向文字列同士を
+  // 直接比較するだけにする（indexを介した間接比較はバグの温床なので廃止）。
+  const dirToText={left:all[0],up:all[1],right:all[2],down:all[3]};
+  quizCorrectDir=DIRS.find(d=>dirToText[d]===ca);
+  choices=all;correctIdx=all.indexOf(ca);choiceMap={left:0,up:1,right:2,down:3}; // 互換のため保持（未使用）
   const dc=[{d:'left',c:'c3',p:'qc-left'},{d:'up',c:'c1',p:'qc-up'},{d:'right',c:'c4',p:'qc-right'},{d:'down',c:'c2',p:'qc-down'}];
-  DIRS.forEach((dir,i)=>{const el=document.getElementById('lbl-'+dir);el.textContent=DL[dir]+' '+all[i];el.className=`card-lbl lbl-${dir} choice-${dir}`;el.style.opacity=0;});
-  document.getElementById('choice-area').innerHTML=`<div class="quiz-choices">${dc.map(({d,c,p},i)=>`
-    <button class="qc-btn ${c} ${p}" onclick="evQ('${d}')"><span class="qc-dir">${DL[d]}</span><span>${all[DIRS.indexOf(d)]}</span></button>`).join('')}</div>`;
+  DIRS.forEach(dir=>{const el=document.getElementById('lbl-'+dir);el.textContent=DL[dir]+' '+dirToText[dir];el.className=`card-lbl lbl-${dir} choice-${dir}`;el.style.opacity=0;});
+  document.getElementById('choice-area').innerHTML=`<div class="quiz-choices">${dc.map(({d,c,p})=>`
+    <button class="qc-btn ${c} ${p}" onclick="evQ('${d}')"><span class="qc-dir">${DL[d]}</span><span>${dirToText[d]}</span></button>`).join('')}</div>`;
 }
 
 /* ===== LAST RESULT ===== */
@@ -999,7 +1004,7 @@ function ev(chosen,fromSwipe=false){
 }
 function evQ(dir,fromSwipe=false){
   if(rtimer)return;
-  const w=deck[cur],ok=choiceMap[dir]===correctIdx,jd=curTab==='vocab-jd',ca=jd?w.word:w.trans;
+  const w=deck[cur],ok=dir===quizCorrectDir,jd=curTab==='vocab-jd',ca=jd?w.word:w.trans;
   rec(w,ok);
   const sub=jd?(ok?w.trans:`${w.art} ${w.word} = ${w.trans}`):(ok?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
   showLR(ok,ok?ca:`正解： ${ca}`,sub);
@@ -1047,14 +1052,20 @@ function setupDrag(){
   };
   const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
   const wTM=e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}};
+  // 指を離す瞬間の最終座標で位置を確定してから判定する（高速スワイプでtouchmoveが
+  // 間に合わず座標が古いまま判定され、巻き戻ってしまう不具合を防ぐ）
+  const wMU=e=>{if(drag)onM(e.clientX,e.clientY);onE();};
+  const wTE=e=>{if(drag){const t=e.changedTouches&&e.changedTouches[0];if(t)onM(t.clientX,t.clientY);}onE();};
+  const wTC=()=>{drag=false;};
   el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
   window.addEventListener('mousemove',wMM);
-  window.addEventListener('mouseup',onE);
+  window.addEventListener('mouseup',wMU);
   el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY);},{passive:true});
   window.addEventListener('touchmove',wTM,{passive:true});
-  window.addEventListener('touchend',onE);
+  window.addEventListener('touchend',wTE);
+  window.addEventListener('touchcancel',wTC);
   // クリーンアップ関数を保存
-  _dragCleanup=()=>{window.removeEventListener('mousemove',wMM);window.removeEventListener('mouseup',onE);window.removeEventListener('touchmove',wTM);window.removeEventListener('touchend',onE);};
+  _dragCleanup=()=>{window.removeEventListener('mousemove',wMM);window.removeEventListener('mouseup',wMU);window.removeEventListener('touchmove',wTM);window.removeEventListener('touchend',wTE);window.removeEventListener('touchcancel',wTC);};
 }
 function resetViz(){DIRS.forEach(d=>{const el=document.getElementById('lbl-'+d);if(el)el.style.opacity=0;});const bg=document.getElementById('card-bg');bg.style.opacity=0;bg.style.background='';}
 
@@ -1479,17 +1490,23 @@ function setupPrepDrag(){
   };
   const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
   const wTM=e=>{if(drag){const t=e.touches[0];onM(t.clientX,t.clientY);}};
+  // 指を離す瞬間の最終座標で位置を確定してから判定する
+  const wMU=e=>{if(drag)onM(e.clientX,e.clientY);onE();};
+  const wTE=e=>{if(drag){const t=e.changedTouches&&e.changedTouches[0];if(t)onM(t.clientX,t.clientY);}onE();};
+  const wTC=()=>{drag=false;};
   el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
   window.addEventListener('mousemove',wMM);
-  window.addEventListener('mouseup',onE);
+  window.addEventListener('mouseup',wMU);
   el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY);},{passive:true});
   window.addEventListener('touchmove',wTM,{passive:true});
-  window.addEventListener('touchend',onE);
+  window.addEventListener('touchend',wTE);
+  window.addEventListener('touchcancel',wTC);
   _prepDragCleanup=()=>{
     window.removeEventListener('mousemove',wMM);
-    window.removeEventListener('mouseup',onE);
+    window.removeEventListener('mouseup',wMU);
     window.removeEventListener('touchmove',wTM);
-    window.removeEventListener('touchend',onE);
+    window.removeEventListener('touchend',wTE);
+    window.removeEventListener('touchcancel',wTC);
   };
 }
 
