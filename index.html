@@ -756,8 +756,48 @@ const SPELL_EXTRA=[
   {word:'einzige',trans:'唯一の',type:'形容詞'},
   {word:'eigentlich',trans:'実は・そもそも',type:'副詞'},
   {word:'ungesund',trans:'不健康な',type:'形容詞'},
+  // 単語帳の動詞（新規追加分）
+  {word:'singen',trans:'歌う',type:'動詞'},
+  {word:'sehen',trans:'見る',type:'動詞'},
+  {word:'haben',trans:'持っている',type:'動詞'},
+  {word:'tragen',trans:'着る・運ぶ',type:'動詞'},
+  {word:'verstehen',trans:'理解する',type:'動詞'},
+  {word:'schreiben',trans:'書く',type:'動詞'},
+  {word:'suchen',trans:'探す',type:'動詞'},
+  {word:'bringen',trans:'持ってくる',type:'動詞'},
+  {word:'erzählen',trans:'語る・話す',type:'動詞'},
+  {word:'fragen',trans:'尋ねる',type:'動詞'},
+  {word:'antworten',trans:'答える',type:'動詞'},
+  {word:'schwimmen',trans:'泳ぐ',type:'動詞'},
+  {word:'fahren',trans:'（乗り物で）行く',type:'動詞'},
+  {word:'bedeuten',trans:'意味する',type:'動詞'},
+  {word:'gehen',trans:'行く・歩く',type:'動詞'},
+  {word:'finden',trans:'見つける・思う',type:'動詞'},
+  {word:'reisen',trans:'旅行する',type:'動詞'},
+  {word:'besuchen',trans:'訪問する',type:'動詞'},
+  {word:'fliegen',trans:'飛ぶ・飛行機で行く',type:'動詞'},
+  {word:'bekommen',trans:'受け取る',type:'動詞'},
+  {word:'hängen',trans:'かかっている',type:'動詞'},
+  {word:'schenken',trans:'プレゼントする',type:'動詞'},
+  {word:'gehören',trans:'〜に属する',type:'動詞'},
+  {word:'sein',trans:'〜である・いる',type:'動詞'},
+  // 分離動詞（2マス入力）
+  {word:'teilnehmen',parts:['teil','nehmen'],trans:'参加する',type:'動詞'},
+  {word:'vorhaben',parts:['vor','haben'],trans:'予定する',type:'動詞'},
+  {word:'spazierengehen',parts:['spazieren','gehen'],trans:'散歩する',type:'動詞'},
+  {word:'mitnehmen',parts:['mit','nehmen'],trans:'持っていく',type:'動詞'},
+  {word:'fernsehen',parts:['fern','sehen'],trans:'テレビを見る',type:'動詞'},
+  {word:'aufmachen',parts:['auf','machen'],trans:'開ける',type:'動詞'},
 ];
 const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...SPELL_EXTRA];
+// 単語帳の動詞モード用：出題する単語のセット
+const TEXTBOOK_VERB_SET=new Set([
+  'heißen','sein','kommen','sprechen','singen','sehen','spielen','haben','tragen',
+  'verstehen','schreiben','suchen','beginnen','bringen','können','erzählen','fragen',
+  'sollen','antworten','machen','schwimmen','fahren','möchte','teilnehmen','bedeuten',
+  'vorhaben','lernen','wollen','gehen','spazierengehen','finden','reisen','besuchen',
+  'mitnehmen','fliegen','bekommen','hängen','schenken','gehören','dürfen','fernsehen','aufmachen'
+]);
 
 /* ===== STORAGE ===== */
 const LS_KEY='derdiedas_v2';
@@ -857,7 +897,9 @@ function renderMenu(){
     const weakSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;}).length;
     const weakSpBadge=weakSpCount>0?"<span class='badge badge-warn'>"+weakSpCount+" 語</span>":'';
     const modalCount=ALL_SPELL.filter(w=>w.type==='話法の助動詞').length;
+    const tvCount=ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)).length;
     html+=mc('spell-icon','✏️','全単語','名詞・動詞・数詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
+          mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
           mc('spell-icon','🔠','20語ランダム','ランダムに選んだ20語で短時間練習',"startSpell('random20')")+
           mc('spell-icon','💯','100語ランダム','ランダムに選んだ100語でじっくり練習',"startSpell('random100')")+
           mc('spell-icon','🗣️','話法の助動詞','dürfen・können・müssen など '+modalCount+'語',"startSpell('modal')")+
@@ -1140,7 +1182,7 @@ function renderDisp(){
     if(spPhase===0){
       h+='<div class="sp-part-box active">'+buildBox(spParts[0],spInput,true,spCopy)+'</div>';
       h+='<span class="sp-part-sep">+</span>';
-      h+='<div class="sp-part-box" style="opacity:0.3"><span class="sp-char" style="color:var(--text3)">'+spParts[1]+'</span></div>';
+      h+='<div class="sp-part-box" style="opacity:0.25;border-style:dashed"></div>';// 2マス目は空（答えを隠す）
     } else {
       h+='<div class="sp-part-box done">'+spParts[0].split('').map(c=>'<span class="sp-char">'+c+'</span>').join('')+'</div>';
       h+='<span class="sp-part-sep">+</span>';
@@ -1272,6 +1314,11 @@ function startSpell(mode){
     words=shuf(ALL_SPELL.filter(w=>w.type==='話法の助動詞'));
     if(!words.length){alert('話法の助動詞が見つかりません');return;}
   }
+  else if(mode==='textbook_verbs'){
+    // 動詞・話法の助動詞のみ（同じ綴りの代名詞などを除外）
+    words=shuf(ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)));
+    if(!words.length){alert('動詞が見つかりません');return;}
+  }
   else if(mode==='important'){
     // 重要語（家族）: ALL_SPELL中でimportant=trueのもの（名詞由来）を優先、足りなければ全体から補充
     const imp=ALL_SPELL.filter(w=>w.important);
@@ -1290,7 +1337,7 @@ function startSpell(mode){
   }
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
   const finOv=document.getElementById('sp-finish-overlay');if(finOv)finOv.style.display='none';
-  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',weak:'苦手な単語'};
+  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
