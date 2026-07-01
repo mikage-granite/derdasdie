@@ -1206,7 +1206,7 @@ function checkSp(){
     if(spParts&&spPhase===0){
       // フェーズ1完了 → フェーズ2へ
       spPhase=1;spTarget=spParts[1];spInput='';spCopy=false;
-      document.getElementById('sp-feedback').textContent='✓ '+spParts[0]+'！次は前置詞';
+      document.getElementById('sp-feedback').textContent='✓ '+spParts[0]+'！次は基本動詞';
       document.getElementById('sp-feedback').className='sp-feedback ok';
       const skipBtn=document.getElementById('sp-skip-btn');if(skipBtn)skipBtn.classList.remove('hidden');
       renderDisp();
