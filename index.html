@@ -323,18 +323,21 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
     <div class="progress-track"><div class="progress-fill" id="sp-progress" style="width:0%"></div></div>
     <div class="progress-label"><span id="sp-count">0/0</span><span id="sp-score-lbl">正解 0</span></div>
   </div>
-  <div class="sp-question">
-    <div class="sp-q-label">ドイツ語でスペルを入力</div>
-    <div class="sp-prompt" id="sp-prompt"></div>
-    <div class="sp-type" id="sp-type"></div>
+  <div id="sp-main">
+    <div class="sp-question">
+      <div class="sp-q-label">ドイツ語でスペルを入力</div>
+      <div class="sp-prompt" id="sp-prompt"></div>
+      <div class="sp-type" id="sp-type"></div>
+    </div>
+    <div class="sp-input-area">
+      <div class="sp-copy-hint" id="sp-copy-hint">答えを確認 — 正しいスペルを写してください</div>
+      <div class="sp-display" id="sp-display"></div>
+      <div class="sp-feedback" id="sp-feedback"></div>
+      <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
+    </div>
+    <div class="sp-keyboard" id="sp-keyboard"></div>
   </div>
-  <div class="sp-input-area">
-    <div class="sp-copy-hint" id="sp-copy-hint">答えを確認 — 正しいスペルを写してください</div>
-    <div class="sp-display" id="sp-display"></div>
-    <div class="sp-feedback" id="sp-feedback"></div>
-    <button class="sp-skip-btn" id="sp-skip-btn" onclick="spSkip()">わからない → 答えを見る</button>
-  </div>
-  <div class="sp-keyboard" id="sp-keyboard"></div>
+  <div class="study-footer" id="sp-footer"></div>
 </div>
 
 <!-- PREPOSITIONS -->
@@ -604,6 +607,29 @@ const ALL_WORDS_RAW=[
 const seenW=new Set();
 const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seenW.has(w.word))return false;seenW.add(w.word);return true;});
 
+// 接続詞（日独・独日・スペリングモードのみ）
+const CONJUNCTIONS=[
+  {word:'und',trans:'そして・と',art:null,cat:'接続詞'},
+  {word:'aber',trans:'しかし・でも',art:null,cat:'接続詞'},
+  {word:'oder',trans:'または',art:null,cat:'接続詞'},
+  {word:'denn',trans:'なぜなら（並列）',art:null,cat:'接続詞'},
+  {word:'also',trans:'つまり・だから',art:null,cat:'接続詞'},
+  {word:'dann',trans:'それから・そのとき',art:null,cat:'接続詞'},
+  {word:'deshalb',trans:'だから・それゆえ',art:null,cat:'接続詞'},
+  {word:'sonst',trans:'さもないと・他には',art:null,cat:'接続詞'},
+  {word:'als',trans:'〜したとき・〜より',art:null,cat:'接続詞'},
+  {word:'bevor',trans:'〜する前に',art:null,cat:'接続詞'},
+  {word:'da',trans:'〜なので・〜だから',art:null,cat:'接続詞'},
+  {word:'damit',trans:'〜するために',art:null,cat:'接続詞'},
+  {word:'dass',trans:'〜ということ',art:null,cat:'接続詞'},
+  {word:'nachdem',trans:'〜した後で',art:null,cat:'接続詞'},
+  {word:'ob',trans:'〜かどうか',art:null,cat:'接続詞'},
+  {word:'obwohl',trans:'〜にもかかわらず',art:null,cat:'接続詞'},
+  {word:'weil',trans:'〜なので・〜だから',art:null,cat:'接続詞'},
+  {word:'wenn',trans:'もし〜なら・〜するとき',art:null,cat:'接続詞'},
+];
+const VOCAB_WORDS=[...ALL_WORDS,...CONJUNCTIONS];
+
 // 前置詞モード用データ
 const PREPOSITIONS=[
   // 2格支配
@@ -743,7 +769,7 @@ const SPELL_EXTRA=[
   {word:'müssen',trans:'〜しなければならない',type:'話法の助動詞'},
   {word:'sollen',trans:'〜すべきだ',type:'話法の助動詞'},
   {word:'wollen',trans:'〜するつもりだ',type:'話法の助動詞'},
-  {word:'möchten',trans:'〜したい',type:'話法の助動詞'},
+  {word:'möchte',trans:'〜したい',type:'話法の助動詞'},
   {word:'werden',trans:'〜になる・〜だろう',type:'動詞'},
   // 動詞（自動詞・他動詞ペア）
   {word:'stehen',trans:'立っている（自動詞）',type:'動詞'},
@@ -765,8 +791,8 @@ const SPELL_EXTRA=[
   {word:'schreiben',trans:'書く',type:'動詞'},
   {word:'suchen',trans:'探す',type:'動詞'},
   {word:'bringen',trans:'持ってくる',type:'動詞'},
-  {word:'erzählen',trans:'説明する・物語る',type:'動詞'},
-  {word:'fragen',trans:'質問する',type:'動詞'},
+  {word:'erzählen',trans:'語る・話す',type:'動詞'},
+  {word:'fragen',trans:'尋ねる',type:'動詞'},
   {word:'antworten',trans:'答える',type:'動詞'},
   {word:'schwimmen',trans:'泳ぐ',type:'動詞'},
   {word:'fahren',trans:'（乗り物で）行く',type:'動詞'},
@@ -777,28 +803,41 @@ const SPELL_EXTRA=[
   {word:'besuchen',trans:'訪問する',type:'動詞'},
   {word:'fliegen',trans:'飛ぶ・飛行機で行く',type:'動詞'},
   {word:'bekommen',trans:'受け取る',type:'動詞'},
-  {word:'hängen',trans:'ぶら下がる・かかっている',type:'動詞'},
-  {word:'schenken',trans:'贈る',type:'動詞'},
-  {word:'gehören',trans:'+1が+3のものである',type:'動詞'},
+  {word:'hängen',trans:'かかっている',type:'動詞'},
+  {word:'schenken',trans:'プレゼントする',type:'動詞'},
+  {word:'gehören',trans:'〜に属する',type:'動詞'},
   {word:'sein',trans:'〜である・いる',type:'動詞'},
-  {word:'öffnen',trans:'開ける',type:'動詞'},
-  {word:'helfen',trans:'助ける',type:'動詞'},
   // 分離動詞（2マス入力）
   {word:'teilnehmen',parts:['teil','nehmen'],trans:'参加する',type:'動詞'},
-  {word:'vorhaben',parts:['vor','haben'],trans:'予定する',type:'動詞'},
+  {word:'vorhaben',parts:['vor','haben'],trans:'〜するつもりだ',type:'動詞'},
   {word:'spazierengehen',parts:['spazieren','gehen'],trans:'散歩する',type:'動詞'},
   {word:'mitnehmen',parts:['mit','nehmen'],trans:'持っていく',type:'動詞'},
   {word:'fernsehen',parts:['fern','sehen'],trans:'テレビを見る',type:'動詞'},
   {word:'aufmachen',parts:['auf','machen'],trans:'開ける',type:'動詞'},
+  // 新規分離動詞
+  {word:'abfahren',parts:['ab','fahren'],trans:'出発する',type:'動詞'},
+  {word:'ankommen',parts:['an','kommen'],trans:'到着する',type:'動詞'},
+  {word:'zumachen',parts:['zu','machen'],trans:'閉める',type:'動詞'},
+  {word:'aufstehen',parts:['auf','stehen'],trans:'起きる・立ち上がる',type:'動詞'},
+  {word:'einschlafen',parts:['ein','schlafen'],trans:'眠りにつく',type:'動詞'},
+  {word:'aussehen',parts:['aus','sehen'],trans:'〜に見える',type:'動詞'},
+  {word:'anfangen',parts:['an','fangen'],trans:'始める',type:'動詞'},
+  {word:'einsteigen',parts:['ein','steigen'],trans:'乗り込む',type:'動詞'},
+  {word:'aussteigen',parts:['aus','steigen'],trans:'降りる',type:'動詞'},
+  {word:'umsteigen',parts:['um','steigen'],trans:'乗り換える',type:'動詞'},
+  {word:'vorschlagen',parts:['vor','schlagen'],trans:'提案する',type:'動詞'},
+  {word:'vorstellen',parts:['vor','stellen'],trans:'紹介する・想像する',type:'動詞'},
 ];
-const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...SPELL_EXTRA];
+const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...CONJUNCTIONS.map(w=>({word:w.word,trans:w.trans,type:w.cat})),...SPELL_EXTRA];
 // 単語帳の動詞モード用：出題する単語のセット
 const TEXTBOOK_VERB_SET=new Set([
   'heißen','sein','kommen','sprechen','singen','sehen','spielen','haben','tragen',
   'verstehen','schreiben','suchen','beginnen','bringen','können','erzählen','fragen',
-  'sollen','antworten','machen','schwimmen','fahren','möchten','teilnehmen','bedeuten',
+  'sollen','antworten','machen','schwimmen','fahren','möchte','teilnehmen','bedeuten',
   'vorhaben','lernen','wollen','gehen','spazierengehen','finden','reisen','besuchen',
-  'mitnehmen','fliegen','bekommen','hängen','schenken','gehören','dürfen','fernsehen','aufmachen'
+  'mitnehmen','fliegen','bekommen','hängen','schenken','gehören','dürfen','fernsehen',
+  'aufmachen','abfahren','ankommen','zumachen','aufstehen','einschlafen','aussehen',
+  'anfangen','einsteigen','aussteigen','umsteigen','vorschlagen','vorstellen',
 ]);
 
 /* ===== STORAGE ===== */
@@ -829,7 +868,7 @@ function updateSR(wd,ok,imp){
 }
 
 /* ===== STATE ===== */
-let deck=[],cur=0,score=0,streak=0,rtimer=null,curTab='gender',curMode='all';
+let deck=[],cur=0,score=0,streak=0,rtimer=null,curTab='gender',curMode='all',evaluating=false;
 let choices=[],correctIdx=0,choiceMap={},quizCorrectDir=null;
 const DIRS=['left','up','right','down'];
 const DL={left:'←',up:'↑',right:'→',down:'↓'};
@@ -866,7 +905,8 @@ function updateStats(){
     const stok=Object.values(sd).reduce((a,wd)=>a+(wd.lastSeen===td?wd.correct:0),0);
     s1=ss;s2=stq>0?Math.round(stc/stq*100)+'%':'—';s3=stok;
   } else {
-    const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
+    const wPool=(t==='vocab-jd'||t==='vocab-dj')?VOCAB_WORDS:ALL_WORDS;
+    const studied=wPool.filter(w=>getWD(d,w.word).total>0);
     const tc=studied.reduce((a,w)=>a+getWD(d,w.word).correct,0);
     const tq=studied.reduce((a,w)=>a+getWD(d,w.word).total,0);
     const tok=Object.values(d).reduce((a,wd)=>a+(wd.lastSeen===td?wd.correct:0),0);
@@ -880,12 +920,13 @@ function updateStats(){
 }
 function getTodayDeck(){
   const d=loadD(),td=today();
-  const due=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
+  const due=VOCAB_WORDS.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
   return [...shuf(due.filter(w=>w.important)),...shuf(due.filter(w=>!w.important))].slice(0,Math.min(20,Math.max(10,due.length)));
 }
 function renderMenu(){
   const t=curTab,d=loadD();
   const due=getTodayDeck();
+  const todayForTab=curTab==='gender'?due.filter(w=>!w.plural&&w.art):due;
   const wc=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}).length;
   const wk=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}).length;
   let html='';
@@ -894,21 +935,20 @@ function renderMenu(){
     const ss=ALL_SPELL.filter(w=>sd[w.word]&&sd[w.word].total>0).length;
     let stc=0,stq=0;ALL_SPELL.forEach(w=>{if(sd[w.word]){stc+=sd[w.word].correct;stq+=sd[w.word].total;}});
     const sacc=stq>0?Math.round(stc/stq*100)+'%':'—';
-    const impSpCount=ALL_SPELL.filter(w=>w.important).length;
-    const hardSpCount=ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8).length;
     const weakSpCount=ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;}).length;
     const weakSpBadge=weakSpCount>0?"<span class='badge badge-warn'>"+weakSpCount+" 語</span>":'';
     const modalCount=ALL_SPELL.filter(w=>w.type==='話法の助動詞').length;
-    const tvCount=ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)).length;
-    html+=mc('spell-icon','✏️','全単語','名詞・動詞・数詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
+    const tvCount=ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)).length;
+    const conjCount=ALL_SPELL.filter(w=>w.type==='接続詞').length;
+    html+=mc('spell-icon','✏️','全単語','名詞・動詞・接続詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
           mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
+          mc('spell-icon','🔗','接続詞','und・weil・dass など接続詞 '+conjCount+'語',"startSpell('conjunctions')")+
           mc('spell-icon','🔠','20語ランダム','ランダムに選んだ20語で短時間練習',"startSpell('random20')")+
           mc('spell-icon','💯','100語ランダム','ランダムに選んだ100語でじっくり練習',"startSpell('random100')")+
           mc('spell-icon','🗣️','話法の助動詞','dürfen・können・müssen など '+modalCount+'語',"startSpell('modal')")+
-          mc('imp-icon','⭐','重要語（家族）','家族の単語 '+impSpCount+'語を優先練習',"startSpell('important')",'<span class="badge badge-imp">優先反復</span>')+
-          mc('spell-icon','🔤','間違えやすい単語','特殊文字・長い単語 '+hardSpCount+'語',"startSpell('hard')")+
           mc('spell-icon','🔢','数詞のみ','1〜100のスペリング練習',"startSpell('numbers')")+
-          mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startSpell('weak')",weakSpBadge);
+          mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startSpell('weak')",weakSpBadge)+
+          mc('stats-icon','📊','成績を見る','スペリングの正答率と履歴','showStats()');
     html='<div class="menu-section"><div class="menu-section-title">スペリングモード</div>'+html+'</div>';
     // スペリング成績はmenu-stats-rowに表示済み
   } else if(t==='prep'){
@@ -922,7 +962,7 @@ function renderMenu(){
       +'</div>';
   } else {
     const ml=t==='gender'?'冠詞を当てる':t==='vocab-jd'?'日本語→ドイツ語 4択':'ドイツ語→日本語 4択';
-    const todayBadge=due.length>0?'本日 '+due.length+' 問':'今日は完了！';
+    const todayBadge=todayForTab.length>0?'本日 '+todayForTab.length+' 問':'今日は完了！';
     html+='<div class="menu-section"><div class="menu-section-title">今日</div>'
       +'<div class="menu-card today-card" onclick="startMode(\x27today\x27)">'
       +'<div class="menu-card-inner"><div class="menu-icon today-icon">📅</div>'
@@ -931,7 +971,7 @@ function renderMenu(){
       +'</div><div class="menu-arrow">›</div></div></div></div>';
     const wkBadge=wk>0?"<span class='badge badge-warn'>"+wk+" 語</span>":'';
     html+='<div class="menu-section"><div class="menu-section-title">復習モード — '+ml+'</div>'
-      +mc('all-icon','📚','全単語','全'+(t==='gender'?ALL_WORDS.filter(w=>!w.plural).length:ALL_WORDS.length)+'語をランダムに出題',"startMode('all')")
+      +mc('all-icon','📚','全単語','全'+(t==='gender'?ALL_WORDS.filter(w=>!w.plural).length:VOCAB_WORDS.length)+'語をランダムに出題',"startMode('all')")
       +mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"startMode('important')",'<span class="badge badge-imp">優先反復</span>')
       +mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"startMode('weak')",wkBadge)
       +'</div>';
@@ -953,11 +993,11 @@ function startMode(mode){
   const titles={all:'全単語',today:'今日の単語',weak:'苦手な単語',important:'重要語'};
   let words=[];
   // 冠詞モードでは複数形を除外したプールを使う
-  const pool=isG()?ALL_WORDS.filter(w=>!w.plural):ALL_WORDS;
+  const pool=isG()?ALL_WORDS.filter(w=>!w.plural):VOCAB_WORDS;
   if(mode==='all') words=shuf(pool);
   else if(mode==='today'){
     let td=getTodayDeck();
-    if(isG()) td=td.filter(w=>!w.plural);
+    if(isG()) td=td.filter(w=>!w.plural&&w.art); // 冠詞モードは複数形・無冠詞語を除外
     if(!td.length){alert('今日の単語はすべて完了！');return;}
     words=td;
   }
@@ -972,6 +1012,7 @@ function startMode(mode){
 
 /* ===== RENDER CARD ===== */
 function renderCard(){
+  evaluating=false; // 新しいカードで判定状態をリセット
   if(cur>=deck.length){showFinish();return;}
   const w=deck[cur],d=loadD(),wd=getWD(d,w.word);
   document.getElementById('st-progress').style.width=(cur/deck.length*100)+'%';
@@ -982,7 +1023,7 @@ function renderCard(){
   if(nxt){
     if(isG()){document.getElementById('next-label').textContent='次の単語';document.getElementById('next-word').textContent=nxt.word;document.getElementById('next-word').className='card-word';}
     else if(curTab==='vocab-jd'){document.getElementById('next-label').textContent='次：日→独';document.getElementById('next-word').textContent=nxt.trans;document.getElementById('next-word').className='card-word';}
-    else{document.getElementById('next-label').textContent='次：独→日';document.getElementById('next-word').textContent=nxt.art+' '+nxt.word;document.getElementById('next-word').className='card-word small';}
+    else{document.getElementById('next-label').textContent='次：独→日';document.getElementById('next-word').textContent=(nxt.art?nxt.art+' ':'')+nxt.word;document.getElementById('next-word').className='card-word small';}
   }else{document.getElementById('next-label').textContent='';document.getElementById('next-word').textContent='';}
   resetViz();
   const ac=document.getElementById('active-card');
@@ -1008,10 +1049,10 @@ function renderQuiz(w){
   const jd=curTab==='vocab-jd';
   document.getElementById('card-q-label').textContent=jd?'ドイツ語は？':'日本語は？';
   const we=document.getElementById('st-word');
-  if(jd){we.textContent=w.trans;we.className='card-word';}else{we.textContent=w.art+' '+w.word;we.className='card-word small';}
+  if(jd){we.textContent=w.trans;we.className='card-word';}else{we.textContent=(w.art?w.art+' ':'')+w.word;we.className='card-word small';}
   document.getElementById('st-trans').textContent='';
   const ca=jd?w.word:w.trans;
-  const oth=shuf(ALL_WORDS.filter(x=>x.word!==w.word)).slice(0,3).map(x=>jd?x.word:x.trans);
+  const oth=shuf(VOCAB_WORDS.filter(x=>x.word!==w.word)).slice(0,3).map(x=>jd?x.word:x.trans);
   const all=shuf([ca,...oth]);
   // 各方向(left/up/right/down)に表示テキストを1対1で割り当てる。
   // 「正解の方向」はここで一度だけ確定し、以後はその方向文字列同士を
@@ -1038,7 +1079,7 @@ function flash(ok){const c=document.getElementById('active-card');c.classList.re
 
 /* ===== EVALUATE ===== */
 function ev(chosen,fromSwipe=false){
-  if(rtimer)return;
+  if(evaluating)return;evaluating=true;
   const w=deck[cur],ok=chosen===w.art;
   rec(w,ok);
   const sub=(!getShowTrans()||!ok)?w.trans:'';
@@ -1047,10 +1088,11 @@ function ev(chosen,fromSwipe=false){
   else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
 }
 function evQ(dir,fromSwipe=false){
-  if(rtimer)return;
+  if(evaluating)return;evaluating=true;
   const w=deck[cur],ok=dir===quizCorrectDir,jd=curTab==='vocab-jd',ca=jd?w.word:w.trans;
   rec(w,ok);
-  const sub=jd?(ok?w.trans:`${w.art} ${w.word} = ${w.trans}`):(ok?`${w.art} ${w.word}`:`${w.art} ${w.word}`);
+  const wlbl=(w.art?w.art+' ':'')+w.word;
+  const sub=jd?(ok?w.trans:`${wlbl} = ${w.trans}`):(ok?wlbl:wlbl);
   showLR(ok,ok?ca:`正解： ${ca}`,sub);
   if(fromSwipe){cur++;renderCard();setupDrag();}
   else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
@@ -1208,7 +1250,7 @@ function checkSp(){
     if(spParts&&spPhase===0){
       // フェーズ1完了 → フェーズ2へ
       spPhase=1;spTarget=spParts[1];spInput='';spCopy=false;
-      document.getElementById('sp-feedback').textContent='✓ '+spParts[0]+'！次は基本動詞';
+      document.getElementById('sp-feedback').textContent='✓ '+spParts[0]+'！次は前置詞';
       document.getElementById('sp-feedback').className='sp-feedback ok';
       const skipBtn=document.getElementById('sp-skip-btn');if(skipBtn)skipBtn.classList.remove('hidden');
       renderDisp();
@@ -1292,19 +1334,20 @@ function renderSpCard(){
 function spFinish(){
   const pct=spDeck.length>0?Math.round(spScore/spDeck.length*100):0;
   const em=pct>=80?'🎉':pct>=50?'👍':'📚';
-  // innerHTML上書きをやめてfinish overlayを挿入する（再利用可能なHTMLを保持するため）
-  let fin=document.getElementById('sp-finish-overlay');
-  if(!fin){fin=document.createElement('div');fin.id='sp-finish-overlay';
-    fin.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0.8rem;background:var(--bg);z-index:100;';
-    document.getElementById('spelling').style.position='relative';
-    document.getElementById('spelling').appendChild(fin);}
-  fin.innerHTML=`
-    <div style="font-family:var(--serif);font-size:2.4rem">完了！ ${em}</div>
-    <div style="font-size:3.5rem;font-weight:300">${spScore}<span style="font-size:1.8rem;color:var(--text2)"> / ${spDeck.length}</span></div>
-    <div style="font-size:14px;color:var(--text2)">正解率 ${pct}%</div>
-    <button class="finish-btn" onclick="startSpell(spMode)" style="margin-top:0.5rem">もう一度</button>
-    <button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>`;
-  fin.style.display='flex';
+  document.getElementById('sp-main').style.display='none';
+  document.getElementById('sp-footer').innerHTML=
+    '<div class="finish-wrap">'
+    +'<div class="finish-title">完了！ '+em+'</div>'
+    +'<div class="finish-score">'+spScore+'<span style="font-size:1.8rem;color:var(--text2)"> / '+spDeck.length+'</span></div>'
+    +'<div style="font-size:14px;color:var(--text2)">正解率 '+pct+'%</div>'
+    +'<div class="finish-breakdown">'
+    +'<div class="fb-item"><div class="fv">'+(spDeck.length-spScore)+'</div><div class="fl">不正解</div></div>'
+    +'<div class="fb-item"><div class="fv">'+spStreak+'</div><div class="fl">最終連続</div></div>'
+    +'</div>'
+    +'<button class="finish-btn" onclick="startSpell(spMode)" style="margin-top:0.5rem">もう一度</button>'
+    +'<button class="finish-btn" onclick="showStats()" style="margin-top:0">成績を見る</button>'
+    +'<button class="finish-btn" onclick="goMenu()" style="margin-top:0">メニューへ</button>'
+    +'</div>';
 }
 function startSpell(mode){
   spMode=mode;const sd=loadSP();
@@ -1317,20 +1360,12 @@ function startSpell(mode){
     if(!words.length){alert('話法の助動詞が見つかりません');return;}
   }
   else if(mode==='textbook_verbs'){
-    // 動詞・話法の助動詞のみ（同じ綴りの代名詞などを除外）
     words=shuf(ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)));
     if(!words.length){alert('動詞が見つかりません');return;}
   }
-  else if(mode==='important'){
-    // 重要語（家族）: ALL_SPELL中でimportant=trueのもの（名詞由来）を優先、足りなければ全体から補充
-    const imp=ALL_SPELL.filter(w=>w.important);
-    words=shuf(imp);
-    if(!words.length){alert('重要語が見つかりません');return;}
-  }
-  else if(mode==='hard'){
-    // 間違えやすい：特殊文字含む or 8文字以上
-    words=shuf(ALL_SPELL.filter(w=>/[äöüßÄÖÜ]/.test(w.word)||w.word.length>=8));
-    if(!words.length){alert('該当する単語がありません');return;}
+  else if(mode==='conjunctions'){
+    words=shuf(ALL_SPELL.filter(w=>w.type==='接続詞'));
+    if(!words.length){alert('接続詞が見つかりません');return;}
   }
   else if(mode==='numbers') words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
   else if(mode==='weak'){
@@ -1338,15 +1373,16 @@ function startSpell(mode){
     if(!words.length){alert('苦手な単語がありません！正答率50%未満が2回以上出題されると表示されます。');return;}
   }
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
-  const finOv=document.getElementById('sp-finish-overlay');if(finOv)finOv.style.display='none';
-  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',important:'重要語（家族）',hard:'間違えやすい単語',numbers:'数詞スペリング',weak:'苦手な単語'};
+  const spMain=document.getElementById('sp-main');if(spMain)spMain.style.display='';
+  const spFoot=document.getElementById('sp-footer');if(spFoot)spFoot.innerHTML='';
+  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
 }
 
 /* ===== PREPOSITIONS MODE ===== */
-let prepDeck=[],prepCur=0,prepScore=0,prepStreak=0,prepRtimer=null,prepMode='all';
+let prepDeck=[],prepCur=0,prepScore=0,prepStreak=0,prepRtimer=null,prepMode='all',prepEvaluating=false;
 
 const CASE_LABELS={'2格':'2格支配','3格':'3格支配','4格':'4格支配','3・4格':'3・4格支配'};
 const CASE_KEYS=['2格','3格','4格','3・4格'];
@@ -1371,6 +1407,7 @@ function startPrep(mode){
 }
 
 function renderPrepCard(){
+  prepEvaluating=false; // 新しいカードで判定状態をリセット
   if(prepCur>=prepDeck.length){showPrepFinish();return;}
   // カードをリセット
   const prepCardEl=document.getElementById('prep-card');
@@ -1423,7 +1460,7 @@ function renderPrepCard(){
 
 function evalPrepBtn(el){evalPrep(el.dataset.case,false);}
 function evalPrep(chosen,fromSwipe=false){
-  if(prepRtimer)return;
+  if(prepEvaluating)return;prepEvaluating=true;
   const w=prepDeck[prepCur];
   const isCorrect=chosen===w.case;
   if(isCorrect){prepScore++;prepStreak++;}else{prepStreak=0;}
@@ -1564,28 +1601,25 @@ let curFilter='all';
 function showStats(){showScreen('stats');renderStats();}
 function setFilter(f,btn){curFilter=f;document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderStats();}
 function renderStats(){
-  const isPrepMode = curTab==='prep';
-
-  // フィルタボタンの表示切替（前置詞モードでは重要語・未学習フィルタ不要）
-  document.querySelector('.sf-important').style.display = isPrepMode?'none':'';
-  document.querySelector('.sf-unstudied').style.display = isPrepMode?'none':'';
-
-  if(isPrepMode){
-    renderPrepStats();
-  } else {
-    renderWordStats();
-  }
+  const isPrepMode=curTab==='prep';
+  const isSpellMode=curTab==='spell';
+  document.querySelector('.sf-important').style.display=(isPrepMode||isSpellMode)?'none':'';
+  document.querySelector('.sf-unstudied').style.display=isPrepMode?'none':'';
+  if(isPrepMode){renderPrepStats();}
+  else if(isSpellMode){renderSpellStats();}
+  else{renderWordStats();}
 }
 
 function renderWordStats(){
   const d=loadD(),td=today();
-  const studied=ALL_WORDS.filter(w=>getWD(d,w.word).total>0);
+  const wordPool=(curTab==='vocab-jd'||curTab==='vocab-dj')?VOCAB_WORDS:ALL_WORDS;
+  const studied=wordPool.filter(w=>getWD(d,w.word).total>0);
   const tc=studied.reduce((s,w)=>s+getWD(d,w.word).correct,0),tq=studied.reduce((s,w)=>s+getWD(d,w.word).total,0);
   const tok=Object.values(d).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
   document.getElementById('sv-studied').textContent=studied.length;
   document.getElementById('sv-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
   document.getElementById('sv-today').textContent=tok;
-  let list=[...ALL_WORDS];
+  let list=[...wordPool];
   if(curFilter==='studied')list=list.filter(w=>getWD(d,w.word).total>0);
   else if(curFilter==='weak')list=list.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct/wd.total<0.5;});
   else if(curFilter==='important')list=list.filter(w=>w.important);
@@ -1605,7 +1639,40 @@ function renderWordStats(){
       +'<div class="wr-pct">'+(pct!==null?pct+'%':'未学習')+'</div></div></div>';
   }).join('');
 }
-  
+
+function renderSpellStats(){
+  const sd=loadSP(),td=today();
+  const allList=[...ALL_SPELL];
+  const studied=allList.filter(w=>sd[w.word]&&sd[w.word].total>0);
+  const tc=studied.reduce((s,w)=>s+sd[w.word].correct,0);
+  const tq=studied.reduce((s,w)=>s+sd[w.word].total,0);
+  const tok=Object.values(sd).reduce((s,wd)=>s+(wd.lastSeen===td?wd.correct:0),0);
+  document.getElementById('sv-studied').textContent=studied.length+'/'+allList.length;
+  document.getElementById('sv-acc').textContent=tq>0?Math.round(tc/tq*100)+'%':'—';
+  document.getElementById('sv-today').textContent=tok;
+  let list;
+  if(curFilter==='weak') list=studied.filter(w=>{const wd=sd[w.word];return wd.correct/wd.total<0.5;});
+  else if(curFilter==='unstudied') list=allList.filter(w=>!sd[w.word]||sd[w.word].total===0);
+  else list=studied;
+  list=[...list].sort((a,b)=>{
+    const wa=sd[a.word]||{correct:0,total:0},wb=sd[b.word]||{correct:0,total:0};
+    const pa=wa.total>0?wa.correct/wa.total:1.1,pb=wb.total>0?wb.correct/wb.total:1.1;
+    return pa-pb;
+  });
+  const el=document.getElementById('word-list');
+  if(!list.length){el.innerHTML='<div class="empty-state">'+(curFilter==='unstudied'?'すべての単語を学習済みです！':'まだスペリングの記録がありません')+'</div>';return;}
+  el.innerHTML=list.map(w=>{
+    const wd=sd[w.word]||{correct:0,total:0};
+    const pct=wd.total>0?Math.round(wd.correct/wd.total*100):null;
+    const col=pct===null?'var(--border)':pct>=70?'var(--ok)':pct>=40?'#e0a020':'var(--ng)';
+    return '<div class="word-row">'
+      +'<span class="wr-article art-none" style="font-size:9px;padding:1px 4px;min-width:40px;text-align:center;">'+(w.type||'—')+'</span>'
+      +'<span class="wr-word">'+w.word+'</span>'
+      +'<span class="wr-trans">'+w.trans+'</span>'
+      +'<div class="wr-bar-wrap"><div class="wr-bar-track"><div class="wr-bar-fill" style="width:'+(pct??0)+'%;background:'+col+'"></div></div>'
+      +'<div class="wr-pct">'+(pct!==null?pct+'%':'未学習')+'</div></div></div>';
+  }).join('');
+}
 
 function renderPrepStats(){
   const pd=loadPR(),td=today();
@@ -1672,6 +1739,8 @@ function showScreen(id){
 function goMenu(){
   if(rtimer){clearTimeout(rtimer);rtimer=null;}
   if(prepRtimer){clearTimeout(prepRtimer);prepRtimer=null;}
+  evaluating=false;
+  prepEvaluating=false;
   if(_dragCleanup){_dragCleanup();_dragCleanup=null;}
   if(_prepDragCleanup){_prepDragCleanup();_prepDragCleanup=null;}
   showScreen('menu');updateStats();renderMenu();curFilter='all';
