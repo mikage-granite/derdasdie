@@ -422,7 +422,7 @@ const ALL_WORDS_RAW=[
   {word:'Buch',trans:'本',art:'das',cat:'物'},
   {word:'Tisch',trans:'テーブル',art:'der',cat:'家具'},
   {word:'Lampe',trans:'ランプ',art:'die',cat:'家具'},
-  {word:'Fenster',trans:'窓',art:'das',cat:'建物'},
+  {word:'Fenster',trans:'窓',art:'das',cat:'建物',important:true},
   {word:'Berg',trans:'山',art:'der',cat:'自然'},
   {word:'Sonne',trans:'太陽',art:'die',cat:'自然'},
   {word:'Wasser',trans:'水',art:'das',cat:'飲み物'},
@@ -452,33 +452,33 @@ const ALL_WORDS_RAW=[
   {word:'Mond',trans:'月',art:'der',cat:'自然'},
   {word:'Straße',trans:'通り',art:'die',cat:'場所'},
   {word:'Dorf',trans:'村',art:'das',cat:'場所'},
-  {word:'Arzt',trans:'医師（男）',art:'der',cat:'人'},
+  {word:'Arzt',trans:'医師（男）',art:'der',cat:'人',important:true},
   {word:'Ärztin',trans:'医師（女）',art:'die',cat:'人'},
   {word:'Krankenhaus',trans:'病院',art:'das',cat:'建物'},
   {word:'Sprache',trans:'言語',art:'die',cat:'概念'},
-  {word:'Winter',trans:'冬',art:'der',cat:'時間'},
-  {word:'Jahreszeit',trans:'季節',art:'die',cat:'時間'},
+  {word:'Winter',trans:'冬',art:'der',cat:'時間',type:'時間'},
+  {word:'Jahreszeit',trans:'季節',art:'die',cat:'時間',type:'時間'},
   {word:'Wetter',trans:'天気',art:'das',cat:'自然'},
-  {word:'Frühling',trans:'春',art:'der',cat:'時間'},
-  {word:'Herbst',trans:'秋',art:'der',cat:'時間'},
-  {word:'Sommer',trans:'夏',art:'der',cat:'時間'},
+  {word:'Frühling',trans:'春',art:'der',cat:'時間',type:'時間'},
+  {word:'Herbst',trans:'秋',art:'der',cat:'時間',type:'時間'},
+  {word:'Sommer',trans:'夏',art:'der',cat:'時間',type:'時間'},
   {word:'Nummer',trans:'番号',art:'die',cat:'概念'},
   {word:'Problem',trans:'問題',art:'das',cat:'概念'},
-  {word:'Morgen',trans:'朝・明日',art:'der',cat:'時間'},
+  {word:'Morgen',trans:'朝・明日',art:'der',cat:'時間',type:'時間'},
   {word:'Musik',trans:'音楽',art:'die',cat:'概念'},
-  {word:'Konzert',trans:'コンサート',art:'das',cat:'概念'},
+  {word:'Konzert',trans:'コンサート',art:'das',cat:'概念',important:true},
   {word:'Bruder',trans:'兄弟',art:'der',cat:'家族',important:true},
   {word:'Schwester',trans:'姉妹',art:'die',cat:'家族',important:true},
   {word:'Vater',trans:'父',art:'der',cat:'家族',important:true},
   {word:'Mutter',trans:'母',art:'die',cat:'家族',important:true},
-  {word:'Abend',trans:'夕方・夜',art:'der',cat:'時間'},
-  {word:'Küche',trans:'台所',art:'die',cat:'建物'},
-  {word:'Zimmer',trans:'部屋',art:'das',cat:'建物'},
+  {word:'Abend',trans:'夕方・夜',art:'der',cat:'時間',type:'時間'},
+  {word:'Küche',trans:'台所',art:'die',cat:'建物',important:true},
+  {word:'Zimmer',trans:'部屋',art:'das',cat:'建物',important:true},
   {word:'Zug',trans:'電車・列車',art:'der',cat:'乗り物'},
   {word:'Bahn',trans:'鉄道',art:'die',cat:'乗り物'},
   {word:'Flugzeug',trans:'飛行機',art:'das',cat:'乗り物'},
   {word:'Markt',trans:'市場',art:'der',cat:'場所'},
-  {word:'Kirche',trans:'教会',art:'die',cat:'建物'},
+  {word:'Kirche',trans:'教会',art:'die',cat:'建物',important:true},
   {word:'Schloss',trans:'城',art:'das',cat:'建物'},
   // CSV追加単語
   {word:'Kinder',trans:'子どもたち（複数）',art:'die',cat:'家族',plural:true},
@@ -492,9 +492,9 @@ const ALL_WORDS_RAW=[
   {word:'Hand',trans:'手',art:'die',cat:'体'},
   {word:'Bein',trans:'足・脚',art:'das',cat:'体'},
   {word:'Hunger',trans:'空腹',art:'der',cat:'概念'},
-  {word:'Uhr',trans:'時計・〜時',art:'die',cat:'時間'},
+  {word:'Uhr',trans:'時計・〜時',art:'die',cat:'時間',type:'時間',important:true},
   {word:'Regenschirm',trans:'傘',art:'der',cat:'物'},
-  {word:'Tasche',trans:'バッグ・ポケット',art:'die',cat:'物'},
+  {word:'Tasche',trans:'バッグ・ポケット',art:'die',cat:'物',important:true},
   {word:'Computer',trans:'コンピュータ',art:'der',cat:'物'},
   {word:'Eltern',trans:'両親',art:'die',cat:'家族',important:true,plural:true},
   {word:'Krawatte',trans:'ネクタイ',art:'die',cat:'物'},
@@ -555,54 +555,54 @@ const ALL_WORDS_RAW=[
   {word:'U-Bahn',trans:'地下鉄',art:'die',cat:'乗り物'},
   {word:'Fuß',trans:'足',art:'der',cat:'体'},
   // 曜日
-  {word:'Montag',trans:'月曜日',art:'der',cat:'時間'},
-  {word:'Dienstag',trans:'火曜日',art:'der',cat:'時間'},
-  {word:'Mittwoch',trans:'水曜日',art:'der',cat:'時間'},
-  {word:'Donnerstag',trans:'木曜日',art:'der',cat:'時間'},
-  {word:'Freitag',trans:'金曜日',art:'der',cat:'時間'},
-  {word:'Samstag',trans:'土曜日',art:'der',cat:'時間'},
-  {word:'Sonntag',trans:'日曜日',art:'der',cat:'時間'},
+  {word:'Montag',trans:'月曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Dienstag',trans:'火曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Mittwoch',trans:'水曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Donnerstag',trans:'木曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Freitag',trans:'金曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Samstag',trans:'土曜日',art:'der',cat:'時間',type:'時間'},
+  {word:'Sonntag',trans:'日曜日',art:'der',cat:'時間',type:'時間'},
   // 月
-  {word:'Januar',trans:'1月',art:'der',cat:'時間'},
-  {word:'Februar',trans:'2月',art:'der',cat:'時間'},
-  {word:'März',trans:'3月',art:'der',cat:'時間'},
-  {word:'April',trans:'4月',art:'der',cat:'時間'},
-  {word:'Mai',trans:'5月',art:'der',cat:'時間'},
-  {word:'Juni',trans:'6月',art:'der',cat:'時間'},
-  {word:'Juli',trans:'7月',art:'der',cat:'時間'},
-  {word:'August',trans:'8月',art:'der',cat:'時間'},
-  {word:'September',trans:'9月',art:'der',cat:'時間'},
-  {word:'Oktober',trans:'10月',art:'der',cat:'時間'},
-  {word:'November',trans:'11月',art:'der',cat:'時間'},
-  {word:'Dezember',trans:'12月',art:'der',cat:'時間'},
+  {word:'Januar',trans:'1月',art:'der',cat:'時間',type:'時間'},
+  {word:'Februar',trans:'2月',art:'der',cat:'時間',type:'時間'},
+  {word:'März',trans:'3月',art:'der',cat:'時間',type:'時間'},
+  {word:'April',trans:'4月',art:'der',cat:'時間',type:'時間'},
+  {word:'Mai',trans:'5月',art:'der',cat:'時間',type:'時間'},
+  {word:'Juni',trans:'6月',art:'der',cat:'時間',type:'時間'},
+  {word:'Juli',trans:'7月',art:'der',cat:'時間',type:'時間'},
+  {word:'August',trans:'8月',art:'der',cat:'時間',type:'時間'},
+  {word:'September',trans:'9月',art:'der',cat:'時間',type:'時間'},
+  {word:'Oktober',trans:'10月',art:'der',cat:'時間',type:'時間'},
+  {word:'November',trans:'11月',art:'der',cat:'時間',type:'時間'},
+  {word:'Dezember',trans:'12月',art:'der',cat:'時間',type:'時間'},
   // 場所・施設
-  {word:'Bibliothek',trans:'図書館',art:'die',cat:'場所'},
-  {word:'Mensa',trans:'学食',art:'die',cat:'場所'},
-  {word:'Oper',trans:'オペラ座',art:'die',cat:'場所'},
-  {word:'Kneipe',trans:'居酒屋・パブ',art:'die',cat:'場所'},
-  {word:'Kino',trans:'映画館',art:'das',cat:'場所'},
-  {word:'Theater',trans:'劇場',art:'das',cat:'場所'},
-  {word:'Hotel',trans:'ホテル',art:'das',cat:'場所'},
-  {word:'Museum',trans:'博物館',art:'das',cat:'場所'},
-  {word:'Restaurant',trans:'レストラン',art:'das',cat:'場所'},
-  {word:'Café',trans:'カフェ',art:'das',cat:'場所'},
-  {word:'Uni',trans:'大学',art:'die',cat:'場所'},
-  {word:'Post',trans:'郵便局',art:'die',cat:'場所'},
-  {word:'Bahnhof',trans:'駅',art:'der',cat:'場所'},
-  {word:'Park',trans:'公園',art:'der',cat:'場所'},
-  {word:'Supermarkt',trans:'スーパーマーケット',art:'der',cat:'場所'},
+  {word:'Bibliothek',trans:'図書館',art:'die',cat:'場所',important:true},
+  {word:'Mensa',trans:'学食',art:'die',cat:'場所',important:true},
+  {word:'Oper',trans:'オペラ座',art:'die',cat:'場所',important:true},
+  {word:'Kneipe',trans:'居酒屋・パブ',art:'die',cat:'場所',important:true},
+  {word:'Kino',trans:'映画館',art:'das',cat:'場所',important:true},
+  {word:'Theater',trans:'劇場',art:'das',cat:'場所',important:true},
+  {word:'Hotel',trans:'ホテル',art:'das',cat:'場所',important:true},
+  {word:'Museum',trans:'博物館',art:'das',cat:'場所',important:true},
+  {word:'Restaurant',trans:'レストラン',art:'das',cat:'場所',important:true},
+  {word:'Cafe',trans:'カフェ(éはe)',art:'das',cat:'場所',important:true},
+  {word:'Uni',trans:'大学',art:'die',cat:'場所',important:true},
+  {word:'Post',trans:'郵便局',art:'die',cat:'場所',important:true},
+  {word:'Bahnhof',trans:'駅',art:'der',cat:'場所',important:true},
+  {word:'Park',trans:'公園',art:'der',cat:'場所',important:true},
+  {word:'Supermarkt',trans:'スーパーマーケット',art:'der',cat:'場所',important:true},
   // 部屋・物
   {word:'Ausnahme',trans:'例外',art:'die',cat:'概念'},
-  {word:'Turnhalle',trans:'体育館',art:'die',cat:'場所'},
+  {word:'Turnhalle',trans:'体育館',art:'die',cat:'場所',important:true},
   {word:'Gesundheit',trans:'健康',art:'die',cat:'概念'},
-  {word:'Fernseher',trans:'テレビ',art:'der',cat:'物'},
+  {word:'Fernseher',trans:'テレビ',art:'der',cat:'物',important:true},
   {word:'Bewegung',trans:'運動・動き',art:'die',cat:'概念'},
-  {word:'Boden',trans:'床・地面',art:'der',cat:'建物'},
-  {word:'Garten',trans:'庭',art:'der',cat:'場所'},
-  {word:'Toilette',trans:'トイレ',art:'die',cat:'建物'},
-  {word:'Wand',trans:'壁',art:'die',cat:'建物'},
-  {word:'Handy',trans:'携帯電話',art:'das',cat:'物'},
-  {word:'Vase',trans:'花瓶',art:'die',cat:'物'},
+  {word:'Boden',trans:'床・地面',art:'der',cat:'建物',important:true},
+  {word:'Garten',trans:'庭',art:'der',cat:'場所',important:true},
+  {word:'Toilette',trans:'トイレ',art:'die',cat:'建物',important:true},
+  {word:'Wand',trans:'壁',art:'die',cat:'建物',important:true},
+  {word:'Handy',trans:'携帯電話',art:'das',cat:'物',important:true},
+  {word:'Vase',trans:'花瓶',art:'die',cat:'物',important:true},
 ];
 const seenW=new Set();
 const ALL_WORDS=ALL_WORDS_RAW.filter(w=>{if(seenW.has(w.word))return false;seenW.add(w.word);return true;});
@@ -941,8 +941,11 @@ function renderMenu(){
     const tvCount=ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)).length;
     const conjCount=ALL_SPELL.filter(w=>w.type==='接続詞').length;
     html+=mc('spell-icon','✏️','全単語','名詞・動詞・接続詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
+          mc('spell-icon','⭐','重要語','語彙力トレーニング ',"startSpell('important')")+
           mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
+          mc('spell-icon','📅','時間を表す単語','時期・曜日など',"startSpell('time_words')")+
           mc('spell-icon','🔗','接続詞','und・weil・dass など接続詞 '+conjCount+'語',"startSpell('conjunctions')")+
+          mc('spell-icon','📋','前置詞','nach・und など前置詞 ',"startSpell('preposition')")+
           mc('spell-icon','🔠','20語ランダム','ランダムに選んだ20語で短時間練習',"startSpell('random20')")+
           mc('spell-icon','💯','100語ランダム','ランダムに選んだ100語でじっくり練習',"startSpell('random100')")+
           mc('spell-icon','🗣️','話法の助動詞','dürfen・können・müssen など '+modalCount+'語',"startSpell('modal')")+
@@ -1359,13 +1362,25 @@ function startSpell(mode){
     words=shuf(ALL_SPELL.filter(w=>w.type==='話法の助動詞'));
     if(!words.length){alert('話法の助動詞が見つかりません');return;}
   }
+  else if(mode==='important'){
+    words=shuf(ALL_SPELL.filter(w=>w.important));
+    if(!words.length){alert('重要語が見つかりません');return;}
+  }
   else if(mode==='textbook_verbs'){
     words=shuf(ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)));
     if(!words.length){alert('動詞が見つかりません');return;}
   }
+  else if(mode==='time_words'){
+    words=shuf(ALL_SPELL.filter(w=>w.type==='時間'));
+    if(!words.length){alert('単語が見つかりません');return;}
+  }
   else if(mode==='conjunctions'){
     words=shuf(ALL_SPELL.filter(w=>w.type==='接続詞'));
     if(!words.length){alert('接続詞が見つかりません');return;}
+  }
+  else if(mode==='preposition'){
+    words=shuf(ALL_SPELL.filter(w=>w.type==='前置詞'));
+    if(!words.length){alert('前置詞が見つかりません');return;}
   }
   else if(mode==='numbers') words=shuf(ALL_SPELL.filter(w=>w.type==='数詞'));
   else if(mode==='weak'){
@@ -1375,7 +1390,7 @@ function startSpell(mode){
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
   const spMain=document.getElementById('sp-main');if(spMain)spMain.style.display='';
   const spFoot=document.getElementById('sp-footer');if(spFoot)spFoot.innerHTML='';
-  const titleMap={all:'スペリング全単語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
+  const titleMap={all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',time_words:'時間を表す単語',prrposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
