@@ -111,7 +111,7 @@ html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--t
 /* CARD */
 .card-area{display:flex;align-items:center;justify-content:center;padding:0 1rem;touch-action:none;position:relative;overflow:hidden;}
 .card-stack{position:relative;width:100%;max-width:360px;height:300px;}
-.card{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:grab;will-change:transform;}
+.card{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:grab;will-change:transform;user-select:none;-webkit-user-select:none;}
 .card:active{cursor:grabbing;}
 .card.is-next{transform:scale(0.94) translateY(14px);opacity:0.45;pointer-events:none;z-index:0;}
 .card.is-active{z-index:1;}
@@ -1145,7 +1145,13 @@ function setupDrag(){
   // 間に合わず座標が古いまま判定され、巻き戻ってしまう不具合を防ぐ）
   const wMU=e=>{if(drag)onM(e.clientX,e.clientY);onE();};
   const wTE=e=>{if(drag){const t=e.changedTouches&&e.changedTouches[0];if(t)onM(t.clientX,t.clientY);}onE();};
-  const wTC=()=>{drag=false;};
+  const wTC=()=>{
+    if(!drag)return;drag=false;
+    el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';
+    el.style.transform='';
+    setTimeout(()=>{el.style.transition='';},400);
+    resetViz();
+  };
   el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
   window.addEventListener('mousemove',wMM);
   window.addEventListener('mouseup',wMU);
@@ -1598,7 +1604,17 @@ function setupPrepDrag(){
   // 指を離す瞬間の最終座標で位置を確定してから判定する
   const wMU=e=>{if(drag)onM(e.clientX,e.clientY);onE();};
   const wTE=e=>{if(drag){const t=e.changedTouches&&e.changedTouches[0];if(t)onM(t.clientX,t.clientY);}onE();};
-  const wTC=()=>{drag=false;};
+  const wTC=()=>{
+    if(!drag)return;drag=false;
+    el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';
+    el.style.transform='';
+    setTimeout(()=>{el.style.transition='';},400);
+    ['left','up','right','down'].forEach(d=>{
+      const lbl=document.getElementById('prep-lbl-'+d);
+      if(lbl)lbl.style.opacity=0;
+    });
+    document.getElementById('prep-card-bg').style.opacity=0;
+  };
   el.addEventListener('mousedown',e=>onS(e.clientX,e.clientY));
   window.addEventListener('mousemove',wMM);
   window.addEventListener('mouseup',wMU);
