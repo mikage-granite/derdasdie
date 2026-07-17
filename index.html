@@ -758,10 +758,10 @@ const SPELL_EXTRA=[
   {word:'zwischen',trans:'〜の間に（3・4格支配）',type:'前置詞'},
   {word:'zu Fuß',trans:'徒歩で',type:'表現'},
   // 動詞+前置詞（2マス入力）
-  {word:'antworten auf',parts:['antworten','auf'],trans:'〜に答える',type:'動詞+前置詞'},
-  {word:'denken an',parts:['denken','an'],trans:'〜について考える',type:'動詞+前置詞'},
-  {word:'warten auf',parts:['warten','auf'],trans:'〜を待つ',type:'動詞+前置詞'},
-  {word:'fragen nach',parts:['fragen','nach'],trans:'〜について尋ねる',type:'動詞+前置詞'},
+  {word:'antworten auf',parts:['antworten','auf'],trans:'〜に答える',type:'動詞+前置詞',separate:true},
+  {word:'denken an',parts:['denken','an'],trans:'〜について考える',type:'動詞+前置詞',separate:true},
+  {word:'warten auf',parts:['warten','auf'],trans:'〜を待つ',type:'動詞+前置詞',separate:true},
+  {word:'fragen nach',parts:['fragen','nach'],trans:'〜について尋ねる',type:'動詞+前置詞',separate:true},
   // 話法の助動詞
   {word:'dürfen',trans:'〜してもよい',type:'話法の助動詞'},
   {word:'können',trans:'〜できる',type:'話法の助動詞'},
@@ -957,7 +957,7 @@ function renderMenu(){
     html+=mc('spell-icon','✏️','全単語','名詞・動詞・接続詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
           mc('spell-icon','⭐','重要語','語彙力トレーニング ',"startSpell('important')")+
           //mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
-          mc('spell-icon','✂','分離動詞','動詞+前置詞 ',"startSpell('separate')")+
+          mc('spell-icon','✂','分離動詞&熟語','動詞+前置詞など ',"startSpell('separate')")+
           mc('spell-icon','📅','時間を表す単語','時期・曜日など',"startSpell('time_words')")+
           mc('spell-icon','🔗','接続詞','und・weil・dass など接続詞 '+conjCount+'語',"startSpell('conjunctions')")+
           mc('spell-icon','📋','前置詞','nach・und など前置詞 ',"startSpell('preposition')")+
