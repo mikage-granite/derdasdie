@@ -849,7 +849,14 @@ const save=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
 const loadD=()=>load(LS_KEY);const saveD=d=>save(LS_KEY,d);
 const loadSP=()=>load(SP_KEY);const saveSP=d=>save(SP_KEY,d);
 const loadSet=()=>load(SET_KEY);const saveSet=d=>save(SET_KEY,d);
-const getWD=(d,w)=>d[w]||{correct:0,total:0,lastSeen:null,nextReview:null,interval:1,ef:2.5};
+const getWD=(d,w)=>{
+  const x=d[w];
+  if(!x)return {correct:0,total:0,lastSeen:null,nextReview:null,interval:1,ef:2.5};
+  // 古いセーブデータの欠損値を自動補完
+  x.interval=x.interval||1;
+  x.ef=x.ef||2.5;
+  return x;
+};
 const today=()=>new Date().toISOString().slice(0,10);
 const getShowTrans=()=>loadSet().showTrans!==false;
 const setShowTrans=v=>{const s=loadSet();s.showTrans=v;saveSet(s);};
@@ -863,7 +870,13 @@ function updateSR(wd,ok,imp){
       ?(wd.total<=1?1:wd.total<=2?2:wd.total<=3?4:Math.round(wd.interval*Math.min(wd.ef,1.8)))
       :(wd.total<=2?(wd.interval===1?3:7):Math.round(wd.interval*wd.ef));
   }else{wd.interval=1;wd.ef=Math.max(efMin,wd.ef-0.2);}
-  const n=new Date();n.setDate(n.getDate()+wd.interval);wd.nextReview=n.toISOString().slice(0,10);
+  
+  // 万が一計算結果がNaN（非数）になった場合の安全装置
+  if(isNaN(wd.interval)||wd.interval<1) wd.interval=1;
+  if(isNaN(wd.ef)||wd.ef<efMin) wd.ef=2.5;
+
+  const n=new Date();n.setDate(n.getDate()+wd.interval);
+  wd.nextReview=n.toISOString().slice(0,10);
   return wd;
 }
 
