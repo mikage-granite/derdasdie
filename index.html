@@ -1088,8 +1088,7 @@ function ev(chosen,fromSwipe=false){
   rec(w,ok);
   const sub=(!getShowTrans()||!ok)?w.trans:'';
   showLR(ok,ok?`${w.art} ${w.word}`:`正解： ${w.art} ${w.word}`,sub);
-  if(fromSwipe){cur++;renderCard();setupDrag();}
-  else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
+  if(!fromSwipe){flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
 }
 function evQ(dir,fromSwipe=false){
   if(evaluating)return;evaluating=true;
@@ -1098,8 +1097,7 @@ function evQ(dir,fromSwipe=false){
   const wlbl=(w.art?w.art+' ':'')+w.word;
   const sub=jd?(ok?w.trans:`${wlbl} = ${w.trans}`):(ok?wlbl:wlbl);
   showLR(ok,ok?ca:`正解： ${ca}`,sub);
-  if(fromSwipe){cur++;renderCard();setupDrag();}
-  else{flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
+  if(!fromSwipe){flash(ok);rtimer=setTimeout(()=>{cur++;rtimer=null;renderCard();setupDrag();},520);}
 }
 function rec(w,ok){
   if(ok){score++;streak++;}else{streak=0;}
@@ -1138,6 +1136,7 @@ function setupDrag(){
       el.style.transition='transform 0.28s ease,opacity 0.28s ease';
       const tx=adir==='left'?-440:adir==='right'?440:0,ty=adir==='up'?-480:adir==='down'?480:0;
       el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;el.style.opacity='0';
+      setTimeout(()=>{cur++;renderCard();setupDrag();}, 280);
     }else{el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';el.style.transform='';setTimeout(()=>{el.style.transition='';},400);resetViz();}
   };
   const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
