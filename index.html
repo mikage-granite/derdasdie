@@ -808,25 +808,25 @@ const SPELL_EXTRA=[
   {word:'gehören',trans:'〜に属する',type:'動詞'},
   {word:'sein',trans:'〜である・いる',type:'動詞'},
   // 分離動詞（2マス入力）
-  {word:'teilnehmen',parts:['teil','nehmen'],trans:'参加する',type:'動詞'},
-  {word:'vorhaben',parts:['vor','haben'],trans:'〜するつもりだ',type:'動詞'},
-  {word:'spazierengehen',parts:['spazieren','gehen'],trans:'散歩する',type:'動詞'},
-  {word:'mitnehmen',parts:['mit','nehmen'],trans:'持っていく',type:'動詞'},
-  {word:'fernsehen',parts:['fern','sehen'],trans:'テレビを見る',type:'動詞'},
-  {word:'aufmachen',parts:['auf','machen'],trans:'開ける',type:'動詞'},
+  {word:'teilnehmen',parts:['teil','nehmen'],trans:'参加する',type:'動詞',separate:true},
+  {word:'vorhaben',parts:['vor','haben'],trans:'〜するつもりだ',type:'動詞',separate:true},
+  {word:'spazierengehen',parts:['spazieren','gehen'],trans:'散歩する',type:'動詞',separate:true},
+  {word:'mitnehmen',parts:['mit','nehmen'],trans:'持っていく',type:'動詞',separate:true},
+  {word:'fernsehen',parts:['fern','sehen'],trans:'テレビを見る',type:'動詞',separate:true},
+  {word:'aufmachen',parts:['auf','machen'],trans:'開ける',type:'動詞',separate:true},
   // 新規分離動詞
-  {word:'abfahren',parts:['ab','fahren'],trans:'出発する',type:'動詞'},
-  {word:'ankommen',parts:['an','kommen'],trans:'到着する',type:'動詞'},
-  {word:'zumachen',parts:['zu','machen'],trans:'閉める',type:'動詞'},
-  {word:'aufstehen',parts:['auf','stehen'],trans:'起きる・立ち上がる',type:'動詞'},
-  {word:'einschlafen',parts:['ein','schlafen'],trans:'眠りにつく',type:'動詞'},
-  {word:'aussehen',parts:['aus','sehen'],trans:'〜に見える',type:'動詞'},
-  {word:'anfangen',parts:['an','fangen'],trans:'始める',type:'動詞'},
-  {word:'einsteigen',parts:['ein','steigen'],trans:'乗り込む',type:'動詞'},
-  {word:'aussteigen',parts:['aus','steigen'],trans:'降りる',type:'動詞'},
-  {word:'umsteigen',parts:['um','steigen'],trans:'乗り換える',type:'動詞'},
-  {word:'vorschlagen',parts:['vor','schlagen'],trans:'提案する',type:'動詞'},
-  {word:'vorstellen',parts:['vor','stellen'],trans:'紹介する・想像する',type:'動詞'},
+  {word:'abfahren',parts:['ab','fahren'],trans:'出発する',type:'動詞',separate:true},
+  {word:'ankommen',parts:['an','kommen'],trans:'到着する',type:'動詞',separate:true},
+  {word:'zumachen',parts:['zu','machen'],trans:'閉める',type:'動詞',separate:true},
+  {word:'aufstehen',parts:['auf','stehen'],trans:'起きる・立ち上がる',type:'動詞',separate:true},
+  {word:'einschlafen',parts:['ein','schlafen'],trans:'眠りにつく',type:'動詞',separate:true},
+  {word:'aussehen',parts:['aus','sehen'],trans:'〜のように見える',type:'動詞',separate:true},
+  {word:'anfangen',parts:['an','fangen'],trans:'始める',type:'動詞',separate:true},
+  {word:'einsteigen',parts:['ein','steigen'],trans:'乗り込む',type:'動詞',separate:true},
+  {word:'aussteigen',parts:['aus','steigen'],trans:'降りる',type:'動詞',separate:true},
+  {word:'umsteigen',parts:['um','steigen'],trans:'乗り換える',type:'動詞',separate:true},
+  {word:'vorschlagen',parts:['vor','schlagen'],trans:'提案する',type:'動詞',separate:true},
+  {word:'vorstellen',parts:['vor','stellen'],trans:'紹介する・想像する',type:'動詞',separate:true},
 ];
 const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...CONJUNCTIONS.map(w=>({word:w.word,trans:w.trans,type:w.cat})),...SPELL_EXTRA];
 // 単語帳の動詞モード用：出題する単語のセット
@@ -942,7 +942,8 @@ function renderMenu(){
     const conjCount=ALL_SPELL.filter(w=>w.type==='接続詞').length;
     html+=mc('spell-icon','✏️','全単語','名詞・動詞・接続詞など全'+ALL_SPELL.length+'語',"startSpell('all')")+
           mc('spell-icon','⭐','重要語','語彙力トレーニング ',"startSpell('important')")+
-          mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
+          //mc('spell-icon','📖','単語帳の動詞','授業で使う動詞 '+tvCount+'語',"startSpell('textbook_verbs')")+
+          mc('spell-icon','✂','分離動詞','動詞+前置詞 ',"startSpell('separate')")+
           mc('spell-icon','📅','時間を表す単語','時期・曜日など',"startSpell('time_words')")+
           mc('spell-icon','🔗','接続詞','und・weil・dass など接続詞 '+conjCount+'語',"startSpell('conjunctions')")+
           mc('spell-icon','📋','前置詞','nach・und など前置詞 ',"startSpell('preposition')")+
@@ -1370,6 +1371,10 @@ function startSpell(mode){
     words=shuf(ALL_SPELL.filter(w=>TEXTBOOK_VERB_SET.has(w.word)&&['動詞','話法の助動詞'].includes(w.type)));
     if(!words.length){alert('動詞が見つかりません');return;}
   }
+  else if(mode==='separate'){
+    words=shuf(ALL_SPELL.filter(w=>w.separate));
+    if(!words.length){alert('動詞が見つかりません');return;}
+  }
   else if(mode==='time_words'){
     words=shuf(ALL_SPELL.filter(w=>w.type==='時間'));
     if(!words.length){alert('単語が見つかりません');return;}
@@ -1390,7 +1395,7 @@ function startSpell(mode){
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
   const spMain=document.getElementById('sp-main');if(spMain)spMain.style.display='';
   const spFoot=document.getElementById('sp-footer');if(spFoot)spFoot.innerHTML='';
-  const titleMap={all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',time_words:'時間を表す単語',prrposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
+  const titleMap={all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',separate:'分離動詞',time_words:'時間を表す単語',prrposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
