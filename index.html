@@ -1132,11 +1132,12 @@ function setupDrag(){
     if(!drag)return;drag=false;
     const dir=gdir(cx,cy),adir=(isG()&&dir==='down')?null:dir,dist=Math.max(Math.abs(cx),Math.abs(cy));
     if(adir&&dist>58){
+      if(evaluating)return; // 二重判定防止
       if(isG())ev({left:'der',up:'das',right:'die'}[adir],true);else evQ(adir,true);
       el.style.transition='transform 0.28s ease,opacity 0.28s ease';
       const tx=adir==='left'?-440:adir==='right'?440:0,ty=adir==='up'?-480:adir==='down'?480:0;
       el.style.transform=`translate(${tx}px,${ty}px) rotate(${tx/5}deg)`;el.style.opacity='0';
-      setTimeout(()=>{cur++;renderCard();setupDrag();}, 280);
+      setTimeout(()=>{cur++;renderCard();setupDrag();}, 280); // アニメ完了を待つ
     }else{el.style.transition='transform 0.38s cubic-bezier(.22,.61,.36,1)';el.style.transform='';setTimeout(()=>{el.style.transition='';},400);resetViz();}
   };
   const wMM=e=>{if(drag)onM(e.clientX,e.clientY);};
@@ -1579,13 +1580,13 @@ function setupPrepDrag(){
     if(dir&&dist>58){
       const chosen=getCase(dir);
       if(chosen){
+        if(prepEvaluating)return; // 二重判定防止
         evalPrep(chosen,true);
         const tx=dir==='left'?-440:dir==='right'?440:0;
         const ty=dir==='up'?-480:dir==='down'?480:0;
         el.style.transition='transform 0.28s ease,opacity 0.28s ease';
         el.style.transform='translate('+tx+'px,'+ty+'px) rotate('+(tx/5)+'deg)';
         el.style.opacity='0';
-        // アニメ完了後に次のカードを描画
         setTimeout(()=>{prepCur++;renderPrepCard();},280);
       }
     } else {
