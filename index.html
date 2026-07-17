@@ -918,15 +918,16 @@ function updateStats(){
   const l1el=document.getElementById('m-lbl-studied'),l2el=document.getElementById('m-lbl-today'),l3el=document.getElementById('m-lbl-acc');
   if(l1el)l1el.textContent=l1;if(l2el)l2el.textContent=l2;if(l3el)l3el.textContent=l3;
 }
-function getTodayDeck(){
+function getTodayDeck(pool){
   const d=loadD(),td=today();
-  const due=VOCAB_WORDS.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
+  const due=pool.filter(w=>{const wd=getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
   return [...shuf(due.filter(w=>w.important)),...shuf(due.filter(w=>!w.important))].slice(0,Math.min(20,Math.max(10,due.length)));
 }
 function renderMenu(){
   const t=curTab,d=loadD();
-  const due=getTodayDeck();
-  const todayForTab=curTab==='gender'?due.filter(w=>!w.plural&&w.art):due;
+  const pool=t==='gender'?ALL_WORDS.filter(w=>!w.plural&&w.art):VOCAB_WORDS;
+  const due=getTodayDeck(pool);
+  const todayForTab=due;
   const wc=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>0&&wd.correct<wd.total;}).length;
   const wk=ALL_WORDS.filter(w=>{const wd=getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}).length;
   let html='';
@@ -1000,8 +1001,7 @@ function startMode(mode){
   const pool=isG()?ALL_WORDS.filter(w=>!w.plural):VOCAB_WORDS;
   if(mode==='all') words=shuf(pool);
   else if(mode==='today'){
-    let td=getTodayDeck();
-    if(isG()) td=td.filter(w=>!w.plural&&w.art); // 冠詞モードは複数形・無冠詞語を除外
+    let td=getTodayDeck(pool); // 先ほど定義したpoolを渡す
     if(!td.length){alert('今日の単語はすべて完了！');return;}
     words=td;
   }
@@ -1117,7 +1117,7 @@ function setupDrag(){
   let sx=0,sy=0,cx=0,cy=0,drag=false,cw=0;
   const gdir=(dx,dy)=>{const ax=Math.abs(dx),ay=Math.abs(dy);if(ax<22&&ay<22)return null;return ax>ay?(dx<0?'left':'right'):(dy<0?'up':'down');};
   const gbg=dir=>{if(isG()){return{left:'var(--der-bg)',up:'var(--das-bg)',right:'var(--die-bg)'}[dir]||null;}return DBG[dir]||null;};
-  const onS=(ex,ey)=>{if(cur>=deck.length||rtimer)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
+  const onS=(ex,ey)=>{if(cur>=deck.length||rtimer||evaluating)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
   const onM=(ex,ey)=>{
     if(!drag)return;cx=ex-sx;cy=ey-sy;
     const dy2=(isG()&&cy>0)?cy*0.18:cy;
@@ -1394,7 +1394,7 @@ function startSpell(mode){
   spDeck=words;spCur=0;spScore=0;spStreak=0;spInput='';spCopy=false;spTarget='';
   const spMain=document.getElementById('sp-main');if(spMain)spMain.style.display='';
   const spFoot=document.getElementById('sp-footer');if(spFoot)spFoot.innerHTML='';
-  const titleMap={all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',separate:'分離動詞',time_words:'時間を表す単語',prrposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
+  const titleMap={all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',textbook_verbs:'単語帳の動詞',separate:'分離動詞',time_words:'時間を表す単語',preposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
   document.getElementById('sp-title').textContent=titleMap[mode]||'スペリング';
   document.getElementById('sp-streak').textContent='0';document.getElementById('sp-score-lbl').textContent='正解 0';
   showScreen('spelling');buildKB();renderSpCard();
@@ -1550,7 +1550,7 @@ function setupPrepDrag(){
   const gdir=(dx,dy)=>{const ax=Math.abs(dx),ay=Math.abs(dy);if(ax<22&&ay<22)return null;return ax>ay?(dx<0?'left':'right'):(dy<0?'up':'down');};
   const PREP_BG={p2:'#fff8ee',p3:'var(--der-bg)',p4:'var(--das-bg)',p34:'var(--die-bg)'};
   const getCase=dir=>window._prepDirMap&&window._prepDirMap[dir]||null;
-  const onS=(ex,ey)=>{if(prepRtimer)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
+  const onS=(ex,ey)=>{if(prepCur>=prepDeck.length||prepRtimer||prepEvaluating)return;drag=true;sx=ex;sy=ey;cx=0;cy=0;cw=el.getBoundingClientRect().width;el.style.transition='none';};
   const onM=(ex,ey)=>{
     if(!drag)return;cx=ex-sx;cy=ey-sy;
     el.style.transform='translate('+cx+'px,'+cy+'px) rotate('+(cx/cw*15)+'deg)';
