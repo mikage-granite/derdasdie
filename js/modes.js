@@ -196,6 +196,18 @@ const PrepMode = {
 const SpellMode = {
   KB: [['q','w','e','r','t','z','u','i','o','p','ü'],['a','s','d','f','g','h','j','k','l','ö','ä'],['y','x','c','v','b','n','m','ß','⌫']],
   
+  FLICK_MAP: [
+    {c:'a', l:'b', u:'c', r:'ä'},
+    {c:'d', l:'e', u:'f'},
+    {c:'g', l:'h', u:'i'},
+    {c:'j', l:'k', u:'l'},
+    {c:'m', l:'n', u:'o', r:'ö'},
+    {c:'p', l:'q', u:'r', r:'s', d:'ß'},
+    {c:'t', l:'u', u:'v', r:'ü'},
+    {c:'w', l:'x', u:'y', r:'z'},
+    {action:'del', label:'⌫'}
+  ],
+  
   start: (mode) => {
     State.mode = mode; const sd = Store.load(Store.SP_KEY); let words = [];
     if(mode==='all') words=Utils.shuffle(ALL_SPELL);
@@ -204,6 +216,7 @@ const SpellMode = {
     else if(mode==='modal'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.type==='話法の助動詞')); if(!words.length)return; }
     else if(mode==='important'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.important)); if(!words.length)return; }
     else if(mode==='separate'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.separate)); if(!words.length)return; }
+    else if(mode==='irregular'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.irregular&&w.pastParts)); if(!words.length)return; }
     else if(mode==='time_words'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.type==='時間')); if(!words.length)return; }
     else if(mode==='conjunctions'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.type==='接続詞')); if(!words.length)return; }
     else if(mode==='preposition'){ words=Utils.shuffle(ALL_SPELL.filter(w=>w.type==='前置詞')); if(!words.length)return; }
@@ -211,27 +224,117 @@ const SpellMode = {
     else if(mode==='weak'){ words=Utils.shuffle(ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;})); if(!words.length){alert('苦手な単語がありません');return;} }
     
     State.deck=words; State.cur=0; State.score=0; State.streak=0;
-    const titles = {all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',separate:'分離動詞',time_words:'時間を表す単語',preposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
+    const titles = {all:'スペリング全単語',important:'重要語',random20:'20語ランダム',random100:'100語ランダム',modal:'話法の助動詞',separate:'分離動詞',irregular:'不規則変化動詞',time_words:'時間を表す単語',preposition:'前置詞',conjunctions:'接続詞',numbers:'数詞スペリング',weak:'苦手な単語'};
     document.getElementById('sp-title').textContent = titles[mode]||'スペリング';
     document.getElementById('sp-streak').textContent='0'; document.getElementById('sp-score-lbl').textContent='正解 0';
     
     document.getElementById('sp-main').style.display='';
     document.getElementById('sp-footer').innerHTML='';
-    document.getElementById('sp-keyboard').innerHTML = SpellMode.KB.map(row=>`<div class="kb-row">${row.map(k=>`<button class="kb-key${k==='⌫'?' special':''}" ontouchstart="SpellMode.kp('${k}');event.preventDefault();" onclick="SpellMode.kp('${k}')">${k}</button>`).join('')}</div>`).join('');
     
+    SpellMode.renderKeyboard();
     UI.showScreen('spelling'); SpellMode.renderCard();
+  },
+  
+  renderKeyboard: () => {
+    const kbType = Store.getKeyboardType();
+    const kbEl = document.getElementById('sp-keyboard');
+    
+    if(kbType === 'flick'){
+      kbEl.innerHTML = `<div class="flick-kb">` + SpellMode.FLICK_MAP.map((k,i) => {
+        if(k.action==='del') return `<div class="flick-key special" onclick="SpellMode.kp('⌫')">${k.label}</div>`;
+        const subLabel = [k.l, k.u, k.r, k.d].filter(Boolean).join('');
+        const crossHtml = `<div class="flick-cross" id="fc-${i}"><div class="fc-bg"></div>
+          <div class="fc-char fc-c">${k.c}</div>
+          ${k.l ? `<div class="fc-char fc-l">${k.l}</div>`:''}
+          ${k.u ? `<div class="fc-char fc-u">${k.u}</div>`:''}
+          ${k.r ? `<div class="fc-char fc-r">${k.r}</div>`:''}
+          ${k.d ? `<div class="fc-char fc-d">${k.d}</div>`:''}
+        </div>`;
+        return `<div class="flick-key" data-idx="${i}">
+          <span>${k.c}</span>
+          <span style="font-size:10px;position:absolute;bottom:4px;color:var(--text3);pointer-events:none;">${subLabel}</span>
+          ${crossHtml}
+        </div>`;
+      }).join('') + `</div>`;
+      SpellMode.attachFlickEvents();
+    } else {
+      kbEl.innerHTML = SpellMode.KB.map(row=>`<div class="kb-row">${row.map(k=>`<button class="kb-key${k==='⌫'?' special':''}" ontouchstart="SpellMode.kp('${k}');event.preventDefault();" onclick="SpellMode.kp('${k}')">${k}</button>`).join('')}</div>`).join('');
+    }
+  },
+
+  attachFlickEvents: () => {
+    document.querySelectorAll('.flick-key:not(.special)').forEach(btn => {
+      let startX=0, startY=0, activeDir='c', dragging=false;
+      const idx = btn.dataset.idx;
+      const map = SpellMode.FLICK_MAP[idx];
+      const cross = btn.querySelector('.flick-cross');
+      
+      const getDir = (dx, dy) => {
+        if(Math.abs(dx)<25 && Math.abs(dy)<25) return 'c';
+        if(Math.abs(dx) > Math.abs(dy)){ return dx < 0 ? 'l' : 'r'; } 
+        else { return dy < 0 ? 'u' : 'd'; }
+      };
+      const updateUI = (dir) => {
+         cross.querySelectorAll('.fc-char').forEach(c=>c.classList.remove('active'));
+         if(map[dir]) {
+           const el = cross.querySelector(`.fc-${dir}`);
+           if(el) el.classList.add('active');
+         }
+      };
+
+      const onStart = (x, y) => {
+        dragging = true; startX=x; startY=y; activeDir='c';
+        cross.classList.add('active'); updateUI('c');
+      };
+      const onMove = (x, y) => {
+        if(!dragging) return;
+        const dx = x - startX, dy = y - startY;
+        activeDir = getDir(dx, dy);
+        if(!map[activeDir]) activeDir = 'c';
+        updateUI(activeDir);
+      };
+      const onEnd = () => {
+        if(!dragging) return;
+        dragging = false; cross.classList.remove('active');
+        if(map[activeDir]) SpellMode.kp(map[activeDir]);
+      };
+
+      btn.addEventListener('touchstart', e=>{ e.preventDefault(); onStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive:false});
+      btn.addEventListener('touchmove', e=>{ e.preventDefault(); onMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive:false});
+      btn.addEventListener('touchend', e=>{ e.preventDefault(); onEnd(); }, {passive:false});
+      btn.addEventListener('mousedown', e=>{ onStart(e.clientX, e.clientY); });
+      window.addEventListener('mousemove', e=>{ if(dragging) onMove(e.clientX, e.clientY); });
+      window.addEventListener('mouseup', e=>{ if(dragging) onEnd(); });
+    });
   },
   
   renderCard: () => {
     const w = State.deck[State.cur];
-    State.sp = { input:'', copy:false, waiting:false, phase:0, allCorrect:true, parts: w.parts ? w.parts.map(p=>p.toLowerCase()) : null };
+    const isIrregMode = (State.mode === 'irregular');
+    
+    let modeParts = null;
+    if (isIrregMode && w.pastParts) {
+      modeParts = w.pastParts.map(p=>p.toLowerCase());
+    } else if (w.parts) {
+      modeParts = w.parts.map(p=>p.toLowerCase());
+    }
+    
+    State.sp = { input:'', copy:false, waiting:false, phase:0, allCorrect:true, parts: modeParts };
     State.sp.target = State.sp.parts ? State.sp.parts[0] : w.word.toLowerCase();
     
     document.getElementById('sp-progress').style.width = (State.cur/State.deck.length*100)+'%';
     document.getElementById('sp-count').textContent = `${State.cur}/${State.deck.length}`;
-    document.getElementById('sp-prompt').textContent = w.trans;
-    document.getElementById('sp-prompt').className = 'sp-prompt'+(w.word.length>12?' small':'');
-    document.getElementById('sp-type').textContent = w.type ? `[${w.type}]` : '';
+    
+    // 不規則変化動詞モードの場合は、お題として動詞の不定形を大きく表示
+    if (isIrregMode) {
+      document.getElementById('sp-prompt').textContent = w.word;
+      document.getElementById('sp-type').textContent = w.trans + ' （過去・過去分詞）';
+    } else {
+      document.getElementById('sp-prompt').textContent = w.trans;
+      document.getElementById('sp-type').textContent = w.type ? `[${w.type}]` : '';
+    }
+    
+    document.getElementById('sp-prompt').className = 'sp-prompt'+(document.getElementById('sp-prompt').textContent.length>12?' small':'');
     document.getElementById('sp-feedback').textContent = ''; document.getElementById('sp-feedback').className = 'sp-feedback';
     document.getElementById('sp-copy-hint').style.display = 'none';
     document.getElementById('sp-skip-btn').classList.remove('hidden');
@@ -240,6 +343,9 @@ const SpellMode = {
   
   renderDisp: () => {
     const el = document.getElementById('sp-display'), s = State.sp;
+    const isIrregMode = (State.mode === 'irregular');
+    const sep = isIrregMode ? ',' : '+';
+    
     if(s.parts){
       const buildBox = (t,i,act,cpy) => {
         let h='';
@@ -248,8 +354,11 @@ const SpellMode = {
         return h;
       };
       let h='<div class="sp-two-box">';
-      if(s.phase===0) { h+=`<div class="sp-part-box active">${buildBox(s.parts[0],s.input,true,s.copy)}</div><span class="sp-part-sep">+</span><div class="sp-part-box" style="opacity:0.25;border-style:dashed"></div>`; }
-      else { h+=`<div class="sp-part-box done">${s.parts[0].split('').map(c=>`<span class="sp-char">${c}</span>`).join('')}</div><span class="sp-part-sep">+</span><div class="sp-part-box active">${buildBox(s.parts[1],s.input,true,s.copy)}</div>`; }
+      if(s.phase===0) { 
+        h+=`<div class="sp-part-box active">${buildBox(s.parts[0],s.input,true,s.copy)}</div><span class="sp-part-sep">${sep}</span><div class="sp-part-box" style="opacity:0.25;border-style:dashed"></div>`; 
+      } else { 
+        h+=`<div class="sp-part-box done">${s.parts[0].split('').map(c=>`<span class="sp-char">${c}</span>`).join('')}</div><span class="sp-part-sep">${sep}</span><div class="sp-part-box active">${buildBox(s.parts[1],s.input,true,s.copy)}</div>`; 
+      }
       el.innerHTML = h+'</div>';
     } else {
       let h='';
@@ -268,7 +377,8 @@ const SpellMode = {
         if(State.sp.parts && State.sp.phase===0){
           State.sp.phase=1; State.sp.target=State.sp.parts[1]; State.sp.input=''; State.sp.copy=false;
           document.getElementById('sp-copy-hint').style.display='none';
-          document.getElementById('sp-feedback').textContent='次は前置詞を入力してください'; document.getElementById('sp-feedback').className='sp-feedback ng';
+          const nextTxt = (State.mode === 'irregular') ? '次は過去分詞を入力してください' : '次は前置詞を入力してください';
+          document.getElementById('sp-feedback').textContent=nextTxt; document.getElementById('sp-feedback').className='sp-feedback ng';
           document.getElementById('sp-skip-btn').classList.remove('hidden'); SpellMode.renderDisp();
         } else {
           document.getElementById('sp-feedback').textContent='✓ 写せました！次へ…'; document.getElementById('sp-feedback').className='sp-feedback ok';
@@ -281,11 +391,13 @@ const SpellMode = {
   },
   
   check: () => {
-    const s = State.sp; if(s.input.length < s.target.length) return;
+    const s = State.sp, w = State.deck[State.cur]; 
+    if(s.input.length < s.target.length) return;
     if(s.input === s.target){
       if(s.parts && s.phase===0){
         s.phase=1; s.target=s.parts[1]; s.input=''; s.copy=false;
-        document.getElementById('sp-feedback').textContent=`✓ ${s.parts[0]}！次は前置詞`; document.getElementById('sp-feedback').className='sp-feedback ok';
+        const nextTxt = (State.mode === 'irregular') ? '次は過去分詞' : '次は前置詞';
+        document.getElementById('sp-feedback').textContent=`✓ ${s.parts[0]}！${nextTxt}`; document.getElementById('sp-feedback').className='sp-feedback ok';
         document.getElementById('sp-skip-btn').classList.remove('hidden'); SpellMode.renderDisp();
       } else {
         if(s.allCorrect){
@@ -293,7 +405,7 @@ const SpellMode = {
           document.getElementById('sp-score-lbl').textContent = `正解 ${State.score}`;
           document.getElementById('sp-streak').textContent = State.streak;
           document.getElementById('sp-feedback').textContent='✓ 正解！'; document.getElementById('sp-feedback').className='sp-feedback ok';
-          const sd=Store.load(Store.SP_KEY), w=State.deck[State.cur]; if(!sd[w.word])sd[w.word]={correct:0,total:0}; sd[w.word].correct++; sd[w.word].total++; Store.save(Store.SP_KEY, sd);
+          const sd=Store.load(Store.SP_KEY); if(!sd[w.word])sd[w.word]={correct:0,total:0}; sd[w.word].correct++; sd[w.word].total++; Store.save(Store.SP_KEY, sd);
         } else {
           document.getElementById('sp-feedback').textContent='✓ 写せました！'; document.getElementById('sp-feedback').className='sp-feedback ok';
         }
@@ -301,7 +413,7 @@ const SpellMode = {
       }
     } else {
       s.allCorrect = false; State.streak = 0; document.getElementById('sp-streak').textContent = '0';
-      const sd=Store.load(Store.SP_KEY), w=State.deck[State.cur]; if(!sd[w.word])sd[w.word]={correct:0,total:0}; sd[w.word].total++; Store.save(Store.SP_KEY, sd);
+      const sd=Store.load(Store.SP_KEY); if(!sd[w.word])sd[w.word]={correct:0,total:0}; sd[w.word].total++; Store.save(Store.SP_KEY, sd);
       s.input=''; s.copy=true;
       document.getElementById('sp-copy-hint').style.display='';
       document.getElementById('sp-feedback').textContent = `正解: ${s.parts ? s.parts[s.phase] : w.word} … 写して次へ`;
@@ -328,3 +440,22 @@ const SpellMode = {
     SpellMode.renderCard();
   }
 };
+
+/* ===== KEYBOARD EVENT LISTENER ===== */
+window.addEventListener('keydown', (e) => {
+  if (State.tab !== 'spell' || !document.getElementById('spelling').classList.contains('active')) return;
+  const k = e.key.toLowerCase();
+  
+  if (k === 'backspace') {
+    e.preventDefault();
+    SpellMode.kp('⌫');
+  } else if (/^[a-zäöüß]$/.test(k)) {
+    e.preventDefault();
+    SpellMode.kp(k);
+  } else if (k === 'enter') {
+    e.preventDefault();
+    if (State.sp.waiting) return;
+    if (State.sp.copy && State.sp.input === State.sp.target) SpellMode.kp(''); 
+    else if (!State.sp.copy) SpellMode.skip(); 
+  }
+});
