@@ -189,6 +189,23 @@ const ALL_WORDS_RAW=[
   {word:'Handy',trans:'携帯電話',art:'das',cat:'物',important:true},
   {word:'Vase',trans:'花瓶',art:'die',cat:'物',important:true},
   {word:'Verkehrsregel',trans:'交通規則',art:'die',cat:'概念'},
+  // 以下、追加された名詞
+  {word:'Fisch',trans:'魚',art:'der',cat:'食べ物'},
+  {word:'Löffel',trans:'スプーン',art:'der',cat:'食器'},
+  {word:'Gabel',trans:'フォーク',art:'die',cat:'食器'},
+  {word:'Messer',trans:'ナイフ',art:'das',cat:'食器'},
+  {word:'Stäbchen',trans:'箸（複数）',art:'die',cat:'食器',plural:true},
+  {word:'Geburtstag',trans:'誕生日',art:'der',cat:'時間'},
+  {word:'Schüler',trans:'生徒（男）',art:'der',cat:'人'},
+  {word:'Schülerin',trans:'生徒（女）',art:'die',cat:'人'},
+  {word:'Kühlschrank',trans:'冷蔵庫',art:'der',cat:'家具'},
+  {word:'Wörterbuch',trans:'辞書',art:'das',cat:'物'},
+  {word:'Wohnung',trans:'住居・アパート',art:'die',cat:'建物'},
+  {word:'Straßenbahn',trans:'市電',art:'die',cat:'乗り物'},
+  {word:'Fahrrad',trans:'自転車',art:'das',cat:'乗り物'},
+  {word:'Flughafen',trans:'空港',art:'der',cat:'場所'},
+  {word:'Fahrkarte',trans:'切符',art:'die',cat:'物'},
+  {word:'Monatskarte',trans:'定期券',art:'die',cat:'物'}
 ];
 
 const seenW=new Set();
@@ -364,8 +381,8 @@ const SPELL_EXTRA=[
   {word:'fliegen',trans:'飛ぶ・飛行機で行く',type:'動詞',irregular:true,pastParts:['flog','geflogen']},
   {word:'bekommen',trans:'受け取る',type:'動詞',irregular:true,pastParts:['bekam','bekommen']},
   {word:'hängen',trans:'かかっている',type:'動詞'},
-  {word:'schenken',trans:'プレゼントする',type:'動詞'},
-  {word:'gehören',trans:'〜に属する',type:'動詞'},
+  {word:'schenken',trans:'プレゼントする（3・4格支配）',type:'動詞'},
+  {word:'gehören',trans:'〜に属する・〜のものである',type:'動詞'},
   {word:'sein',trans:'〜である・いる',type:'動詞',irregular:true,pastParts:['war','gewesen']},
   {word:'teilnehmen',parts:['teil','nehmen'],trans:'参加する',type:'動詞',separate:true,irregular:true,pastParts:['teilnahm','teilgenommen']},
   {word:'vorhaben',parts:['vor','haben'],trans:'〜するつもりだ',type:'動詞',separate:true,irregular:true,pastParts:['vorhatte','vorgehabt']},
@@ -405,6 +422,32 @@ const SPELL_EXTRA=[
   {word:'probieren',trans:'試す',type:'動詞'},
   {word:'anrufen',parts:['an','rufen'],trans:'電話をかける',type:'動詞',separate:true,irregular:true,pastParts:['anrief','angerufen']},
   {word:'erfahren',trans:'経験する・知る',type:'動詞',irregular:true,pastParts:['erfuhr','erfahren']},
+  // 以下、追加された動詞・形容詞・表現
+  {word:'schmecken',trans:'味がする・おいしい',type:'動詞'},
+  {word:'lecker',trans:'おいしい',type:'形容詞'},
+  {word:'heiraten',trans:'結婚する',type:'動詞'},
+  {word:'jung',trans:'若い',type:'形容詞'},
+  {word:'alt',trans:'古い・年をとった',type:'形容詞'},
+  {word:'neu',trans:'新しい',type:'形容詞'},
+  {word:'warm',trans:'暖かい',type:'形容詞'},
+  {word:'kühl',trans:'涼しい',type:'形容詞'},
+  {word:'kaputt',trans:'こわれた',type:'形容詞'},
+  {word:'fast',trans:'ほとんど',type:'副詞'},
+  {word:'helfen',trans:'手助けする（3格支配）',type:'動詞',irregular:true,pastParts:['half','geholfen']},
+  {word:'gefallen',trans:'気に入る（3格支配）',type:'動詞',irregular:true,pastParts:['gefiel','gefallen']},
+  {word:'schicken',trans:'送る（3・4格支配）',type:'動詞'},
+  {word:'geben',trans:'与える（3・4格支配）',type:'動詞',irregular:true,pastParts:['gab','gegeben']},
+  {word:'leihen',trans:'貸す（3・4格支配）',type:'動詞',irregular:true,pastParts:['lieh','geliehen']},
+  {word:'zeigen',trans:'見せる・示す（3・4格支配）',type:'動詞'},
+  {word:'sagen',trans:'言う',type:'動詞'},
+  {word:'öffnen',trans:'開ける',type:'動詞'},
+  {word:'schließen',trans:'閉める',type:'動詞',irregular:true,pastParts:['schloss','geschlossen']},
+  {word:'benutzen',trans:'使う・引く',type:'動詞'},
+  {word:'abholen',parts:['ab','holen'],trans:'迎えに行く',type:'動詞',separate:true},
+  {word:'zu Mittag essen',trans:'昼食を食べる',type:'表現'},
+  {word:'zu Abend essen',trans:'夕食を食べる',type:'表現'},
+  {word:'am Automaten',trans:'自動販売機で',type:'表現'},
+  {word:'Wiener Schnitzel',trans:'ウイーン風仔牛のカツレツ',type:'名詞'}
 ];
 
 const ALL_SPELL=[...ALL_WORDS.map(w=>({word:w.word,trans:w.trans,type:w.cat,important:w.important||false})),...CONJUNCTIONS.map(w=>({word:w.word,trans:w.trans,type:w.cat})),...SPELL_EXTRA];
