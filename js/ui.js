@@ -99,8 +99,14 @@ const UI = {
   
   switchTab: (t) => {
     State.tab = t;
+    State.subMenu = null; // タブ切り替え時にサブメニューをリセット
     ['gender','spell','prep'].forEach(x => document.getElementById('tab-'+x).classList.toggle('active',x===t));
     UI.updateStats(); UI.renderMenu();
+  },
+  
+  setSubMenu: (m) => {
+    State.subMenu = m;
+    UI.renderMenu();
   },
   
   updateStats: () => {
@@ -132,24 +138,47 @@ const UI = {
   
   renderMenu: () => {
     const t = State.tab, d = Store.load(Store.LS_KEY); let html = '';
+    const backBtn = `<div onclick="UI.setSubMenu(null)" style="cursor:pointer;font-size:22px;line-height:1;padding:0 8px 0 0;margin-top:-2px;color:var(--text3);">‹</div>`;
+    
+    /* -------------------------------------
+       各モードのメニュー作成
+    --------------------------------------*/
     if(t==='spell'){
       const sd=Store.load(Store.SP_KEY), weakSp = ALL_SPELL.filter(w=>{const s=sd[w.word];return s&&s.total>=2&&s.correct/s.total<0.5;}).length;
-      html = `<div class="menu-section"><div class="menu-section-title">スペリングモード</div>`
-        +UI.mc('spell-icon','✏️','全単語',`名詞・動詞・接続詞など全${ALL_SPELL.length}語`,"SpellMode.start('all')")
-        +UI.mc('spell-icon','⭐','重要語','語彙力トレーニング',"SpellMode.start('important')")
-        +UI.mc('spell-icon','✂','分離動詞&熟語','動詞+前置詞など',"SpellMode.start('separate')")
-        +UI.mc('spell-icon','📅','時間を表す単語','時期・曜日など',"SpellMode.start('time_words')")
-        +UI.mc('spell-icon','🔗','接続詞',`und・weil・dass など接続詞`,"SpellMode.start('conjunctions')")
-        +UI.mc('spell-icon','📋','前置詞','nach・und など前置詞',"SpellMode.start('preposition')")
-        +UI.mc('spell-icon','🔠','20語ランダム','短時間練習',"SpellMode.start('random20')")
-        +UI.mc('spell-icon','💯','100語ランダム','じっくり練習',"SpellMode.start('random100')")
-        +UI.mc('spell-icon','🗣️','話法の助動詞','dürfen・könnenなど',"SpellMode.start('modal')")
-        +UI.mc('spell-icon','🔢','数詞のみ','1〜100の練習',"SpellMode.start('numbers')")
-        +UI.mc('weak-icon','📉','苦手な単語','正答率50%未満を特訓',"SpellMode.start('weak')", weakSp>0?`<span class="badge badge-warn">${weakSp} 語</span>`:'')
-        +UI.mc('stats-icon','📊','成績を見る','スペリングの正答率と履歴',"UI.showStats()")+'</div>';
+      
+      if (!State.subMenu) {
+        html += `<div class="menu-section"><div class="menu-section-title">スペリングモード</div>`
+          +UI.mc('spell-icon','🔠','総合・ランダム','全単語や出題数指定での練習',"UI.setSubMenu('general')")
+          +UI.mc('spell-icon','🏷️','品詞・テーマ別','助動詞、不規則動詞、接続詞など',"UI.setSubMenu('theme')")
+          +UI.mc('weak-icon','📉','復習と記録','苦手特訓と成績表',"UI.setSubMenu('review')", weakSp>0?`<span class="badge badge-warn">${weakSp} 語</span>`:'')
+          +`</div>`;
+      } else if (State.subMenu === 'general') {
+        html += `<div class="menu-section"><div class="menu-section-title" style="display:flex;align-items:center;">${backBtn} 総合・ランダム</div>`
+          +UI.mc('spell-icon','✏️','全単語',`名詞・動詞・接続詞など全${ALL_SPELL.length}語`,"SpellMode.start('all')")
+          +UI.mc('spell-icon','🔠','20語ランダム','短時間練習',"SpellMode.start('random20')")
+          +UI.mc('spell-icon','💯','100語ランダム','じっくり練習',"SpellMode.start('random100')")
+          +`</div>`;
+      } else if (State.subMenu === 'theme') {
+        html += `<div class="menu-section"><div class="menu-section-title" style="display:flex;align-items:center;">${backBtn} 品詞・テーマ別</div>`
+          +UI.mc('spell-icon','⭐','重要語','語彙力トレーニング',"SpellMode.start('important')")
+          +UI.mc('spell-icon','🔄','不規則変化動詞','kommen, gehenなどの不規則動詞',"SpellMode.start('irregular')")
+          +UI.mc('spell-icon','✂','分離動詞&熟語','動詞+前置詞など',"SpellMode.start('separate')")
+          +UI.mc('spell-icon','🗣️','話法の助動詞','dürfen・könnenなど',"SpellMode.start('modal')")
+          +UI.mc('spell-icon','🔗','接続詞',`und・weil・dass など接続詞`,"SpellMode.start('conjunctions')")
+          +UI.mc('spell-icon','📋','前置詞','nach・und など前置詞',"SpellMode.start('preposition')")
+          +UI.mc('spell-icon','📅','時間を表す単語','時期・曜日など',"SpellMode.start('time_words')")
+          +UI.mc('spell-icon','🔢','数詞のみ','1〜100の練習',"SpellMode.start('numbers')")
+          +`</div>`;
+      } else if (State.subMenu === 'review') {
+        html += `<div class="menu-section"><div class="menu-section-title" style="display:flex;align-items:center;">${backBtn} 復習と記録</div>`
+          +UI.mc('weak-icon','📉','苦手な単語','正答率50%未満を特訓',"SpellMode.start('weak')", weakSp>0?`<span class="badge badge-warn">${weakSp} 語</span>`:'')
+          +UI.mc('stats-icon','📊','成績を見る','スペリングの正答率と履歴',"UI.showStats()")
+          +`</div>`;
+      }
+      
     } else if(t==='prep'){
       const pd=Store.load(Store.PR_KEY), weakPr = PREPOSITIONS.filter(w=>{const wd=pd[w.word];return wd&&wd.total>=2&&wd.correct/wd.total<0.5;}).length;
-      html = `<div class="menu-section"><div class="menu-section-title">前置詞モード</div>`
+      html += `<div class="menu-section"><div class="menu-section-title">前置詞モード</div>`
         +UI.mc('all-icon','📋','全前置詞',`2格・3格・4格・3/4格支配 全${PREPOSITIONS.length}語`,"PrepMode.start('all')")
         +UI.mc('weak-icon','📉','苦手な前置詞','正答率50%未満を集中特訓',"PrepMode.start('weak')", weakPr>0?`<span class="badge badge-warn">${weakPr} 語</span>`:'')
         +UI.mc('stats-icon','📊','成績を見る','前置詞ごとの正答率',"UI.showStats()")+'</div>';
@@ -157,13 +186,42 @@ const UI = {
       const pool = ALL_WORDS.filter(w=>!w.plural&&w.art);
       const td=Utils.today(), due = pool.filter(w=>{const wd=Store.getWD(d,w.word);return !wd.lastSeen||wd.nextReview<=td;});
       const wk = ALL_WORDS.filter(w=>{const wd=Store.getWD(d,w.word);return wd.total>=2&&wd.correct/wd.total<0.5;}).length;
-      html = `<div class="menu-section"><div class="menu-section-title">今日</div><div class="menu-card today-card" onclick="CoreMode.start('today')"><div class="menu-card-inner"><div class="menu-icon today-icon">📅</div><div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p><span class="badge badge-new">${due.length>0?`本日 ${due.length} 問`:'今日は完了！'}</span></div><div class="menu-arrow">›</div></div></div></div>`
+      html += `<div class="menu-section"><div class="menu-section-title">今日</div><div class="menu-card today-card" onclick="CoreMode.start('today')"><div class="menu-card-inner"><div class="menu-icon today-icon">📅</div><div class="menu-card-text"><h3>今日の単語</h3><p>間隔反復・重要語優先</p><span class="badge badge-new">${due.length>0?`本日 ${due.length} 問`:'今日は完了！'}</span></div><div class="menu-arrow">›</div></div></div></div>`
         +`<div class="menu-section"><div class="menu-section-title">復習モード — 冠詞を当てる</div>`
         +UI.mc('all-icon','📚','全単語',`全${pool.length}語をランダムに出題`,"CoreMode.start('all')")
         +UI.mc('imp-icon','⭐','重要語のみ','家族語など優先反復単語',"CoreMode.start('important')",'<span class="badge badge-imp">優先反復</span>')
         +UI.mc('weak-icon','📉','苦手な単語','正答率50%未満を集中特訓',"CoreMode.start('weak')", wk>0?`<span class="badge badge-warn">${wk} 語</span>`:'')
         +'</div><div class="menu-section"><div class="menu-section-title">記録</div>'+UI.mc('stats-icon','📊','成績を見る','単語ごとの正答率と履歴',"UI.showStats()")+'</div>';
     }
+    
+    /* -------------------------------------
+       共通設定セクションの追加
+    --------------------------------------*/
+    // サブメニュー展開時は画面をスッキリさせるため設定を非表示にする
+    if (!State.subMenu) {
+      const kb = Store.getKeyboardType();
+      const hc = Store.getHighContrast() ? 'checked' : '';
+      html += `<div class="menu-section"><div class="menu-section-title">設定</div>`
+        + `
+        <div class="toggle-row">
+          <div><div class="toggle-label">キーボード</div><div class="toggle-sub">スペル入力のレイアウト</div></div>
+          <select onchange="Store.updateSetting('keyboard', this.value); UI.updateStats();" style="padding:4px 6px;border-radius:8px;background:var(--bg2);color:var(--text);border:1px solid var(--border);font-family:var(--sans);font-size:12px;outline:none;">
+            <option value="qwertz" ${kb==='qwertz'?'selected':''}>QWERTZ (PC風)</option>
+            <option value="flick" ${kb==='flick'?'selected':''}>フリック入力</option>
+          </select>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-label">ハイコントラスト</div><div class="toggle-sub">画面の視認性を高める</div></div>
+          <label class="toggle"><input type="checkbox" ${hc} onchange="Store.updateSetting('highContrast', this.checked); document.body.classList.toggle('high-contrast', this.checked);">
+          <div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+        </div>
+        <div class="toggle-row" style="cursor:pointer;justify-content:center;background:var(--ng-bg);border:1px solid var(--ng);margin-top:10px;" onclick="Store.resetProgress()">
+          <div style="color:var(--ng);font-weight:500;font-size:13px;">学習記録をすべて削除</div>
+        </div>
+        `
+        + `</div>`;
+    }
+
     document.getElementById('menu-cards').innerHTML = html;
   },
   
@@ -211,5 +269,9 @@ const UI = {
 };
 
 /* ===== APP INIT ===== */
+if(Store.getHighContrast()) {
+  document.body.classList.add('high-contrast');
+}
+
 UI.updateStats();
 UI.renderMenu();
