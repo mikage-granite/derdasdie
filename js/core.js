@@ -31,17 +31,31 @@ const Store = {
     wd.nextReview = n.toISOString().slice(0,10);
     return wd;
   },
-  getShowTrans: () => Store.load(Store.SET_KEY).showTrans!==false,
-  setShowTrans: v => { const s = Store.load(Store.SET_KEY); s.showTrans = v; Store.save(Store.SET_KEY, s); }
+  
+  /* Settings Management */
+  getSettings: () => Store.load(Store.SET_KEY),
+  updateSetting: (k, v) => { const s = Store.getSettings(); s[k] = v; Store.save(Store.SET_KEY, s); },
+  getShowTrans: () => Store.getSettings().showTrans !== false,
+  getKeyboardType: () => Store.getSettings().keyboard || 'qwertz',
+  getHighContrast: () => !!Store.getSettings().highContrast,
+  
+  /* Reset All Progress */
+  resetProgress: () => {
+    if(confirm('今までの学習記録（正答率や苦手データなど）をすべて削除しますか？\n※この操作は元に戻せません。')){
+      localStorage.removeItem(Store.LS_KEY);
+      localStorage.removeItem(Store.SP_KEY);
+      localStorage.removeItem(Store.PR_KEY);
+      alert('すべての学習記録を削除しました。');
+      location.reload();
+    }
+  }
 };
 
 /* ===== GLOBAL STATE ===== */
 const State = {
   tab: 'gender', mode: 'all', filter: 'all',
   deck: [], cur: 0, score: 0, streak: 0, evaluating: false, timer: null,
-  // Spelling Specific
   sp: { input:'', copy:false, target:'', waiting:false, parts:null, phase:0, allCorrect:true },
-  // Swipe cleanup reference
   activeDragCleanup: null
 };
 
